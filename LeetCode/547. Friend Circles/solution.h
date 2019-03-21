@@ -1,0 +1,63 @@
+
+// class Solution {
+// public:
+//     void dfs(vector<vector<int>>& M, vector<bool>& visited, int i){
+//         visited[i]=true;
+//         for(int j=0;j<M.size();j++){
+//             if(M[i][j]==1&&visited[j]==false){
+                
+//                 dfs(M,visited,j);
+//             }
+//         }
+//     }
+//     int findCircleNum(vector<vector<int>>& M) {
+//         int count=0;
+//         vector<bool> visited(M.size(),false);
+//         for(int i=0;i<M.size();i++){
+//             if(visited[i]==false){
+//                 dfs(M,visited,i);
+//                 count++;
+//             }
+//         }
+//         return count;
+//     }
+// };
+
+
+class Solution {
+public:
+    int findCircleNum(vector<vector<int>>& M) {
+        if (M.empty()) return 0;
+        int n = M.size();
+
+        vector<int> leads(n, 0);
+        for (int i = 0; i < n; i++) { leads[i] = i; }   // initialize leads for every kid as themselves
+
+        int groups = n;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {   // avoid recalculate M[i][j], M[j][i]
+                if (M[i][j]) {
+                    int lead1 = find(i, leads);
+                    int lead2 = find(j, leads);
+                    if (lead1 != lead2) {       // if 2 group belongs 2 different leads, merge 2 group to 1
+                        leads[lead2] = lead1;
+                        // leads[lead1] = lead2;
+                        groups--;
+                    }
+                }
+            }
+        }
+        return groups;
+    }
+
+private:
+    int find(int x, vector<int>& parents) {
+        // return parents[x] == x ? x : find(parents[x], parents);
+        if(x==parents[x])return x;
+        else{
+            int F=find(parents[x], parents);
+            parents[x]=F;
+            return F;
+        }
+    }
+};
