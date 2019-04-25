@@ -15,17 +15,24 @@ using namespace std;
 
 class Solution {
 public:
-    bool find132pattern(vector<int>& nums) {
+    double solve(vector<double>& nums, int k) {
         int n=nums.size();
-        int idx=-1, high=INT_MAX, i;
-        for(i=0;i<n;i++)if(nums[i]<=high){
-            idx=i;
-            high=nums[idx];
+        vector<double> dp(k+1,0);
+        sort(nums.begin(), nums.end(), [] (double a, double b){return a>=b;} );
+        for(int i=1;i<=k;i++)dp[i]=nums[0]/(double)i;
+        for(int i=1;i<n;i++){
+            vector<double> tmp(k+1,0);
+            for (int j=1; j<=k; j++) {
+                tmp[j]=dp[j];
+                for(int m=1;j-m>0;m++){
+                    double choice=min(dp[j-m],nums[i]/(double)(m));
+                    if(choice<tmp[j])break;
+                    tmp[j]=choice;
+                }
+            }
+            dp=tmp;
         }
-        for(i=0;i<n;i++)if(nums[(idx+i)%n]>nums[(idx+i+1)%n])break;
-        if(i==n-1)return false;
-        for(i=0;i<n;i++)if(nums[(idx-i+n)%n]>nums[(idx-i-1+n)%n])break;
-        if(i==n-1)return false;
-        return true;
+        
+        return dp[k];
     }
 };
