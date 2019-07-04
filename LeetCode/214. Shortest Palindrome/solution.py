@@ -59,9 +59,28 @@
 
 class Solution:
     def shortestPalindrome(self, s: str) -> str:
-        n = len(s)
-        rev = s[::-1]
-        jump[0] = -1
-        j = -1
-        while j < n:
-            
+        def getNext(pattern):
+            m = len(pattern)
+            i, j = 0, -1
+            Next = [-1]*m
+            while i < m-1:
+                if j == -1 or pattern[i] == pattern[j]:
+                    i += 1
+                    j += 1
+                    Next[i] = j
+                else:
+                    j = Next[j]
+            return Next
+        
+        Next = getNext(s)
+        revs = s[::-1]
+        i , j = 0, 0
+        n = len(revs)
+        while i < n:
+            if j == -1 or revs[i] == s[j]:
+                i += 1
+                j += 1
+            else:
+                j = Next[j]
+        
+        return s[-1:j-1:-1]+s
