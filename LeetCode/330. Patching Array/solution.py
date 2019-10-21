@@ -41,14 +41,27 @@
 
 #         return -1
 
+# class Solution:
+#     def minPatches(self, nums: List[int], n: int) -> int:
+#         left, idx, cc = 1, 0, 0
+#         while left <= n:
+#             if idx < len(nums) and nums[idx] <= left:
+#                 left += nums[idx]
+#                 idx += 1
+#             else:
+#                 left += left
+#                 cc += 1
+#         return cc
+
 class Solution:
     def minPatches(self, nums: List[int], n: int) -> int:
-        left, idx, cc = 1, 0, 0
-        while left <= n:
-            if idx < len(nums) and nums[idx] <= left:
-                left += nums[idx]
-                idx += 1
+        reach, m, idx = 0, len(nums), 0
+        res = 0
+        while reach < n:
+            if nums[idx] > reach + 1:
+                res += 1
+                reach += reach + 1
             else:
-                left += left
-                cc += 1
-        return cc
+                reach += nums[idx]
+                idx += 1
+        return res
