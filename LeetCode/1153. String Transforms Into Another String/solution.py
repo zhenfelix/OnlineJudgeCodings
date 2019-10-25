@@ -75,6 +75,25 @@ class Solution:
 
         return True
 
+
+# from collections import Counter
+# class Solution:
+#     def canConvert(self, str1: str, str2: str) -> bool:
+#         mp = {}
+#         # cc1, cc2 = Counter(str1), Counter(str2)
+#         # if len(cc1) < len(cc2):
+#         #     return False
+#         # elif len(cc1) == len(cc2)==26:
+#         #     return str1 == str2
+#         if len(Counter(str1)) == len(Counter(str2)) == 26 and str1 != str2:
+#             return False
+#         for i, ch in enumerate(str1):
+#             if ch in mp and mp[ch] != str2[i]:
+#                 return False
+#             else:
+#                 mp[ch] = str2[i]
+#         return True
+
                     
         
         

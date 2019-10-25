@@ -10,8 +10,9 @@ class Solution:
         ans = []
         while q:
             cur = q.popleft()
-            if hostname in cur:
-                ans.append(cur)
+            if hostname not in cur:
+                continue
+            ans.append(cur)
             for url in htmlParser.getUrls(cur):
                 if url not in visited:
                     visited.add(url)
