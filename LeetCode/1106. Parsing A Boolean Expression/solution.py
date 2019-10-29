@@ -60,53 +60,88 @@
 
 
 
-class Solution:
+# class Solution:
 
-    def f(self, s):
-        # print(self.idx, s[self.idx:])
+#     def f(self, s):
+#         # print(self.idx, s[self.idx:])
         
-        if s[self.idx] == 't':
-            self.idx += 1
-            ret = True
-        elif s[self.idx] == 'f':
-            self.idx += 1
-            ret = False
-        elif s[self.idx] == '!':
-            ret = self.f_not(s)
-        elif s[self.idx] == '&':
-            ret = self.f_and(s)
-        else:
-            ret = self.f_or(s)
-        # print(ret)
-        return ret
+#         if s[self.idx] == 't':
+#             self.idx += 1
+#             ret = True
+#         elif s[self.idx] == 'f':
+#             self.idx += 1
+#             ret = False
+#         elif s[self.idx] == '!':
+#             ret = self.f_not(s)
+#         elif s[self.idx] == '&':
+#             ret = self.f_and(s)
+#         else:
+#             ret = self.f_or(s)
+#         # print(ret)
+#         return ret
 
 
-    def f_not(self, s):
-        self.idx += 2
-        ret = self.f(s)
-        self.idx += 1
-        return not ret
+#     def f_not(self, s):
+#         self.idx += 2
+#         ret = self.f(s)
+#         self.idx += 1
+#         return not ret
 
-    def f_and(self, s):
-        self.idx += 2
-        ret = True 
-        ret = self.f(s) and ret #注意短路情况，所以要先调用函数再逻辑算符
-        while s[self.idx] != ')':
-            self.idx += 1
-            ret = self.f(s) and ret
-        self.idx += 1
-        return ret 
+#     def f_and(self, s):
+#         self.idx += 2
+#         ret = True 
+#         ret = self.f(s) and ret #注意短路情况，所以要先调用函数再逻辑算符
+#         while s[self.idx] != ')':
+#             self.idx += 1
+#             ret = self.f(s) and ret
+#         self.idx += 1
+#         return ret 
 
-    def f_or(self, s):
-        self.idx += 2
-        ret = False 
-        ret = self.f(s) or ret
-        while s[self.idx] != ')':
-            self.idx += 1
-            ret = self.f(s) or ret
-        self.idx += 1
-        return ret 
+#     def f_or(self, s):
+#         self.idx += 2
+#         ret = False 
+#         ret = self.f(s) or ret
+#         while s[self.idx] != ')':
+#             self.idx += 1
+#             ret = self.f(s) or ret
+#         self.idx += 1
+#         return ret 
 
+#     def parseBoolExpr(self, expression: str) -> bool:
+#         self.idx = 0
+#         return self.f(expression)
+
+
+class Solution:
     def parseBoolExpr(self, expression: str) -> bool:
-        self.idx = 0
-        return self.f(expression)
+        states, ops = [], []
+        symbol = {'t':True, 'f':False}
+        op2state = {'&':True, '|':False, '!':None}
+        for ch in expression:
+            if ch in '|&!':
+                ops.append(ch)
+            elif ch == '(':
+                states.append(op2state[ops[-1]])
+            elif ch in 'tf':
+                op = ops[-1]
+                if op == '!':
+                    states[-1] = not symbol[ch]
+                elif op == '&':
+                    states[-1] = states[-1] and symbol[ch]
+                elif op == '|':
+                    states[-1] = states[-1] or symbol[ch]
+            elif ch == ')':
+                ops.pop()
+                state = states.pop()
+                if not ops:
+                    return state
+                op = ops[-1]
+                if op == '!':
+                    states[-1] = not state 
+                elif op == '&':
+                    states[-1] = states[-1] and state 
+                elif op == '|':
+                    states[-1] = states[-1] or state 
+        return None
+
+
