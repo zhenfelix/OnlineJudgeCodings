@@ -45,3 +45,19 @@ class Solution:
         # print(dp)
         # print(res_center,res_reach)
         return s[l:r+1]
+
+
+# class Solution:
+#     def longestPalindrome(self, s: str) -> str:
+#         if not s:
+#             return ""
+#         n = len(s)
+#         reach = []
+#         idx = (0,0)
+#         for i in range(n):
+#             reach = [left-1 for left in reach if left-1 >= 0 and s[left-1] == s[i]]
+#             reach += [i,i+1]
+#             if i-reach[0] > idx[1]-idx[0]:
+#                 idx = (reach[0],i)
+#         return s[idx[0]:idx[1]+1]
+

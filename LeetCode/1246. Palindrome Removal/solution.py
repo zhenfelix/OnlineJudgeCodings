@@ -1,3 +1,28 @@
+class Solution:
+    def minimumMoves(self, arr: List[int]) -> int:
+        n = len(arr)
+        dp = [[0]*(n+1) for _ in range(n+1)]
+        for sz in range(n):
+            if sz == 0:
+                for i in range(n):
+                    dp[i][i] = 1
+            else:
+                for i in range(n-sz):
+                    j = i + sz
+                    dp[i][j] = dp[i+1][j] + 1
+                    if arr[i] == arr[i+1]:
+                        dp[i][j] = min(dp[i][j], 1+dp[i+2][j])
+                    for k in range(i+2,j+1):
+                        if arr[i] == arr[k]:
+                            dp[i][j] = min(dp[i][j], dp[i+1][k-1]+dp[k+1][j])
+        return dp[0][n-1]
+
+
+
+
+
+
+
 # class Solution:
 #     def minimumMoves(self, arr: List[int]) -> int:
 #         n = len(arr)
