@@ -27,3 +27,16 @@ class Solution:
                     combos[i] += 1
                     
         return(combos[target])
+
+
+class Solution:
+    def combinationSum4(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        dp = collections.defaultdict(int)
+        dp[0] = 1
+        for x in range(1,target+1):
+            for num in nums:
+                if x < num:
+                    break
+                dp[x] += dp[x-num]
+        return dp[target]

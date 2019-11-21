@@ -47,3 +47,25 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        // vector<vector<vector<int>>> mp(target+1,vector<vector<int>>());
+        unordered_map<int,vector<vector<int>>> mp;
+        mp[0].push_back(vector<int>());
+        for(auto candidate: candidates){
+            for(int j=candidate;j<target+1;j++){
+                if(mp[j-candidate].size() > 0){
+                    for(auto nums: mp[j-candidate]){
+                        vector<int> tmp = nums;
+                        tmp.push_back(candidate);
+                        mp[j].push_back(tmp);
+                    }
+                }
+            }
+        }
+        return mp[target];
+    }
+};

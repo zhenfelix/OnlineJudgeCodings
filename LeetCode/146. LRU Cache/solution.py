@@ -102,3 +102,67 @@ class LRUCache:
 # obj = LRUCache(capacity)
 # param_1 = obj.get(key)
 # obj.put(key,value)
+
+
+
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.mp = {}
+        self.dummy = Node()
+
+    def get(self, key: int) -> int:
+        if key not in self.mp:
+            return -1
+        node = self.mp[key]
+        self.delete(node)
+        self.insert(node)
+        return node.value
+        
+
+    def put(self, key: int, value: int) -> None:
+        if key in self.mp:
+            self.mp[key].value = value
+            self.get(key)
+            return
+        if self.capacity == 0:
+            node = self.dummy.nxt
+            # if node == self.dummy:
+            #     return
+            self.delete(node)
+            del self.mp[node.key]
+            self.capacity += 1
+        node = Node(key,value)
+        self.mp[key] = node
+        self.insert(node)
+        self.capacity -= 1
+        return
+
+    def delete(self, node):
+        pre, nxt = node.pre, node.nxt
+        pre.nxt, nxt.pre = nxt, pre
+        node.nxt, node.pre = None, None
+        return
+
+    def insert(self, node):
+        pre, nxt = self.dummy.pre, self.dummy
+        pre.nxt = nxt.pre = node
+        node.pre, node.nxt = pre, nxt
+        return
+
+
+
+        
+class Node:
+    def __init__(self, key = None, value = None):
+        self.key = key
+        self.value = value
+        self.nxt = self.pre = self
+
+
+
+# Your LRUCache object will be instantiated and called as such:
+# obj = LRUCache(capacity)
+# param_1 = obj.get(key)
+# obj.put(key,value)
