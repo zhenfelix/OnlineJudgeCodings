@@ -1,80 +1,57 @@
 #include <cstdio>
 #include <algorithm>
 using namespace std;
-const int maxn = 510;
-const int INF = 1000000000;
 
-struct station {
-    double price, dis; //价格、与起点的距离 }st [maxn];
-}st[maxn];
+class Solution {
+public:
+    int tilingRectangle(int n, int m) {
+        
+        int f[30][30];
+        memset(f,1,sizeof(f));
+        for(int i=0;i<=n;i++)f[i][0] = 0;
+        for(int i=0;i<=m;i++)f[0][i] = 0;
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=m;j++){
+                for(int k=1;k<=min(i,j);k++){
+                    int i2 = i-k;
+                    int j1 = j-k;
+                    for(int i1=0;i1<=i2;i1++){
+                        for(int j2=j1;j2<=j;j2++){
+                            f[i][j] = min(f[i][j],f[i1][j2] + f[i2][j-j2] + f[i-i1][j1] + f[i2-i1][j2-j1] + 1);
+                            if (i==19 && j == 17 && i2 == 5 && i1 == 3) {
+                                printf("f[i][j]: %d i1: %d i2: %d j1: %d j2: %d\n", f[i][j],i1,i2,j1,j2);
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            
+        }
+//        for (int i = 0; i <= max(m,n); i++) {
+//            for (int j = 0; j <= max(m,n); j++) {
+//                printf("%d %d %d\n", i, j, f[i][j]);
+//            }
+//        }
+        return f[n][m];
+    }
+};
 
-bool cmp(station a, station b) {
-    return a.dis < b.dis; //按距离从小到大排序
-}
 
 int main(){
-    int n;
-    double cmax, d, davg;
+    int n, m;
 //    freopen("input.txt", "r", stdin);
-    scanf("%lf%lf%lf%d", &cmax, &d, &davg, &n);
-    for(int i=0;i<n;i++){
-        scanf("%lf%lf", &st[i].price, &st[i].dis);
-    }
-    st[n].price=0;
-    st[n].dis=d;
-    sort(st,st+n,cmp);
-    
-    if(st[0].dis!=0){
-        printf("The maximum travel distance = 0.00\n");
-    }
-    else{
-        int now=0;
-        double ans=0, nowTank=0, MAX=cmax*davg;
-        while(now < n){
-            
-            int k=-1;
-            double minPrice=INF;
-            for(int i=now+1; i<=n && st[now].dis+MAX>=st[i].dis; i++){
-                
-                if(st[i].price < minPrice){
-                    k=i;
-                    minPrice=st[i].price;
-                }
-//                printf("%d %lf\n",i,minPrice);
-                if(minPrice < st[now].price)break;
-            }
-            
-            if(k==-1)break;
-            double needed = (st[k].dis - st[now].dis)/davg;
-//            printf("%d\n", k);
-//            printf("%d %lf %lf\n",now, needed*davg, nowTank*davg);
-            if(minPrice < st[now].price){
-                ans += (needed-nowTank)*st[now].price;
-                nowTank = 0;
-//                if(needed>nowTank){
-//                    ans += (needed-nowTank)*st[now].price;
-//                    nowTank = 0;
-//                }
-//                else{
-//                    nowTank -= needed;
-//                }
-                
-                
-            }
-            else{
-                ans += (cmax-nowTank)*st[now].price;
-                nowTank = cmax-needed;
-            }
-            
-            now = k;
-        }
-        if(now == n){
-            printf("%.2f\n", ans);
-        }
-        else{
-            printf("The maximum travel distance = %.2f\n", st[now].dis+MAX);
-        }
-    }
+//    scanf("%d%d", &n, &m);
+    Solution s;
+//    for (int n = 1; n <= 100; n++) {
+//        for (int m = 1; m <= n; m++) {
+//            printf("%d %d: ", n, m);
+//            printf("%d\n", s.tilingRectangle(n, m));
+//        }
+//    }
+    n = 17;
+    m = 16;
+    printf("%d\n", s.tilingRectangle(n, m));
     return 0;
     
 }
