@@ -102,9 +102,11 @@ class Solution:
                     covered.add(nxt)
             return False
 
-        visited = set()
+        # visited = set()
+        visited = collections.defaultdict(int)
         heap = [[heuristic(start_box), 0, start_person, start_box]]
-        visited.add((start_person, start_box))
+        # visited.add((start_person, start_box))
+        visited[start_person,start_box] = heuristic(start_box)
 
         while heap:
             _, moves, person, box = heapq.heappop(heap)
@@ -113,11 +115,14 @@ class Solution:
 
             for dr, dc in [[0, 1], [1, 0], [-1, 0], [0, -1]]:
                 new_box = (box[0] + dr, box[1] + dc)
-                if out_bounds(new_box) or (box, new_box) in visited or not isconnect(box,(box[0] - dr, box[1] - dc),person):
+                dis = heuristic(new_box) + moves + 1
+                if out_bounds(new_box) or dis >= visited.get((box, new_box), float('inf')) or not isconnect(box,(box[0] - dr, box[1] - dc),person):
+                # if out_bounds(new_box) or (box, new_box) in visited or not isconnect(box,(box[0] - dr, box[1] - dc),person):
                     continue
 
                 heapq.heappush(heap, [heuristic(new_box) + moves + 1, moves + 1, box, new_box])
-                visited.add((box,new_box))
+                # visited.add((box,new_box))
+                visited[box,new_box] = dis
 
 
         return -1

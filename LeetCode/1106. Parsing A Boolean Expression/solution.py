@@ -112,36 +112,59 @@
 #         return self.f(expression)
 
 
+# class Solution:
+#     def parseBoolExpr(self, expression: str) -> bool:
+#         states, ops = [], []
+#         symbol = {'t':True, 'f':False}
+#         op2state = {'&':True, '|':False, '!':None}
+#         for ch in expression:
+#             if ch in '|&!':
+#                 ops.append(ch)
+#             elif ch == '(':
+#                 states.append(op2state[ops[-1]])
+#             elif ch in 'tf':
+#                 op = ops[-1]
+#                 if op == '!':
+#                     states[-1] = not symbol[ch]
+#                 elif op == '&':
+#                     states[-1] = states[-1] and symbol[ch]
+#                 elif op == '|':
+#                     states[-1] = states[-1] or symbol[ch]
+#             elif ch == ')':
+#                 ops.pop()
+#                 state = states.pop()
+#                 if not ops:
+#                     return state
+#                 op = ops[-1]
+#                 if op == '!':
+#                     states[-1] = not state 
+#                 elif op == '&':
+#                     states[-1] = states[-1] and state 
+#                 elif op == '|':
+#                     states[-1] = states[-1] or state 
+#         return None
+
+
+
+    
 class Solution:
-    def parseBoolExpr(self, expression: str) -> bool:
-        states, ops = [], []
-        symbol = {'t':True, 'f':False}
-        op2state = {'&':True, '|':False, '!':None}
-        for ch in expression:
-            if ch in '|&!':
-                ops.append(ch)
-            elif ch == '(':
-                states.append(op2state[ops[-1]])
-            elif ch in 'tf':
-                op = ops[-1]
-                if op == '!':
-                    states[-1] = not symbol[ch]
-                elif op == '&':
-                    states[-1] = states[-1] and symbol[ch]
+    def parseBoolExpr(self, e: str) -> bool:
+            def ev(i):
+                if e[i] in ["t", "f"]:
+                    return True if e[i] == "t" else False, i+1
+                op = e[i]
+                i, st = i+2, []
+                while e[i] != ')':
+                    if e[i] == ',': 
+                        i += 1
+                        continue
+                    res, i = ev(i)
+                    st.append(res)
+                if op == '&':
+                    return all(st), i+1
                 elif op == '|':
-                    states[-1] = states[-1] or symbol[ch]
-            elif ch == ')':
-                ops.pop()
-                state = states.pop()
-                if not ops:
-                    return state
-                op = ops[-1]
-                if op == '!':
-                    states[-1] = not state 
-                elif op == '&':
-                    states[-1] = states[-1] and state 
-                elif op == '|':
-                    states[-1] = states[-1] or state 
-        return None
-
-
+                    return any(st), i+1
+                elif op == '!':
+                    return not st[0], i+1
+            res, i = ev(0)
+            return res
