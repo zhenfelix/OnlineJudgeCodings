@@ -92,4 +92,104 @@ class Solution:
             visited = visited_cp
         
         return ans
-                        
+
+
+
+# class Solution:
+#     def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+#         mp = collections.defaultdict(list)
+#         for word in wordList:
+#             for i in range(len(word)):
+#                 mp[word[:i]+"*"+word[i+1:]].append(word)
+#         res = []
+#         pre = collections.defaultdict(list)
+#         visited = collections.defaultdict(int)
+#         visited[beginWord] = -1
+#         q = collections.deque([beginWord])
+#         level = 0
+#         print(mp)
+#         while q:
+#             n = len(q)
+#             print(q)
+#             for _ in range(n):
+#                 word = q.popleft()
+#                 if word == endWord:
+#                     break
+#                 for i in range(len(word)):
+#                     key = word[:i]+"*"+word[i+1:]
+#                     for nxt in mp[key]:
+#                         if level <= visited.get(nxt,float("inf")):
+#                             pre[nxt].append(word)
+#                             if level < visited.get(nxt,float("inf")):
+#                                 visited[nxt] = level
+#                                 q.append(nxt)
+#             level += 1
+            
+#         # print(pre)
+#         # print(mp)
+#         if not pre[endWord]:
+#             # print("ok")
+#             return []
+#         def dfs(path):
+#             # print(path)
+#             cur = path[-1]
+#             if not pre[cur]:
+#                 res.append(path[::-1].copy())
+#             for nxt in pre[cur]:
+#                 dfs(path+[nxt])
+#             return
+#         # dfs([endWord])
+#         return res
+                       
+
+class Solution:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        mp = collections.defaultdict(list)
+        wordList = set(wordList)
+        for word in wordList:
+            for i in range(len(word)):
+                mp[word[:i]+"*"+word[i+1:]].append(word)
+        layer = collections.defaultdict(list)
+        layer[beginWord] = [[beginWord]]
+        while layer:
+            layer_new = collections.defaultdict(list)
+            for word in layer:
+                if word == endWord:
+                    return layer[endWord]
+                for i in range(len(word)):
+                    key = word[:i]+"*"+word[i+1:]
+                    for nxt in mp[key]:
+                        if nxt in wordList:
+                            layer_new[nxt].extend(path+[nxt] for path in layer[word])
+                            
+            wordList -= set(layer_new.keys())
+            layer = layer_new
+            
+        return []
+
+    
+# class Solution(object):
+#     def findLadders(self, beginWord, endWord, wordList):
+
+#         wordList = set(wordList)
+#         res = []
+#         layer = {}
+#         layer[beginWord] = [[beginWord]]
+
+#         while layer:
+#             newlayer = collections.defaultdict(list)
+#             for w in layer:
+#                 if w == endWord: 
+#                     # res.extend(k for k in layer[w])
+#                     return layer[w]
+#                 else:
+#                     for i in range(len(w)):
+#                         for c in 'abcdefghijklmnopqrstuvwxyz':
+#                             neww = w[:i]+c+w[i+1:]
+#                             if neww in wordList:
+#                                 newlayer[neww]+=[j+[neww] for j in layer[w]]
+
+#             wordList -= set(newlayer.keys())
+#             layer = newlayer
+
+#         return res

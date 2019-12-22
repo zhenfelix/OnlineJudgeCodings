@@ -84,3 +84,36 @@ class Solution:
         endpoint_, _ = bfs(0)
         _, res = bfs(endpoint_)
         return res-1
+
+
+
+
+class Solution:
+    def treeDiameter(self, edges: List[List[int]]) -> int:
+        n = len(edges)+1
+        if n == 1:
+            return 0
+        nxt = [set() for _ in range(n)]
+        for a, b in edges:
+            nxt[a].add(b)
+            nxt[b].add(a)
+        q = [x for x in range(n) if len(nxt[x]) == 1]
+        res = []
+        level = 0
+        # print(nxt,q)
+        while q:
+            res, q = q, []
+            for cur in res:
+                # print(cur,nxt)
+                if len(nxt[cur]) == 0:
+                    continue
+                child = nxt[cur].pop()
+                nxt[child].remove(cur)
+                if len(nxt[child]) == 1:
+                    q.append(child)
+            level += 1
+
+        if len(res) == 1:
+            return level*2-2
+        elif len(res) == 2:
+            return level*2-1
