@@ -26,3 +26,22 @@ class Solution:
             for w in range(coins[i], amount+1):
                 dp[w] += dp[w-coins[i]]
         return dp[-1]
+
+
+# class Solution:
+#     def change(self, amount: int, coins: List[int]) -> int:
+#         dp = [1]+[0]*amount
+#         for i in range(1,amount+1):
+#             for coin in coins:
+#                 dp[i] += dp[i-coin] if i-coin >= 0 else 0
+#         return dp[-1]
+# incorrect solution due to duplicate combinations
+
+
+class Solution:
+    def change(self, amount: int, coins: List[int]) -> int:
+        dp = [1]+[0]*amount
+        for coin in coins:
+            for i in range(coin,amount+1):
+                dp[i] += dp[i-coin]
+        return dp[-1]

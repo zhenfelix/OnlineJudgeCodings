@@ -1,3 +1,39 @@
+# from functools import lru_cache
+# class Solution:
+#     def minimumMoves(self, arr: List[int]) -> int:
+#         @lru_cache(None)
+#         def dfs(i,j):
+#             if i >= j:
+#                 return 1
+#             res = j - i + 1
+#             if arr[i] == arr[j]:
+#                 res = min(res, dfs(i+1,j-1))
+#             for k in range(i+1,j+1):
+#                 if arr[k] == arr[j]:
+#                     res = min (res, dfs(i,k-1)+dfs(k+1,j-1))
+           
+#             return res
+#         return dfs(0,len(arr)-1)
+
+from functools import lru_cache
+class Solution:
+    def minimumMoves(self, arr: List[int]) -> int:
+        @lru_cache(None)
+        def dfs(i,j):
+            if i >= j:
+                return 1
+            res = j - i + 1
+            if arr[i] == arr[j]:
+                return dfs(i+1,j-1)
+            return min(dfs(i,k-1)+dfs(k+1,j-1) for k in range(i+1,j+1) if arr[k] == arr[j])
+        return dfs(0,len(arr)-1)
+
+
+
+
+
+
+
 class Solution:
     def minimumMoves(self, arr: List[int]) -> int:
         n = len(arr)

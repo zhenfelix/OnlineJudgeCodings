@@ -23,3 +23,18 @@ class Solution:
 	        else:
 	            out += e,
 	    return out
+
+
+
+# class Solution:
+#     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+#         intervals.sort(key = lambda x: (x[1],x[0]))
+#         st = []
+#         for s, e in intervals:
+#             if not st or s > st[-1][-1]:
+#                 st.append([s, e])
+#             else:
+#                 while st and s <= st[-1][-1]:
+#                     start, _ = st.pop()
+#                 st.append([min(s,start),e])
+#         return st 

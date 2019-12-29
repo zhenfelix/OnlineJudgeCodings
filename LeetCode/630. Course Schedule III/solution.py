@@ -61,4 +61,19 @@ class Solution:
         
         
     
-            
+
+# class Solution:
+#     def scheduleCourse(self, courses: List[List[int]]) -> int:
+#         courses.sort(key = lambda x: (x[1],x[0]))
+#         # print(courses)
+#         st, cur = [], 0
+#         for t, d in courses:
+#             if cur + t <= d:
+#                 cur += t 
+#                 heapq.heappush(st,-t)
+#             elif st and st[0] < -t:
+#             # elif st and st[0] < -t and cur+t+st[0] <= d:
+#                 cur += t + heapq.heappop(st)
+#                 heapq.heappush(st,-t)
+#             # print(st)
+#         return len(st)

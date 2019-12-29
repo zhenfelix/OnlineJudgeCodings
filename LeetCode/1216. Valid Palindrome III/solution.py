@@ -1,3 +1,34 @@
+# from functools import lru_cache
+# class Solution:
+#     def isValidPalindrome(self, s: str, K: int) -> bool:
+#         @lru_cache(None)
+#         def dfs(i,j,k):
+#             if i > j:
+#                 return True
+#             if k < 0: 
+#                 return False
+#             if s[i] == s[j]:
+#                 return dfs(i+1,j-1,k)
+#             return dfs(i,j-1,k-1) or dfs(i+1,j,k-1)
+#         return dfs(0,len(s)-1,K)
+
+
+from functools import lru_cache
+class Solution:
+    def isValidPalindrome(self, s: str, K: int) -> bool:
+        @lru_cache(None)
+        def dfs(i,j):
+            if i > j:
+                return 1+j-i 
+            
+            res = 0
+            if s[i] == s[j]:
+                res = dfs(i+1,j-1) + 2
+            return max(res, dfs(i,j-1), dfs(i+1,j))
+        return dfs(0,len(s)-1)+K >= len(s)
+
+
+
 class Solution:
     def isValidPalindrome(self, s: str, k: int) -> bool:
         n = len(s)
@@ -37,3 +68,6 @@ class Solution:
 #             return flag
 #         memo = {}
 #         return dfs(0,len(s)-1,k)
+
+
+
