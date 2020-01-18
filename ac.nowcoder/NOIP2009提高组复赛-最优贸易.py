@@ -91,3 +91,6 @@ for i in idx[::-1]:
 # print(fmp.val)
 
 print(max(-fmp.val[i]-mp.val[i] for i in range(n)))
+
+
+
