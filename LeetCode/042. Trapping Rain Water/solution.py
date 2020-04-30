@@ -78,7 +78,23 @@
                 
 #         return res
 # Use Induction to prove the heigher bar between left and right index is the highest bar so far 
-            
+        
+
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        st = []
+        sums = 0
+        for i, h in enumerate(height):
+            while st and height[st[-1]] < h:
+                cur = st.pop()
+                if st:
+                    sums += (i-st[-1]-1)*(min(h,height[st[-1]])-height[cur])
+            st.append(i)
+        return sums
+
+        
+
+
 class Solution:
     def trap(self, height: List[int]) -> int:
         n = len(height)

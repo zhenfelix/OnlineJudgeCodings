@@ -9,3 +9,16 @@ class Solution:
             ans[i] += ans[i-1]
         return ans
             
+
+class Solution:
+    def corpFlightBookings(self, bookings: List[List[int]], n: int) -> List[int]:
+        dp = defaultdict(int)
+        for i, j, k in bookings:
+            dp[i-1] += k
+            dp[j] -= k
+        cur = 0
+        res = [0]*n
+        for i in range(n):
+            cur += dp[i]
+            res[i] += cur
+        return res
