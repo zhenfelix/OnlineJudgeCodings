@@ -41,3 +41,40 @@ class Solution:
         if not head: return True
         if not root: return False
         return self.dfs(head, root) or self.isSubPath(head, root.left) or self.isSubPath(head, root.right)
+
+
+from functools import lru_cache
+class Solution:
+    def kmp(self, s):
+        n = len(s)
+        nxt = [-1]*(n+1)
+        i, j = 0, -1
+        while i < n:
+            if j == -1 or s[i] == s[j]:
+                i += 1
+                j += 1
+                nxt[i] = j
+            else:
+                j = nxt[j]
+        return nxt
+
+    def isSubPath(self, head, root):
+        s = []
+        while head:
+             s.append(head.val)
+             head = head.next
+        nxt = self.kmp(s)
+        m = len(s)
+        @lru_cache(None)
+        def dfs(cur, state):
+            if state == m:
+                return True
+            if not cur:
+                return False
+            while state != -1 and cur.val != s[state]:
+                state = nxt[state]
+            state += 1
+            return dfs(cur.left, state) or dfs(cur.right, state)
+
+        return dfs(root, 0)
+

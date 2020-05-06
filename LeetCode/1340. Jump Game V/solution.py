@@ -61,3 +61,53 @@ class Solution:
             return 1 + max(map(height, graph[i]), default=0)
         
         return max(map(height, range(N)))
+
+
+class Solution:
+    def query(self,root,left,right,ql,qr):
+        if right < ql or left > qr:
+            return -float('inf')
+        if left >= ql and right <= qr:
+            return self.tree[root]
+        mid = (left+right)//2
+        return max(self.query(root*2+1,left,mid,ql,qr),self.query(root*2+2,mid+1,right,ql,qr))
+
+    def update(self,root,left,right,pos,val):
+        if right < pos or left > pos:
+            return
+        if left == right:
+            self.tree[root] = val
+            return
+        mid = (left+right)//2
+        self.update(root*2+1,left,mid,pos,val)
+        self.update(root*2+2,mid+1,right,pos,val)
+        self.tree[root] = max(self.tree[root*2+1],self.tree[root*2+2])
+        return
+
+
+    def maxJumps(self, A, d):
+        n, inf = len(A), float('inf')
+        self.tree = [0]*(4*n+10)
+        l_bound, r_bound = [i for i in range(n)], [i for i in range(n)]
+        st = []
+        for i, a in enumerate(A+[inf]):
+            while st and A[st[-1]] <= a:
+                r_bound[st[-1]] = min(i-1,st[-1]+d)
+                st.pop()
+            st.append(i)
+        st = []
+        for i, a in enumerate(A[::-1]+[inf]):
+            i = n-1-i
+            while st and A[st[-1]] <= a:
+                l_bound[st[-1]] = max(i+1,st[-1]-d)
+                st.pop()
+            st.append(i)
+
+        for i in sorted(range(n), key=lambda x: A[x]):
+            pre = 0
+            if l_bound[i] < i:
+                pre = max(pre, self.query(0,0,n-1,l_bound[i],i-1))
+            if i < r_bound[i]:
+                pre = max(pre, self.query(0,0,n-1,i+1,r_bound[i]))
+            self.update(0,0,n-1,i,pre+1)
+        return self.query(0,0,n-1,0,n-1)
