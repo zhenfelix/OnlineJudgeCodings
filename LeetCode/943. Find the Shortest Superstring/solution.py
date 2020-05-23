@@ -157,3 +157,58 @@ class Solution(object):
             ans += A[path[i]][-graph[path[i-1]][path[i]]:]
 
         return ans
+
+
+import functools
+class Solution:
+    def graphGen(self, A):
+        n, Mod = len(A), 10**9+7
+        graph = [[0]*n for _ in range(n)]
+        suffix = defaultdict(list)
+        for i, a in enumerate(A):
+            cur = 0
+            for j in range(len(a)):
+                cur += ord(a[-j-1])*256**j
+                cur %= Mod
+                suffix[cur].append(i)
+        for i, a in enumerate(A):
+            cur = 0
+            for j in range(len(a)):
+                cur = cur*256+ord(a[j])
+                cur %= Mod
+                for pre in suffix[cur]:
+                    if pre == i:
+                        continue
+                    graph[pre][i] = -j-1
+        return graph
+
+
+
+    def shortestSuperstring(self, A: List[str]) -> str:
+        A.append('')
+        n = len(A)
+        graph = self.graphGen(A)
+        dp = {}
+        for i in range(n):
+            dp[i,1<<i] = i 
+        @functools.lru_cache(None)
+        def dfs(i,state):
+            if state == (1<<i):
+                return len(A[i])
+            res = float('inf')
+            for j in range(n):
+                if j == i or state & (1<<j) == 0:
+                    continue
+                if res > dfs(j,state^(1<<i))+graph[j][i]:
+                    res = dfs(j,state^(1<<i))+graph[j][i]
+                    dp[i,state] = j
+            return res+len(A[i])
+        dfs(n-1,(1<<n)-1)
+        start, ans = (n-1,(1<<n)-1), []
+        while dp[start] != start[0]:
+            state_ = start[-1]
+            idx = dp[start]
+            state_ ^= (1<<start[0])
+            start = (idx, state_)
+            ans.append(A[idx][-graph[dp[start]][idx]:])
+        return ''.join(ans[::-1])

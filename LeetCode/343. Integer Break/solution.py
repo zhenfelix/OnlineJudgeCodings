@@ -28,3 +28,10 @@ class Solution:
         res *= n
         return res
 
+import functools
+class Solution:
+    @functools.lru_cache(None)
+    def cuttingRope(self, n: int) -> int:
+        if n <= 2:
+            return 1
+        return max(max(i,self.cuttingRope(i))*max(n-i,self.cuttingRope(n-i)) for i in range(1,n//2+1))

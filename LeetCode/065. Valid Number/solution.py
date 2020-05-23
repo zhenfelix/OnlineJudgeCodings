@@ -64,7 +64,40 @@ class Solution(object):
           return False
       return True
     
-    
+
+class Solution:
+    def isNumber(self, s: str) -> bool:
+        s = s.strip()
+        transfer = \
+        [[2,-1,1,3],\
+        [2,-1,-1,3],\
+        [2,5,-1,4],\
+        [4,-1,-1,-1],\
+        [4,5,-1,-1],\
+        [7,-1,6,-1],\
+        [7,-1,-1,-1],\
+        [7,-1,-1,-1]]
+        state = 0
+        for ch in s:
+            col = -1
+            if '0' <= ch <= '9':
+                col = 0
+            elif ch == 'e':
+                col = 1
+            elif ch in "+-":
+                col = 2
+            elif ch == '.':
+                col = 3
+            if col == -1:
+                return False
+            state = transfer[state][col]
+            if state == -1:
+                return False
+        if state in [2,4,7]:
+            return True
+        return False
+
+
 # return s.matches("(\\s*)[+-]?((\\.[0-9]+)|([0-9]+(\\.[0-9]*)?))(e[+-]?[0-9]+)?(\\s*)");
 # https://zhuanlan.zhihu.com/p/20042325
 

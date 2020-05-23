@@ -56,3 +56,42 @@ class Solution(object):
             return "^" + str(p.val) + "#" + convert(p.left) + convert(p.right) if p else "$"
         
         return convert(t) in convert(s)
+
+class Solution(object):
+    def isSubtree(self, s, t):
+        """
+        :type s: TreeNode
+        :type t: TreeNode
+        :rtype: bool
+        """
+        def kmp(text, pattern):
+            n, m = len(text), len(pattern)
+            nxt = [-1]*(m+1)
+            i, j = 0, -1
+            while i < m:
+                if j == -1 or pattern[j] == pattern[i]:
+                    i += 1
+                    j += 1
+                    nxt[i] = j
+                else:
+                    j = nxt[j]
+            i, j = 0, 0
+            while i < n:
+                if j == -1 or pattern[j] == text[i]:
+                    i += 1
+                    j += 1
+                else:
+                    j = nxt[j]
+                if j == m:
+                    return True
+            return False
+
+
+        def convert(p):
+            return "^" + str(p.val) + "$" + convert(p.left) + convert(p.right) if p else "^*$"
+
+        s = convert(s)
+        t = convert(t)
+        
+        return kmp(s,t)
+
