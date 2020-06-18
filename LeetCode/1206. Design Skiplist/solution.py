@@ -141,3 +141,77 @@ class Skiplist(object):
                 ans = True
                 cur.levels[level] = future.levels[level]
         return ans
+
+
+class Node:
+
+    def __init__(self, v, h):
+        self.val = v 
+        self.nxt = [None]*h
+
+class Skiplist:
+
+    def __init__(self):
+        self.head = Node(-float('inf'),1)
+        self.tail = Node(float('inf'),1)
+        self.H = 1
+        self.head.nxt[-1] = self.tail
+
+    def coinflip(self):
+        h = 1
+        while random.uniform(0,1) < 0.5:
+            h += 1
+        return h 
+        
+
+    def search(self, target: int) -> bool:
+        cur = self.head
+        for i in range(self.H)[::-1]:
+            while cur.nxt[i].val <= target:
+                cur = cur.nxt[i]
+        return cur.val == target
+        
+
+    def add(self, num: int) -> None:
+        h = self.coinflip()
+        self.H = max(self.H, h)
+        while len(self.head.nxt) < self.H:
+            self.head.nxt.append(self.tail)
+        cur = self.head
+        x = Node(num,h)
+        for i in range(self.H)[::-1]:
+            while cur.nxt[i].val <= num:
+                cur = cur.nxt[i]
+            if i < h:
+                x.nxt[i] = cur.nxt[i]
+                cur.nxt[i] = x 
+
+        
+
+    # def erase(self, num: int) -> bool:
+    #     x = self.head
+    #     for i in range(self.H)[::-1]:
+    #         while x.nxt[i].val <= num:
+    #             x = x.nxt[i]
+    #     if x.val != num:
+    #         return False
+    #     cur = self.head
+    #     for i in range(self.H)[::-1]:
+    #         while cur.nxt[i].val <= num and cur.nxt[i] != x:
+    #             cur = cur.nxt[i]
+    #         if i < len(x.nxt):
+    #             cur.nxt[i] = x.nxt[i]
+    #     del x 
+    #     return True
+
+
+    def erase(self, num: int) -> bool:
+        x = self.head
+        flag = Fasle
+        for i in range(self.H)[::-1]:
+            while x.nxt[i].val < num:
+                x = x.nxt[i]
+            if x.nxt[i].val == num:
+                flag = True
+                x.nxt[i] = x.nxt[i].nxt[i]
+        return flag
