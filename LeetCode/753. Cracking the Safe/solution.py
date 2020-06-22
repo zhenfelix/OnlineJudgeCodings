@@ -9,9 +9,10 @@ class Solution:
                     ans.append(x)
                     
         ans = []
-        dfs('0' * (n-1), k, set(), ans)
-        return ''.join(ans) + '0' * (n-1)
-
+        # dfs('0' * (n-1), k, set(), ans)
+        start = ''.join(list(map(lambda x: str(x%k), range(n-1))))
+        dfs(start, k, set(), ans)
+        return ''.join(ans) + start[::-1]
 
 
             
