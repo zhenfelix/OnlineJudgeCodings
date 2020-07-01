@@ -14,7 +14,27 @@ class Solution:
         dfs(start, k, set(), ans)
         return ''.join(ans) + start[::-1]
 
+    def crackSafe(self, n: int, k: int) -> str:
 
+        st = []
+        visited = set()
+        ans = []
+        st.append('0'*n)
+        while st:
+            # print(st)
+            cur = st[-1][1:]
+            flag = True
+            for x in map(str, range(k)):
+                edge = cur + x
+                if edge not in visited:
+                    visited.add(edge)
+                    st.append(edge)
+                    flag = False
+                    break
+            if flag:
+                ans.append(st.pop()[-1])
+            # print(ans)
+        return ''.join(ans[:-1]) + '0'*(n-1)
             
         
 
