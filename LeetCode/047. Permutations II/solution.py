@@ -35,6 +35,7 @@ class Solution:
                 if k != i and arr[i] == arr[k]: continue
                 arr[i], arr[k] = arr[k], arr[i]
                 dfs(i+1, arr.copy())  
+                # arr[i], arr[k] = arr[k], arr[i] # very important to use copy instead of swap
             return   
         nums.sort()
         dfs(0,nums.copy())
