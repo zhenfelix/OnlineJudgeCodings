@@ -110,3 +110,28 @@ class Solution:
 
 # Priority queue using min-heap to find the minimum heihgt at current boundary, from this point onwards, bfs neighboring area using normal queue while adding those higher than current minimum height to the outer priority queue to construct new boundary and others to the normal queue to contain water with current minimum height.
 
+
+
+
+class Solution:
+    def trapRainWater(self, heightMap: List[List[int]]) -> int:
+        n, m =  len(heightMap), len(heightMap[0])
+        q = []
+        q += [(heightMap[i][0],i,0)for i in range(n)]
+        q += [(heightMap[i][m-1],i,m-1) for i in range(n)]
+        q += [(heightMap[0][j],0,j) for j in range(1,m-1)]
+        q += [(heightMap[n-1][j],n-1,j) for j in range(1,m-1)]
+        heapq.heapify(q)
+        h, res, inHeap = 0, 0, set([(i,j) for _,i,j in q])
+        while q:
+            cur, i, j  =  heapq.heappop(q)
+            # print(cur,i,j,h,res)
+            h = max(h, cur)
+            res += h - cur
+            for di, dj in [(0,1),(0,-1),(-1,0),(1,0)]:
+                di += i
+                dj += j
+                if (di,dj) not in inHeap and 0 <= di < n and 0 <= dj < m:
+                    heapq.heappush(q,(heightMap[di][dj],di,dj))
+                    inHeap.add((di,dj))
+        return res 
