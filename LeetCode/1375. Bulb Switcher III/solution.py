@@ -21,3 +21,13 @@ class Solution:
             right = max(right, a)
             res += right == i
         return res
+
+
+class Solution:
+    def numTimesAllBlue(self, light: List[int]) -> int:
+        mx, res = 0, 0
+        for i, a in enumerate(light):
+            mx = max(mx, a)
+            if mx == i + 1:
+                res += 1
+        return res
