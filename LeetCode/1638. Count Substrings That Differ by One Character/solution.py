@@ -17,7 +17,6 @@ class Solution:
 
 
 
-
 from functools import lru_cache
 class Solution:
     def countSubstrings(self, s: str, t: str) -> int:

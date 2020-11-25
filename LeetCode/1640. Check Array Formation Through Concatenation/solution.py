@@ -9,6 +9,7 @@ class Solution:
         for piece in pieces:
             for i, a in enumerate(piece):
                 if i:
-                    if mp[piece[i]] < mp[piece[i-1]]:
+                    # if mp[piece[i]] < mp[piece[i-1]]:
+                    if mp[piece[i]] != mp[piece[i-1]] + 1:
                         return False 
         return True
