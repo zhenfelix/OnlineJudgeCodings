@@ -34,3 +34,34 @@ class Solution:
         return results
                     
             
+
+class Solution:
+    def threeSum(self, nums):
+        ht={}
+        nums.sort()
+        ans=set()
+        for i,n in enumerate(nums):
+            ht[n]=i
+        for i in range(len(nums)):
+            for j in range(i+1,len(nums)):
+                target=-(nums[i]+nums[j])
+                if target in ht and ht[target]>j:
+                    ans.add((nums[i],nums[j],-(nums[i]+nums[j])))
+                    
+        return list(ans)        
+
+class Solution:
+    def threeSum(self, nums):
+        nums.sort()
+        res = []
+        mp = {v: i for i, v in enumerate(nums)}
+        for i in range(len(nums)):
+            if i and nums[i] == nums[i-1]:
+                continue
+            for j in range(i+1,len(nums)):
+                if j > i+1 and nums[j] == nums[j-1]:
+                    continue
+                target=-(nums[i]+nums[j])
+                if target in mp and mp[target]>j:
+                    res.append([nums[i],nums[j],target])
+        return res

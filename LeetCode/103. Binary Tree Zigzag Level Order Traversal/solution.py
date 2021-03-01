@@ -69,3 +69,29 @@ class Solution:
             flag *= (-1)
         return res
 
+
+class Solution:
+    def zigzagLevelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        res, cur = [], [root]
+        reverse = False
+        while cur:
+            nxt = []
+            res.append([])
+            n = len(cur)
+            for i in range(n):
+                left = cur[i].left if cur[i].left else None
+                right = cur[i].right if cur[i].right else None
+                if reverse:
+                    left, right = right, left
+                if left:
+                    nxt.append(left)
+                if right:
+                    nxt.append(right)
+                res[-1].append(cur[i].val)
+            cur = nxt[::-1]
+            reverse = not reverse
+        return res 
+
+

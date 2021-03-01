@@ -24,6 +24,17 @@ class Solution:
 	            out += e,
 	    return out
 
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        intervals.sort(key = lambda x: x[1])
+        st = [[-float('inf'), -float('inf')]]
+        for s, e in intervals:
+            while st and s <= st[-1][-1]:
+                pre, _ = st.pop()
+                s = min(s,pre)
+            st.append([s,e])
+            
+        return st[1:]
 
 
 # class Solution:

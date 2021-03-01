@@ -101,3 +101,17 @@ class Solution:
             dp = newdp
                     
         return dp[n-1]
+
+
+# class Solution:
+#     def longestPalindromeSubseq(self, s):
+#         n = len(s)
+#         dp = [[0]*(n+1) for _ in range(n+1)]
+#         for i in range(n)[::-1]:
+#             pos = {}
+#             for j in range(i,n):
+#                 if s[j] not in pos:
+#                     pos[s[j]] = j 
+#                 left, right = pos[s[j]]+1, j-1
+#                 dp[i][j] = max(dp[i][j-1],dp[left][right]+2+min(right-left+1,0))
+#         return dp[0][n-1]

@@ -1,3 +1,29 @@
+# notice binary search in a stepwise ascending function
+class Solution:
+    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
+        n, m = len(matrix), len(matrix[0])
+        lo, hi = matrix[0][0], matrix[-1][-1]
+        while lo <= hi:
+            mid = (lo+hi)//2
+            cnt = 0
+            j = m - 1
+            for i in range(n):
+                while j >= 0 and matrix[i][j] > mid:
+                    j -= 1
+                cnt += j + 1
+                if cnt >= k:
+                    break
+            # print(lo,hi,mid,cnt)
+            if cnt >= k:
+                hi = mid - 1
+            else:
+                lo = mid + 1
+            
+        # print(lo,hi,cnt)
+        return lo
+
+
+
 # class Solution:
 #     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
 #         n = len(matrix)

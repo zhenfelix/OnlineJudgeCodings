@@ -57,3 +57,22 @@ class Solution:
                 heapq.heappop(q)
             heapq.heappush(q,end)
         return len(q)
+
+
+import heapq
+class Solution:
+    """
+    @param intervals: an array of meeting time intervals
+    @return: the minimum number of conference rooms required
+    """
+    def minMeetingRooms(self, intervals):
+        # Write your code here
+        intervals.sort(key=lambda x: x.start)
+        q, res = [], 0
+        for x in intervals:
+            start, end = x.start, x.end
+            heapq.heappush(q,end)
+            while q[0] <= start: #think it as a sliding window
+                heapq.heappop(q)
+            res = max(res,len(q))
+        return res

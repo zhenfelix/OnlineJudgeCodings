@@ -18,6 +18,33 @@ class Solution:
         cnt += self.reversePairs(right)
         return cnt
 
+class Solution:
+    def reversePairs(self, nums: List[int]) -> int:
+        tmp = [0]*len(nums)
+        def merge(left,right):
+            
+            if left >= right:
+                return 0
+            mid = (left+right)//2
+            cnt = 0
+            cnt += merge(left,mid)
+            cnt += merge(mid+1,right)
+            i, j = left, mid+1
+            # print(left,right,cnt)
+            for k in range(left,right+1):
+                if i <= mid and (j > right or nums[i] <= nums[j]):
+                    tmp[k] = nums[i]
+                    cnt += j-mid-1
+                    # print(i,j)
+                    i += 1
+                else:
+                    tmp[k] = nums[j]
+                    j += 1
+            for k in range(left,right+1):
+                nums[k] = tmp[k]
+            # print(left,right,cnt)
+            return cnt
+        return merge(0,len(nums)-1)
 
 
 class Solution:
