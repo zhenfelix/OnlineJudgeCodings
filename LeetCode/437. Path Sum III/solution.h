@@ -113,3 +113,73 @@ class Solution{
 // I used global variable count, but obviously we can avoid global variable by passing the count from bottom up. The time complexity is O(n). This is my first post in discuss, open to any improvement or criticism. :)
 
 // WARNING for the HashMap, you should use reference, otherwise, it will cost you a lot time and space
+
+
+class Solution {
+public:
+    int dfs(TreeNode* root, int sum){
+        if(!root)return 0;
+        // sum -= root->val
+        return (root->val == sum ? 1: 0) + dfs(root->left, sum-root->val) + dfs(root->right, sum-root->val);
+    }
+        
+        
+    int pathSum(TreeNode* root, int sum) {
+        if(!root)return 0;
+        // printf("%d %d %d\n",dfs(root,sum),root->val,sum);
+        return dfs(root,sum) + pathSum(root->left,sum) + pathSum(root->right,sum);
+        
+    }
+};
+
+
+class Solution {
+public:
+    void dfs(TreeNode* root, int target, int presum, unordered_map<int,int> &cnt, int &res){
+        if(!root)return;
+        presum += root->val;
+        res += cnt[presum-target];
+        cnt[presum]++;
+        dfs(root->left,target,presum,cnt,res);
+        dfs(root->right,target,presum,cnt,res);
+        cnt[presum]--;
+        return;
+        }
+        
+        
+    int pathSum(TreeNode* root, int sum) {
+        if(!root)return 0;
+        int res = 0;
+        unordered_map<int,int> cnt;
+        cnt[0] = 1;
+        dfs(root,sum,0,cnt,res);
+        return res;
+        
+    }
+};
+
+
+class Solution {
+public:
+    int pathSum(TreeNode* root, int sum) {
+        unordered_map<int, int> m;
+        m[0]++;
+        
+        int total = 0;
+        helper(root, 0, sum, total, m);
+        return total;
+    }
+    
+    void helper(TreeNode *p, int cur, int sum, int &total, unordered_map<int, int> &m) {
+        if (!p) return;
+        
+        cur += p->val;
+        if (m.find(cur - sum) != m.end()) total += m[cur - sum];
+        m[cur]++;
+        
+        helper(p->left, cur, sum, total, m);
+        helper(p->right, cur, sum, total, m);
+        
+        m[cur]--;
+    }
+};

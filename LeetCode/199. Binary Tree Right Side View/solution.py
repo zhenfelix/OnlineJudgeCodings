@@ -50,3 +50,21 @@ class Solution:
                     q.append(n.right)
         return results
                 
+
+class Solution:
+    def rightSideView(self, root: TreeNode) -> List[int]:
+        if not root:
+            return []
+        q = [root]
+        res = []
+        while q:
+            print(q)
+            res.append(q[-1].val)
+            tmp = []
+            for cur in q:
+                if cur.left:
+                    tmp.append(cur.left)
+                if cur.right:
+                    tmp.append(cur.right)
+            q = tmp
+        return res

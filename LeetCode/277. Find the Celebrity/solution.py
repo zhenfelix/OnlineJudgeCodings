@@ -44,3 +44,28 @@ class Solution(object):
             if not knows(i,candidate) or knows(candidate,i):
                 return -1
         return candidate
+
+# The knows API is already defined for you.
+# return a bool, whether a knows b
+# def knows(a: int, b: int) -> bool:
+
+class Solution:
+    def findCelebrity(self, n: int) -> int:
+        candidates = set([i for i in range(n)])
+        while len(candidates) > 1:
+            a, b = candidates.pop(), candidates.pop()
+            ab, ba = knows(a,b), knows(b,a)
+            if ab ^ ba:
+                if ab:
+                    candidates.add(b)
+                else:
+                    candidates.add(a)
+        if not candidates:
+            return -1
+        cur = candidates.pop()
+        for i in range(n):
+            if i == cur:
+                continue
+            if knows(cur,i) or not knows(i,cur):
+                return -1
+        return cur

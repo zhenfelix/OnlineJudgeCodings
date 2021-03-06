@@ -60,3 +60,21 @@ public:
         return ans;
     }
 };
+
+class Solution {
+public:
+    int sumNumbers(TreeNode* root) {
+        int res = 0;
+        dfs(root,0,res);
+        return res;
+    }
+    void dfs(TreeNode* root, int sum, int &res){
+        if(!root)return;
+        sum *= 10;
+        sum += root->val;
+        if(!root->left && !root->right)res += sum;
+        dfs(root->left,sum,res);
+        dfs(root->right,sum,res);
+        return;
+    }
+};
