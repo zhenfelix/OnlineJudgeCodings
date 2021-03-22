@@ -84,3 +84,40 @@ public:
         return res;
     }
 };
+
+
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> res;
+        stack<TreeNode*> st;
+        vector<int> path;
+        int sums=0;
+        if(!root)return res;
+        st.push(root);
+
+        TreeNode *last=root;
+        while(!st.empty()){
+            TreeNode *cur=st.top();
+            // cout << cur->val << " " << sums << endl;
+            if((!cur->left && !cur->right) || (cur->left==last || cur->right==last)){
+                if(!cur->left && !cur->right){
+                    sums += cur->val;
+                    path.push_back(cur->val);
+                    if(sums==targetSum)res.push_back(path);
+                }
+                sums -= cur->val;
+                path.pop_back();
+                st.pop();
+                last=cur;
+            }
+            else{
+                sums += cur->val;
+                path.push_back(cur->val);
+                if(cur->right)st.push(cur->right);
+                if(cur->left)st.push(cur->left);
+            }
+        }
+        return res;
+    }
+};

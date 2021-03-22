@@ -17,3 +17,20 @@ public:
         return max(rest[n - 1], sell[n - 1]);
     }
 };
+
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        vector<int> ready(2,0), hold(2,0), sell(2,0);
+        int n = prices.size();
+        for(int i=0;i<n;i++){
+            int idx = i&1;
+            ready[idx] = max(ready[idx^1],sell[idx^1]);
+            hold[idx] = ready[idx^1];
+            if(i>0)hold[idx] = max(hold[idx], hold[idx^1]+prices[i]-prices[i-1]);
+            sell[idx] = hold[idx];
+        }
+        return max(sell[(n-1)&1],ready[(n-1)&1]);
+    }
+};

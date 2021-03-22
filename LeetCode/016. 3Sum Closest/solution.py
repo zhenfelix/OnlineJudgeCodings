@@ -32,3 +32,25 @@ class Solution:
             return
         dfs(0,3,target,0)
         return ans[0]
+
+
+
+
+class Solution:
+    def threeSumClosest(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        n = len(nums)
+        res = sum(nums[:3])
+        for i in range(n):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            t = target-nums[i]
+            left, right = i+1, n-1
+            while left < right:
+                if abs(nums[left]+nums[right]-t) < abs(res-target):
+                    res = nums[i] + nums[left] + nums[right]
+                if nums[left] + nums[right] > t:
+                    right -= 1
+                else:
+                    left += 1
+        return res

@@ -19,3 +19,14 @@ s = Solution()
 sr = "abcabcbb"
 
 s.lengthOfLongestSubstring(sr)
+
+
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        dp, res, n = 0, 0, len(s)
+        last = [-1]*256
+        for i in range(n):
+            dp = max(dp, last[ord(s[i])]+1)
+            res = max(res, i-dp+1)
+            last[ord(s[i])] = i
+        return res

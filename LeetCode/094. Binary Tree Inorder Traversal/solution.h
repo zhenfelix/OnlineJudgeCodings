@@ -22,3 +22,58 @@ public:
         return ans;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        std::vector<int> res;
+        stack<TreeNode*> st;
+        TreeNode* cur=root;
+        while(!st.empty() || cur){
+            if(cur){
+                // cout<<cur->val<<endl;
+                
+                st.push(cur);
+                cur=cur->left;
+            }
+            else{
+                // cout<<"null"<<st.top()->val<<endl;
+                cur=st.top();
+                res.push_back(cur->val);
+                st.pop();
+                cur=cur->right;
+            }
+        }
+        return res;
+    }
+};
+
+// Morris
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        std::vector<int> res;
+        TreeNode* cur=root;
+        while(cur){
+            if(cur->left){
+                TreeNode *right=cur->left;
+                while(right->right && right->right!=cur)right=right->right;
+                if(!right->right){
+                    right->right=cur;
+                    cur=cur->left;
+                }
+                else{
+                    right->right=nullptr;
+                    res.push_back(cur->val);
+                    cur=cur->right;
+                }
+            }
+            else{
+                res.push_back(cur->val);
+                cur=cur->right;
+            }
+        }
+        return res;
+    }
+};

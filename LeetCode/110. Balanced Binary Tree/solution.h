@@ -52,3 +52,28 @@ int dfsHeight (TreeNode *root) {
         return dfsHeight (root) != -1;
     }
 };
+
+
+class Solution {
+public:
+    bool dfs(TreeNode* root, int &depth){
+        if(!root){
+            depth=0;
+            return true;
+        }
+        int left_d, right_d;
+        bool left=dfs(root->left,left_d);
+        bool right=dfs(root->right,right_d);
+
+        if(left&&right){
+            if(abs(left_d-right_d)>1)return false;
+            depth=max(left_d,right_d)+1;
+            return true;
+        }
+        return false;
+    }
+    bool isBalanced(TreeNode* root) {
+        int depth;
+        return dfs(root,depth);
+    }
+};
