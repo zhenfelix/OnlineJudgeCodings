@@ -33,3 +33,38 @@ public:
     }
 };
 
+
+
+class Solution {
+public:
+    static constexpr int maxn = (1<<10)+5;
+    static constexpr int inf = 0x3f3f3f3f;
+    int dp[maxn], ndp[maxn];
+    int minChanges(vector<int>& nums, int k) {
+        int n = nums.size();
+        memset(dp, inf, sizeof(int)*maxn);
+        dp[0] = 0;
+        for (int i = 0; i < k; i++){
+            unordered_map<int,int> cnt;
+            int total = 0;
+            for (int j = i; j < n; j += k){
+                if (cnt.find(nums[j]) == cnt.end())
+                    cnt[nums[j]] = 0;
+                cnt[nums[j]] += 1;
+                total++;
+            }
+            int mi = *min_element(dp, dp+maxn);
+            memset(ndp, inf, sizeof(int)*maxn);
+            for (int x = 0; x < (1<<10); x++){
+                ndp[x] = mi + total;
+                for (const auto& [k, v] : cnt){
+                    ndp[x] = min(ndp[x], dp[x^k]+total-v);
+                }
+            }
+            swap(dp, ndp);
+
+        }
+        return dp[0];
+        
+    }
+};

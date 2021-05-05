@@ -37,6 +37,25 @@ class Solution:
         return st[1:]
 
 
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        res = []
+        points = []
+
+        for s, e in intervals:
+            points.append([s,1])
+            points.append([e,-1])
+        points.sort(key = lambda x: (x[0],-x[1]))
+        cnt = 0
+        for p, delta in points:
+            cnt += delta
+            if cnt == 1 and delta > 0:
+                res.append([p])
+            elif cnt == 0:
+                res[-1].append(p)
+        return res 
+
+
 # class Solution:
 #     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
 #         intervals.sort(key = lambda x: (x[1],x[0]))
