@@ -1,11 +1,15 @@
 from threading import Thread
 from threading import Condition
 from threading import current_thread
+from threading import Lock
 import time
 import random
 
 
-class BlockingQueue:
+from threading import Condition
+
+
+class BoundedBlockingQueue(object):
 
     def __init__(self, max_size):
         self.max_size = max_size
@@ -14,31 +18,29 @@ class BlockingQueue:
         self.q = []
 
     def dequeue(self):
-
-        self.cond.acquire()
-        while self.curr_size == 0:
-            self.cond.wait()
-
-        item = self.q.pop(0)
-        self.curr_size -= 1
-
-        self.cond.notifyAll()
-        self.cond.release()
+        with self.cond:
+            while self.curr_size == 0:
+                self.cond.wait()
+            item = self.q.pop(0)
+            self.curr_size -= 1
+            self.cond.notifyAll()
 
         return item
 
     def enqueue(self, item):
+        with self.cond:
+            while self.curr_size == self.max_size:
+                self.cond.wait()
+            self.q.append(item)
+            self.curr_size += 1
+            self.cond.notifyAll()
+            # print("\ncurrent size of queue {0}".format(self.curr_size), flush=True)
+    
+    
+    def size(self):
+        return self.curr_size
 
-        self.cond.acquire()
-        while self.curr_size == self.max_size:
-            self.cond.wait()
 
-        self.q.append(item)
-        self.curr_size += 1
-
-        self.cond.notifyAll()
-        print("\ncurrent size of queue {0}".format(self.curr_size), flush=True)
-        self.cond.release()
 
 
 def consumer_thread(q):
@@ -57,7 +59,7 @@ def producer_thread(q, val):
 
 
 if __name__ == "__main__":
-    blocking_q = BlockingQueue(5)
+    blocking_q = BoundedBlockingQueue(5)
 
     consumerThread1 = Thread(target=consumer_thread, name="consumer-1", args=(blocking_q,), daemon=True)
     consumerThread2 = Thread(target=consumer_thread, name="consumer-2", args=(blocking_q,), daemon=True)
