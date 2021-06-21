@@ -92,10 +92,8 @@ public:
             int bit_x = (x>>i)&1;
             if (bit_hi){
                 cnt += tree[cur*2+1+bit_x];
-                cur = cur*2+1+(1^bit_x);
             }
-            else
-                cur = cur*2+1+bit_x;
+            cur = cur*2+1+(bit_x^bit_hi);
         }
         return cnt;
     }

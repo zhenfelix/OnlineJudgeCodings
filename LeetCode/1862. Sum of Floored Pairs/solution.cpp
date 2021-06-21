@@ -23,3 +23,26 @@ public:
     }
 };
 
+const int maxn = 1e5+5;
+
+class Solution {
+public:
+    int sumOfFlooredPairs(vector<int>& nums) {
+        vector<int> cnt(maxn, 0), presums(maxn, 0);
+        int res = 0, MOD = 1e9+7;
+        for(auto &x : nums)
+            cnt[x]++;
+        for (int i = 1; i < maxn; i++)
+            presums[i] = presums[i-1] + cnt[i];
+        for(int i = 1; i < maxn; i++){
+            if (cnt[i] == 0)
+                continue;
+            for (int j = i; j < maxn; j += i){
+                int tmp = (long long) cnt[i]*(presums[min(j+i-1,maxn-1)]-presums[j-1])*j/i%MOD;
+                res += tmp;
+                res %= MOD;
+            }
+        }
+        return res;
+    }
+};
