@@ -7,4 +7,7 @@ class Solution:
         if f < s:
             f += 24*60
         rs, rf = (s-1)//15+1, f//15
-        return rf-rs
+        return max(rf-rs,0)
+        # return rf-rs
+        # "00:16"
+        # "00:17"
