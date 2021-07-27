@@ -183,3 +183,29 @@ public:
         m[cur]--;
     }
 };
+
+
+
+// class Solution {
+// public:
+//     void dfs(TreeNode* root, int target, int presum, int sum, int &res){
+//         if(!root)return;
+//         presum += root->val;
+//         if (presum == sum)
+//             res++;
+//         dfs(root->left,target,presum,sum,res);
+//         dfs(root->right,target,presum,sum,res);
+//         return;
+//         }
+        
+        
+//     int pathSum(TreeNode* root, int sum) {
+//         if(!root)return 0;
+//         int res = 0;
+//         dfs(root,sum,0,sum,res);
+//         res += pathSum(root->left, sum);
+//         res += pathSum(root->right, sum);
+//         return res;
+        
+//     }
+// };
