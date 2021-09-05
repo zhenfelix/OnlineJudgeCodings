@@ -1,40 +1,20 @@
-# class Solution:
-#     def stoneGameVIII(self, stones: List[int]) -> int:
-#         n = len(stones)
-#         presums = [0]
-#         for stone in stones:
-#             presums.append(presums[-1]+stone)
-#         if n == 2:
-#             return presums[-1]
-#         dp = [0]*n
-#         f = [-float('inf')]*n
-#         f[-1] = presums[n]-dp[n-1]
-#         for i in range(n-1)[::-1]:
-#             dp[i] = f[i+1]
-#             f[i] = max(f[i+1], presums[i+1]-dp[i])
-#         # print(presums)
-#         # print(dp)
-#         # print(f)
-#         return f[0]
-#WA Solution
-# [32,-10,-12]
-
-
 class Solution:
-    def stoneGameVIII(self, stones: List[int]) -> int:
-        n = len(stones)
-        presums = [0]
-        for stone in stones:
-            presums.append(presums[-1]+stone)
-        # if n == 2:
-        #     return presums[-1]
-        dp = [0]*n
-        f = [-float('inf')]*n
-        f[-1] = presums[n]-dp[n-1]
-        for i in range(n-1)[::-1]:
-            dp[i] = f[i+1]
-            f[i] = max(f[i+1], presums[i+1]-dp[i])
-        # print(presums)
-        # print(dp)
-        # print(f)
-        return dp[0]
+    def canReach(self, s: str, minJump: int, maxJump: int) -> bool:
+        n = len(s)
+        if s[n-1] == '1':
+            return False
+        q = deque()
+        q.append(0)
+        reach = 0
+        while q:
+            cur = q.popleft()
+            if cur == n-1:
+                return True
+            mi = max(reach+1,cur+minJump)
+            mx = min(n,cur+maxJump+1)
+            for nxt in range(mi, mx):
+                if s[nxt] == '0':
+                    q.append(nxt)
+                reach = max(reach, nxt)
+        return False
+

@@ -144,3 +144,44 @@ public:
 // 链接：https://leetcode-cn.com/circle/discuss/7QlTIV/view/2CLPG9/
 // 来源：力扣（LeetCode）
 // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+class Solution {
+public:
+    int largestPathValue(string colors, vector<vector<int>>& edges) {
+        int n = colors.length(), res = 0;
+        vector<vector<int>> dp(n, vector<int>(26,0)), graph(n);
+        for (int i = 0; i < n; i++){
+            dp[i][colors[i]-'a']++;
+        }
+        vector<int> degree(n,0), q;
+        for (auto edge : edges){
+            int u = edge[0], v = edge[1];
+            graph[u].push_back(v);
+            degree[v]++;
+        }
+        int cnt = 0;
+        for (int i = 0; i < n; i++)
+            if (degree[i] == 0){
+                q.push_back(i);
+                cnt++;
+            }
+        while (!q.empty()){
+            int cur = q.back();q.pop_back();
+            for (int i = 0; i < 26; i++)
+                res = max(res, dp[cur][i]);
+            for (auto nxt : graph[cur]){
+                for (int i = 0; i < 26; i++){
+                    dp[nxt][i] = max(dp[nxt][i], dp[cur][i]+(colors[nxt]-'a'==i));
+                }
+                degree[nxt]--;
+                if (degree[nxt] == 0){
+                    q.push_back(nxt);
+                    cnt++;
+                }
+            }
+        }
+        return cnt < n ? -1 : res;
+
+    }
+};

@@ -32,3 +32,54 @@ public:
         return mask | (color << (2 * pos));
     }
 };
+
+
+
+class Solution
+{
+public:
+    int colorTheGrid(int m, int n)
+    {
+        int MOD = 1e9+7;
+        vector<pair<int, int>> valids;
+        map<pair<int, int>, int> dp, ndp;
+        int mask = (1 << m) - 1;
+        for (int r = 0; r <= mask; r++)
+        {
+            for (int b = 0; b <= mask; b++)
+            {
+                int g = (mask ^ r) & (mask ^ b);
+                if (r & b || (r >> 1) & r || (b >> 1) & b || (g >> 1) & g)
+                    continue;
+                valids.push_back({r, b});
+                dp[{r, b}] = 1;
+                // cout << r << " " << b << endl;
+            }
+        }
+        for (int i = 1; i < n; i++)
+        {
+            for (auto &[cur_r, cur_b] : valids)
+            {
+                int cur_g = (mask ^ cur_r) & (mask ^ cur_b);
+                for (auto &[nxt_r, nxt_b] : valids)
+                {
+                    int nxt_g = (mask ^ nxt_r) & (mask ^ nxt_b);
+                    if (cur_r & nxt_r || cur_b & nxt_b || cur_g & nxt_g)
+                        continue;
+                    ndp[{nxt_r, nxt_b}] += dp[{cur_r, cur_b}];
+                    ndp[{nxt_r, nxt_b}] %= MOD;
+                }
+            }
+            swap(dp, ndp);
+            ndp.clear();
+        }
+        int res = 0;
+        for (auto &[k, v] : dp)
+        {
+            // cout << k.first << " " << k.second << " " << v << endl;
+            res += v;
+            res %= MOD;
+        }
+        return res;
+    }
+};

@@ -22,6 +22,28 @@ public:
 // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 
 
+class Solution {
+public:
+    int minimumXORSum(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size();
+        vector<int> dp(1<<n, INT_MAX);
+        dp[0] = 0;
+        for (int i = 1; i < (1<<n); i++){
+            int cnt = __builtin_popcount(i);
+            for (int j = 0; j < n; j++){
+                if ((i>>j) & 1){
+                    dp[i] = min(dp[i], dp[i-(1<<j)]+(nums1[cnt-1]^nums2[j]));
+                }
+            }
+        }
+        return dp.back();
+    }
+};
+
+
+
+
+
 
 const static int INF = 0x3f3f3f3f;
 const static int maxn = 20;

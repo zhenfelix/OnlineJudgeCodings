@@ -46,3 +46,27 @@ public:
         return res;
     }
 };
+
+
+
+// class Solution {
+// public:
+//     int sumOfFlooredPairs(vector<int>& nums) {
+//         sort(nums.begin(), nums.end());
+//         long long res = 0;
+//         int MOD = 1e9+7;
+//         int n = nums.size();
+//         for (int i = 0; i < n; i++){
+//             int pre = lower_bound(nums.begin(), nums.end(), nums[i]) - nums.begin();;
+//             for (int j = 2;;j++){
+//                 int cur = lower_bound(nums.begin(), nums.end(), nums[i]*j) - nums.begin();
+//                 res += (long long) (j-1)*(cur-pre);
+//                 res %= MOD;
+//                 pre = cur;
+//                 if (cur >= n)
+//                     break;
+//             }
+//         }
+//         return res;
+//     }
+// };

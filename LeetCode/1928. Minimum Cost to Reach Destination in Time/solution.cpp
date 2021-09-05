@@ -85,3 +85,48 @@ public:
 // 链接：https://leetcode-cn.com/problems/minimum-cost-to-reach-destination-in-time/solution/gui-ding-shi-jian-nei-dao-da-zhong-dian-n3ews/
 // 来源：力扣（LeetCode）
 // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+const int INF = 0x3f3f3f3f;
+
+class Solution {
+public:
+    int minCost(int maxTime, vector<vector<int>>& edges, vector<int>& passingFees) {
+        int n = passingFees.size();
+        vector<unordered_map<int, int>> adj(n);
+        for (auto &edge : edges) {
+            int u = edge[0], v = edge[1], w = edge[2];
+            if (w > maxTime)
+                continue;
+            if (!adj[u].count(v) || adj[u][v] > w)
+                adj[u][v] = w;
+            if (!adj[v].count(u) || adj[v][u] > w)
+                adj[v][u] = w;
+        }
+        
+        int T = maxTime + 1;
+        vector<int> times(n, INF);
+        times[0] = 0;
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> pq;
+        pq.emplace(passingFees[0], 0, 0);
+        while (!pq.empty()) {
+            auto [d, t, u] = pq.top();
+            pq.pop();
+            
+            if (t > maxTime)
+                continue;
+            if (u == n-1)
+                return d;
+            
+            for (auto [v, w] : adj[u]) {
+                if (t + w < times[v]) {
+                    times[v] = t+w;
+                    pq.emplace(d+passingFees[v], times[v], v);
+                }
+            }
+        }
+        
+        return -1;
+    }
+};

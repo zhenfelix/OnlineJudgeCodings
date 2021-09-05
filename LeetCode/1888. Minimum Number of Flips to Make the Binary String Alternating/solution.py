@@ -11,8 +11,9 @@ class Solution:
             res = min(res, mat[0][0]+mat[1][1])
             res = min(res, mat[0][1]+mat[1][0])
             mat[0][s[i]] -= 1
-            mat[0][0], mat[1][0] = mat[1][0], mat[0][0]
+            mat[0][0], mat[1][0] = mat[1][0], mat[0][0] 
             mat[0][1], mat[1][1] = mat[1][1], mat[0][1]
+            # odd and even positions are flipped when moving the first element to the end
             mat[(n-1)&1][s[i]] += 1
         return res
 
