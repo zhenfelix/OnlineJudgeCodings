@@ -1,3 +1,41 @@
+class Solution {
+public:
+    bool canDistribute(vector<int>& nums, vector<int>& quantity) {
+        int n = quantity.size();
+        unordered_map<int,int> cc;
+        for (auto x : nums)
+            cc[x]++;
+        vector<int> arr;
+        for (auto [k,v] : cc)
+            arr.push_back(v);
+        int m = arr.size();
+        vector<bool> dp(1<<n,false);
+        vector<int> sums(1<<n,0);
+        // sort(arr.begin(), arr.end(), greater<>());
+        // sort(quantity.begin(), quantity.end());
+        for (int s = 0; s < (1<<n); s++){
+            for (int j = 0; j < n; j++)
+                if ((s>>j)&1)
+                    sums[s] += quantity[j];
+        }
+        dp[0] = true;
+        for (int i = 0; i < m; i++){
+            
+            for (int mask = (1<<n)-1; mask; mask--){
+                for (int s = mask;; s = (s-1)&mask){
+                    if (dp[s] && (sums[mask^s] <= arr[i])){
+                        dp[mask] = true;
+                        break;
+                    }
+                    if (s == 0)
+                        break;
+                }
+            }
+        }
+        return dp.back();
+    }
+};
+
 // class Solution {
 // public:
 //     int n;

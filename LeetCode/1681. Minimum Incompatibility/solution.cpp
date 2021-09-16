@@ -1,3 +1,53 @@
+const int inf = 0x3f3f3f3f;
+
+class Solution {
+public:
+    int minimumIncompatibility(vector<int>& nums, int k) {
+        int n = nums.size();
+        int cnt = n/k;
+        vector<int> cost(1<<n,-1);
+        for (int s = 0; s < (1<<n); s++)
+            if (__builtin_popcount(s) == cnt){
+                vector<int> freq(n+1,0);
+                bool flag = true;
+                int mi = n+1, mx = 0;
+                for (int j = 0; j < n; j++)
+                    if ((s>>j)&1){
+                        if ((++freq[nums[j]]) > 1){
+                            flag = false;
+                            break;
+                        }
+                        mi = min(mi,nums[j]);
+                        mx = max(mx,nums[j]);
+                    }
+                if (flag)
+                    cost[s] = mx-mi;
+            }
+
+        vector<int> dp(1<<n,inf);
+        dp[0] = 0;
+        for (int mask = 1; mask < (1<<n); mask++){
+            if (__builtin_popcount(mask)%cnt == 0){
+                for (int s = mask; s; s = (s-1)&mask){
+                    if (cost[s] != -1 && dp[s^mask] < inf){
+                        dp[mask] = min(dp[mask], cost[s]+dp[s^mask]);
+                    }
+                }
+            }
+        }
+        return dp.back() == inf ? -1 : dp.back();
+    }
+};
+
+
+
+
+
+
+
+
+
+
 class Solution {
 public:
     int minimumIncompatibility(vector<int>& nums, int k) {

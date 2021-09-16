@@ -1,5 +1,54 @@
 // class Solution {
 // public:
+//     int maxValue(vector<vector<int>>& events, int K) {
+//         int n = events.size();
+//         vector<tuple<int,int,int>> arr;
+//         for (auto e : events){
+//             arr.push_back({e[1],e[0],e[2]});
+//         }
+//         sort(arr.begin(), arr.end());
+//         vector<int> dp(n,0), ndp(n,0);
+//         for (int k = 1; k <= K; k++){
+//             for (int i = 0; i < n; i++){
+//                 ndp[i] = max(dp[i], (i > 0 ? ndp[i-1] : 0));
+//                 auto it = lower_bound(arr.begin(), arr.end(), tuple<int,int,int>{get<1>(arr[i]),0,0});
+//                 ndp[i] = max(ndp[i], (it == arr.begin() ? 0 : dp[(--it)-arr.begin()])+get<2>(arr[i]));
+//             }
+//             swap(dp, ndp);
+//         }
+//         return *max_element(dp.begin(), dp.end());
+//     }
+// };
+
+
+class Solution {
+public:
+    int maxValue(vector<vector<int>>& events, int K) {
+        int n = events.size();
+        vector<tuple<int,int,int>> arr;
+        for (auto e : events){
+            arr.push_back({e[1],e[0],e[2]});
+        }
+        sort(arr.begin(), arr.end());
+        vector<int> dp(n,0), ndp(n,0), pre(n);
+        for (int i = 0; i < n; i++){
+            auto it = lower_bound(arr.begin(), arr.end(), tuple<int,int,int>{get<1>(arr[i]),0,0});
+            pre[i] = it-arr.begin()-1;
+        }
+        for (int k = 1; k <= K; k++){
+            for (int i = 0; i < n; i++){
+                ndp[i] = max(dp[i], (i > 0 ? ndp[i-1] : 0));
+                ndp[i] = max(ndp[i], (pre[i] == -1 ? 0 : dp[pre[i]])+get<2>(arr[i]));
+            }
+            swap(dp, ndp);
+        }
+        return *max_element(dp.begin(), dp.end());
+    }
+};
+
+
+// class Solution {
+// public:
 //     vector<vector<unordered_map<int,int>>> memo;
 //     int maxValue(vector<vector<int>>& events, int k) {
 //         int n=events.size();

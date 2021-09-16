@@ -24,3 +24,52 @@ vector<int> countPairs(int n, vector<vector<int>>& edges, vector<int>& queries) 
     return res;
 }
 };
+
+
+class Solution
+{
+public:
+    vector<int> countPairs(int n, vector<vector<int>> &edges, vector<int> &queries)
+    {
+        vector<int> degree(n), idx(n), ans;
+        vector<map<int, int>> graph(n);
+        for (int i = 0; i < n; i++)
+            idx[i] = i;
+        for (auto e : edges)
+        {
+            degree[e[0]-1]++;
+            degree[e[1]-1]++;
+            graph[e[0]-1][e[1]-1]++;
+            graph[e[1]-1][e[0]-1]++;
+        }
+        sort(idx.begin(), idx.end(), [&](int a, int b)
+             { return degree[a] < degree[b]; });
+        for (auto q : queries)
+        {
+            int res = 0, right = n - 1;
+            vector<bool> seen(n, false);
+            for (int left = 0; left < n; left++)
+            {
+                while (left < right && degree[idx[left]] + degree[idx[right]] > q)
+                {
+                    seen[idx[right]] = true;
+                    right--;
+                }
+                if (left > right)
+                {
+                    right++;
+                    seen[idx[right]] = false;
+                }
+                res += n - 1 - right;
+
+                    for (auto [k, v] : graph[idx[left]])
+                    {
+                        if (degree[idx[left]] + degree[k] - v <= q && seen[k])
+                            res--;
+                    }
+            }
+            ans.push_back(res);
+        }
+        return ans;
+    }
+};

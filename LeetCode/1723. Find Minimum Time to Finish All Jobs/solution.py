@@ -92,3 +92,52 @@ class Solution:
             return res 
         return dfs(0,(1<<n)-1)
 
+
+
+
+class Solution:
+#     def minimumTimeRequired(self, A, k):
+#         n = len(A)
+#         A.sort(reverse=True) # opt 1
+#         self.res = sum(A)
+#         count = [0] * k
+
+#         def dfs(i):
+#             if i == n:
+#                 self.res = min(self.res, max(count))
+#                 return
+#             for j in range(k):
+#                 if count[j] + A[i] < self.res: # opt 3
+#                     count[j] += A[i]
+#                     dfs(i + 1)
+#                     count[j] -= A[i]
+#                 if count[j] == 0: break # opt 2
+#             return
+#         dfs(0)
+#         return self.res        
+
+
+    def minimumTimeRequired(self, A, k):
+        n = len(A)
+        A.sort(reverse=True) # opt 1
+
+        def dfs(i):
+            if i == n: return True # opt 3
+            for j in range(k):
+                if cap[j] >= A[i]:
+                    cap[j] -= A[i]
+                    if dfs(i + 1): return True
+                    cap[j] += A[i]
+                if cap[j] == x: break # opt 2
+            return False
+
+        # binary search
+        left, right = max(A), sum(A)
+        while left <= right:
+            x = (left + right) // 2
+            cap = [x] * k
+            if dfs(0):
+                right = x - 1
+            else:
+                left = x + 1
+        return left

@@ -1,3 +1,34 @@
+const int inf = 0x3f3f3f3f;
+const int maxn = 1<<10;
+
+class Solution {
+public:
+    int minChanges(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> tot(k), dp(maxn,inf), ndp(maxn,inf);
+        vector<unordered_map<int,int>> cnt(k);
+        dp[0] = 0;
+        for (int i = 0; i < n; i++){
+            tot[i%k]++;
+            cnt[i%k][nums[i]]++;
+        }
+        for (int i = 0; i < k; i++){
+            int min_dp = *min_element(dp.begin(), dp.end()) + tot[i];
+            for (int s = 0; s < maxn; s++){
+                ndp[s] = min_dp;
+                for (auto [k,v] : cnt[i]){
+                    ndp[s] = min(ndp[s], dp[s^k]+tot[i]-v);
+                }
+            }
+            swap(dp, ndp);
+        }
+        return dp[0];
+    }
+};
+
+
+
+
 const int INF = 0x3f3f3f3f;
 
 class Solution {

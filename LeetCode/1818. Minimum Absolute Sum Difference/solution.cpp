@@ -18,3 +18,26 @@ int minAbsoluteSumDiff(vector<int>& n1, vector<int>& n2) {
     return (res - gain) % 1000000007;
 }
 };
+
+class Solution {
+public:
+    int minAbsoluteSumDiff(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size(), MOD = 1e9+7;
+        long long tot = 0, res = LONG_MAX;
+        set<int> st(nums1.begin(), nums1.end());
+        for (int i = 0; i < n; i++){
+            tot += abs(nums1[i]-nums2[i]);
+        }
+        for (int i = 0; i < n; i++){
+            auto it = st.lower_bound(nums2[i]);
+            int delta = INT_MAX;
+            if (it != st.end())
+                delta = min(delta, *it - nums2[i]);
+            if (it != st.begin())
+                delta = min(delta, nums2[i] - *(--it));
+            res = min(res, tot+delta-abs(nums1[i]-nums2[i]));
+
+        }
+        return res%MOD;
+    }
+};

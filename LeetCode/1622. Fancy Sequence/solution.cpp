@@ -52,3 +52,61 @@ public:
  * obj->multAll(m);
  * int param_4 = obj->getIndex(idx);
  */
+
+
+
+using ll = long long;
+
+const int MOD = 1e9+7;
+
+class Fancy {
+public:
+    vector<ll> ks, bs, nums;
+    ll k, b;
+    Fancy() {
+        k = 1, b = 0;
+    }
+    
+    void append(int val) {
+        nums.push_back(val);
+        ks.push_back(k);
+        bs.push_back(b);
+    }
+    
+    void addAll(int inc) {
+        b = (b + inc)%MOD;
+    }
+    
+    void multAll(int m) {
+        b = (b*m)%MOD;
+        k = (k*m)%MOD;
+    }
+    
+    int getIndex(int idx) {
+        if (idx >= nums.size())
+            return -1;
+        ll k_ = (k*quickmul(ks[idx],MOD-2))%MOD;
+        ll b_ = (b - (k_*bs[idx])%MOD + MOD)%MOD;
+        return (nums[idx]*k_+b_)%MOD;
+    }
+
+    int quickmul(int a, int p){
+        int res = 1;
+        while (p){
+            if (p&1)
+                res = ((ll)res*a)%MOD;
+            a = ((ll)a*a)%MOD;
+            p >>= 1;
+        }
+        return res;
+    }
+};
+
+/**
+ * Your Fancy object will be instantiated and called as such:
+ * Fancy* obj = new Fancy();
+ * obj->append(val);
+ * obj->addAll(inc);
+ * obj->multAll(m);
+ * int param_4 = obj->getIndex(idx);
+ */

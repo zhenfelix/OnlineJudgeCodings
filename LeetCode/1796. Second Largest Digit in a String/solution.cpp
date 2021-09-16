@@ -11,3 +11,20 @@ public:
         return v[v.size() - 2];
     }
 };
+
+
+class Solution {
+public:
+    int secondHighest(string s) {
+        set<int> seen;
+        for (auto ch : s){
+            // cout << ch << endl;
+            if (ch >= '0' && ch <= '9')
+                seen.insert(ch-'0');
+        }
+            
+        if (seen.size() <= 1)
+            return -1;
+        return *(++seen.rbegin());
+    }
+};

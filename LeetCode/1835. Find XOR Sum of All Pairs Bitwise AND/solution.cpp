@@ -65,3 +65,12 @@ public:
     return res;
 }
 };
+
+class Solution{
+public:
+    int getXORSum(vector<int>& a, vector<int>& b) {
+        auto xo = [](int s, int i) { return s ^ i; };
+        int xa = accumulate(begin(a), end(a), 0, xo), xb = accumulate(begin(b), end(b), 0, xo);
+    return xa&xb;
+}
+};

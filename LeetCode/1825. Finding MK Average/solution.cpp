@@ -126,3 +126,98 @@ public:
     }
 };
 
+
+
+
+// class MKAverage {
+// public:
+//     int m, k;
+//     long long sums;
+//     multiset<int> top, bottom, mid;
+//     queue<int> q;
+//     MKAverage(int m_, int k_):
+//         m(m_), k(k_), sums(0)
+//     {
+
+//     }
+
+//     void remove(int num){
+//         auto it = mid.find(num);
+//         if (it != mid.end()){
+//             mid.erase(it);
+//             sums -= num;
+//             return;
+//         }
+//         it = bottom.find(num);
+//         if (it != bottom.end()){
+//             bottom.erase(it);
+//             if (!mid.empty()){
+//                 num = *mid.begin();
+//                 mid.erase(mid.begin());
+//                 sums -= num;
+//                 bottom.insert(num);
+//             }
+//             return;
+//         }
+//         it = top.find(num);
+//         if (it != top.end()){
+//             top.erase(it);
+//             if (!mid.empty()){
+//                 it = mid.end();
+//                 it--;
+//                 num = *it;
+//                 mid.erase(it);
+//                 sums -= num;
+//                 top.insert(num);
+//             }
+//             else if (!bottom.empty()){
+//                 it = bottom.end();
+//                 it--;
+//                 num = *it;
+//                 bottom.erase(it);
+//                 top.insert(num);
+//             }
+//             return;
+//         }
+//         return;
+//     }
+
+//     void add(int num){
+//         top.insert(num);
+//         if (top.size() <= k)
+//             return;
+//         num = *top.begin();
+//         top.erase(top.begin());
+//         bottom.insert(num);
+//         if (bottom.size() <= k)
+//             return;
+//         auto it = bottom.end();
+//         num = *(--it);
+//         bottom.erase(it);
+//         sums += num;
+//         mid.insert(num);
+//         return;
+//     }
+    
+//     void addElement(int num) {
+//         if (q.size() == m){
+//             remove(q.front());
+//             q.pop();
+//         }
+//         q.push(num);
+//         add(num);
+//     }
+    
+//     int calculateMKAverage() {
+//         if (q.size() < m)
+//             return -1;
+//         return sums/(m-k*2);
+//     }
+// };
+
+// /**
+//  * Your MKAverage object will be instantiated and called as such:
+//  * MKAverage* obj = new MKAverage(m, k);
+//  * obj->addElement(num);
+//  * int param_2 = obj->calculateMKAverage();
+//  */

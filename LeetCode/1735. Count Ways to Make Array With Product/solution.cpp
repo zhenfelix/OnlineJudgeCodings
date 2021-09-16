@@ -1,3 +1,73 @@
+using ll = long long;
+
+const int MOD = 1e9 + 7;
+const int maxn = 10020;
+vector<ll> fac(maxn, 1), ifac(maxn, 1);
+bool initialized = false;
+
+class Solution
+{
+public:
+    ll qucikmul(ll a, ll q)
+    {
+        ll res = 1;
+        while (q)
+        {
+            if (q & 1)
+                res = (res * a) % MOD;
+            q >>= 1;
+            a = (a * a) % MOD;
+        }
+        return res;
+    }
+    void init()
+    {
+        for (int i = 1; i < maxn; i++)
+            fac[i] = (i * fac[i - 1]) % MOD;
+        ifac[maxn - 1] = qucikmul(fac[maxn - 1], MOD - 2);
+        for (int i = maxn - 2; i >= 1; i--)
+            ifac[i] = ((i + 1) * ifac[i + 1]) % MOD;
+        initialized = true;
+    }
+    vector<int> waysToFillArray(vector<vector<int>> &queries)
+    {
+        if (!initialized)
+            init();
+        vector<int> ans;
+        for (auto query : queries)
+        {
+            int n = query[0], k = query[1], i = 2, cnt;
+            ll res = 1;
+            while ((k > 1) && (i <= k))
+            {
+                if ((k % i) == 0)
+                {
+                    cnt = 0;
+                    while ((k % i) == 0)
+                    {
+                        cnt++;
+                        k /= i;
+                    }
+                    res *= fac[cnt+n-1];
+                    res %= MOD;
+                    res *= ifac[cnt];
+                    res %= MOD;
+                    res *= ifac[n-1];
+                    res %= MOD;
+                }
+                i++;
+                
+            }
+            if (k > 1)
+                res = (res * n) % MOD;
+            ans.push_back(res);
+        }
+        return ans;
+    }
+};
+
+
+
 using LL = long long;
 
 class Solution {
@@ -146,3 +216,5 @@ public:
 链接：https://leetcode-cn.com/problems/count-ways-to-make-array-with-product/solution/dong-tai-gui-hua-xu-yao-yi-dian-dian-shu-2w2d/
 来源：力扣（LeetCode）
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
