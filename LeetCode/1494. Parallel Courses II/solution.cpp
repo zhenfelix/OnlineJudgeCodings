@@ -1,5 +1,37 @@
 class Solution {
 public:
+    int minNumberOfSemesters(int n, vector<vector<int>>& relations, int k) {
+        vector<int> dp(1<<n, n), graph(n,0), req(1<<n, 0);
+        unordered_map<int,int> mp;
+        dp[0] = 0;
+        for (auto r : relations){
+            int x = r[0], y = r[1];
+            x--;y--;
+            graph[y] |= (1<<x);
+        }
+        for (int j = 0; j < n; j++)
+            mp[1<<j] = j;
+        for (int s = 1; s < (1<<n); s++){
+            if (__builtin_popcount(s) > k)
+                continue;
+            req[s] = req[s&(s-1)]|graph[mp[s&-s]];
+        }
+        // dp[cur] bit mask cur course to do
+        for (int cur = 1; cur < (1<<n); cur++){
+            for (int s = cur; s; s = (s-1)&cur){
+                if (__builtin_popcount(s) > k || (req[s]&cur))
+                    continue;
+                dp[cur] = min(dp[cur], dp[cur^s]+1);
+            }
+        }
+        return dp.back();
+    }
+};
+
+
+
+class Solution {
+public:
     int minNumberOfSemesters(int n, vector<vector<int>>& dependencies, int k) {
         vector<int> pre(n);
         for(auto& e : dependencies){
@@ -9,6 +41,7 @@ public:
         }
         vector<int> dp(1 << n, n);
         dp[0] = 0;
+        // dp[i] already finished bitmask i courses
         for(int i = 0; i < (1 << n); i += 1){
             int ex = 0;
             for(int j = 0; j < n; j += 1) if((i & pre[j]) == pre[j]) ex |= 1 << j;

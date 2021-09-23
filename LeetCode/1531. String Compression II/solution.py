@@ -9,6 +9,7 @@ class Solution:
             if s[start] == last:
                 incr = 1 if count == 1 or count == 9 or count == 99 else 0
                 return incr + counter(s, start+1, last, count+1, left) # we keep it
+                # return min(incr + counter(s, start+1, last, count+1, left), counter(s, start + 1, last, count, left - 1)) # we keep it or not
             else:
 				# keep it or delete it
                 return min(1 + counter(s, start+1, s[start], 1, left), counter(s, start + 1, last, count, left - 1))

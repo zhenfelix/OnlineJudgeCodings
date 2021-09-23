@@ -19,3 +19,37 @@ public:
         return dp[n][k];
     }
 };
+
+
+
+const int inf = 0x3f3f3f3f;
+const int maxn = 105;
+
+int dp[maxn][maxn];
+
+class Solution {
+public:
+    inline int calc(int x){
+        return x <= 1 ? x : x <= 9 ? 2 : x <= 99 ? 3 : 4;
+    }
+    int getLengthOfOptimalCompression(string s, int K) {
+        int n = s.length();
+        memset(dp, 0x3f, maxn*maxn*sizeof(int));
+        dp[0][0] = 0;
+        for (int k = 0; k <= K; k++){
+            for (int i = 1; i <= n; i++){
+                if (k)
+                    dp[k][i] = dp[k-1][i-1];
+                int diff = 0, same = 0;
+                for (int j = i; j >= 1 && k >= diff; j--){
+                    same += (s[j-1] == s[i-1]);
+                    diff += (s[j-1] != s[i-1]);
+                    if (s[j-1] == s[i-1]){
+                        dp[k][i] = min(dp[k][i], calc(same)+dp[k-diff][j-1]);
+                    }
+                }
+            }
+        }
+        return dp[K][n];
+    }
+};

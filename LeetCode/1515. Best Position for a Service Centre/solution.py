@@ -1,5 +1,30 @@
 class Solution:
     def getMinDistSum(self, positions: List[List[int]]) -> float:
+
+        def func(x,y):
+            return sum(((x-px)**2+(y-py)**2)**0.5 for px,py in positions)
+
+
+        step, alpha, epsilon = 100, 0.99, 0.0000001
+        x, y = 0, 0
+        while True:
+            prex, prey = x, y 
+            # 注意分母为零
+            dx = sum((x-px)/(((x-px)**2+(y-py)**2)**(0.5)+epsilon) for px,py in positions)
+            dy = sum((y-py)/(((x-px)**2+(y-py)**2)**(0.5)+epsilon) for px,py in positions)
+            # print(x,y,dx,dy)
+            x -= dx*step
+            y -= dy*step
+            if ((x-prex)**2+(y-prey)**2)**0.5 < epsilon:
+                break           
+            step *= alpha
+        # print(x,y)
+        return func(x,y)
+
+
+
+class Solution:
+    def getMinDistSum(self, positions: List[List[int]]) -> float:
         epsilon, delta = 1e-6, 0.001
         def func(x,y):
             return sum(((x-px)**2+(y-py)**2)**0.5 for px,py in positions)

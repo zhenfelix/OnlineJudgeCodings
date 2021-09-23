@@ -17,3 +17,21 @@ public:
         return true;
     }
 };
+
+
+
+class Solution {
+public:
+    bool canArrange(vector<int>& arr, int k) {
+        vector<int> cnt(k,0);
+        for (auto x : arr)
+            cnt[(x%k+k)%k]++;
+        int left = 1, right = k-1;
+        for (; left < right; left++, right--)
+            if (cnt[left] != cnt[right])
+                return false;
+        if (left == right && cnt[left]&1)
+            return false;
+        return true;
+    }
+};

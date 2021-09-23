@@ -1,3 +1,39 @@
+from heapq import *
+from functools import total_ordering
+
+
+class Solution:
+    def busiestServers(self, k: int, arrival: List[int], load: List[int]) -> List[int]:
+        heap_free = list(range(k))
+        heap_busy = []
+        count = [0] * k
+        for i, (a, l) in enumerate(zip(arrival, load)):
+            while heap_busy and heap_busy[0][0] <= a:
+                _, server = heappop(heap_busy)
+                # Rename this server to s2, s2 == server + u * k, s2 >= i
+                multiples = i//k
+                server = server%k+multiples*k
+                if server < i:
+                    server += k
+                heappush(heap_free, server)
+            if not heap_free:
+                continue
+            server = heappop(heap_free)
+            count[server % k] += 1
+            heappush(heap_busy, (a + l, server))
+        mc = max(count)
+        return [i for i in range(k) if count[i] == mc]
+
+
+
+
+# 作者：ling-jian-2012
+# 链接：https://leetcode-cn.com/problems/find-servers-that-handled-most-number-of-requests/solution/fei-chang-jian-dan-de-onlognsuan-fa-hao-shi-jin-48/
+# 来源：力扣（LeetCode）
+# 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
 class Solution:
     def busiestServers(self, k: int, arrival: List[int], load: List[int]) -> List[int]:
         left, right, servers = [], [], [(0,i) for i in range(k)]

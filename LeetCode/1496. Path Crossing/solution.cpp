@@ -1,3 +1,32 @@
+// using pp = pair<int,int>;
+// const int pb = 1e5+3;
+
+// vector<pp> dirs = {{-1,0},{1,0},{0,-1},{0,1}};
+// string sp = "WESN";
+
+// class Solution {
+// public:
+//     bool isPathCrossing(string path) {
+//         map<char,int> mp;
+//         for (int i = 0; i < 4; i++)
+//             mp[sp[i]] = i;
+//         int x = 0, y = 0;
+//         unordered_set<int> seen;
+//         seen.insert(x*pb+y);
+//         for (auto ch : path){
+//             int idx = mp[ch];
+//             auto [dx,dy] = dirs[idx];
+//             x += dx; y += dy;
+//             if (seen.find(x*pb+y) != seen.end())
+//                 return true;
+//             seen.insert(x*pb+y);
+//         }
+//         return false;
+
+//     }
+// };
+
+
 class Solution
 {
 public:
