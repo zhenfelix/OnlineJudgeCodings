@@ -16,6 +16,23 @@ class Solution:
 
 
 class Solution:
+    def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
+        res = -float('inf')
+        q = deque()
+        for i, a in enumerate(nums):
+            while q and q[0] < i-k:
+                q.popleft()
+            pre = nums[q[0]] if q else 0
+            nums[i] += max(0,pre)
+            while q and nums[q[-1]] <= nums[i]:
+                q.pop()
+            q.append(i)
+            res = max(res,nums[i])
+        return res
+
+
+
+class Solution:
     # def constrainedSubsetSum(self, nums: List[int], k: int) -> int:
     #     n = len(nums)
     #     q = deque()

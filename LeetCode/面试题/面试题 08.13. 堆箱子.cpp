@@ -1,3 +1,85 @@
+using tiii = tuple<int,int,int>;
+
+class BIT{
+public:
+    vector<vector<int>> tree;
+    int nw, nd;
+    BIT(int nw, int nd){
+        this->nw = nw;
+        this->nd = nd;
+        tree.resize(nw+1);
+        for (int i = 0; i <= nw; i++)
+            tree[i].assign(nd+1,0);
+    }
+
+    int query(int w, int d){
+        int res = 0;
+        for (int i = w; i > 0; i -= i&(-i)){
+            for (int j = d; j > 0; j -= j&(-j)){
+                res = max(res, tree[i][j]);
+            }
+        }
+        return res;
+    }
+
+    void update(int w, int d, int v){
+        for (int i = w; i <= nw; i += i&(-i)){
+            for (int j = d; j <= nd; j += j&(-j)){
+                tree[i][j] = max(tree[i][j], v);
+            }
+        }
+    }
+};
+
+class Solution {
+public:
+    int pileBox(vector<vector<int>>& box) {
+        set<int> ws, ds;
+        unordered_map<int,int> w2id, d2id;
+        vector<tiii> arr;
+        for (auto &b : box){
+            ws.insert(b[0]);
+            ds.insert(b[1]);
+            arr.push_back({b[2],-b[0],-b[1]});
+        }
+        sort(arr.begin(), arr.end());
+        int nw = 0;
+        for (auto w : ws) w2id[w] = ++nw;
+        int nd = 0;
+        for (auto d : ds) d2id[d] = ++nd;
+        int res = 0;
+        BIT T(nw,nd);
+        for (auto &[h,w,d] : arr){
+            w = -w; d = -d;
+            int ph = T.query(w2id[w]-1,d2id[d]-1);
+            res = max(res, ph+h);
+            T.update(w2id[w],d2id[d],ph+h);
+        }
+        return res;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #include <iostream>
 #include <cstdio>
 #include <cstring>

@@ -28,21 +28,44 @@ using namespace std;
 //     }
 // };
 
+
 class Solution {
 public:
     int reverse(int x) {
-        int num=x;
-        int sum=0;
-        int pnum=0;
-        while(num)
-        {
-            int temp=num%10;
-            sum=sum*10+temp;
-            if(sum/10!=pnum)//determine whethere it is reversible
+        int rev = 0;
+        while (x != 0) {
+            if (rev < INT_MIN / 10 || rev > INT_MAX / 10) {
                 return 0;
-            pnum=sum;
-            num=num/10;
+            }
+            int digit = x % 10;
+            x /= 10;
+            rev = rev * 10 + digit;
         }
-        return sum;
+        return rev;
     }
 };
+
+
+// 作者：LeetCode-Solution
+// 链接：https://leetcode-cn.com/problems/reverse-integer/solution/zheng-shu-fan-zhuan-by-leetcode-solution-bccn/
+// 来源：力扣（LeetCode）
+// 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+// class Solution {
+// public:
+//     int reverse(int x) {
+//         int num=x;
+//         int sum=0;
+//         int pnum=0;
+//         while(num)
+//         {
+//             int temp=num%10;
+//             sum=sum*10+temp;
+//             if(sum/10!=pnum)//determine whethere it is reversible
+//                 return 0;
+//             pnum=sum;
+//             num=num/10;
+//         }
+//         return sum;
+//     }
+// };

@@ -86,6 +86,9 @@ class Solution:
         sums = 0
         for i, h in enumerate(height):
             while st and height[st[-1]] < h:
+                # 以cur为底部，找出左右两边比它大的位置
+                # Next Greater Element I
+                # Next Greater Element II
                 cur = st.pop()
                 if st:
                     sums += (i-st[-1]-1)*(min(h,height[st[-1]])-height[cur])

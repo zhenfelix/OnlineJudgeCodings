@@ -1,3 +1,27 @@
+class Solution:
+    def subarraysWithKDistinct(self, nums: List[int], k: int) -> int:
+        def helper(m):
+            cc = Counter()
+            cnt = 0
+            left = 0
+            res = 0
+            n = len(nums)
+            for right in range(n):
+                if cc[nums[right]] == 0:
+                    cnt += 1
+                cc[nums[right]] += 1
+                while cnt >= m:
+                    # print(nums[left:right+1])
+                    cc[nums[left]] -= 1
+                    if cc[nums[left]] == 0:
+                        cnt -= 1
+                    left += 1
+                    res += n-right
+            return res
+
+        return helper(k)-helper(k+1)
+
+
 
 from collections import Counter
 class Solution:

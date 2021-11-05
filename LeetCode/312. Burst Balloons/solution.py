@@ -24,3 +24,17 @@ class Solution:
                 right = left+sz-1
                 dp[left][right] = max([nums[left]*nums[k]*nums[right]+dp[left][k]+dp[k][right] for k in range(left+1,right)])
         return dp[0][n-1]
+
+
+
+# for given interval [i,j], assume we have the solution operation sequece ...ij...k, where k is the last operation and j is the most close operation next to i, if i and j are one different side of k, we can exchange i and j without worsening our solution
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        n = len(nums)
+        nums.append(1)
+        @lru_cache(None)
+        def dfs(i,j):
+            if i > j:
+                return 0
+            return max(nums[k]*nums[i-1]*nums[j+1]+dfs(i,k-1)+dfs(k+1,j) for k in range(i,j+1))
+        return dfs(0,n-1)

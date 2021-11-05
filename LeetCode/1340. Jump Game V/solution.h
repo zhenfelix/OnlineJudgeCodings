@@ -1,3 +1,30 @@
+using pii = pair<int,int>;
+
+class Solution {
+public:
+    int maxJumps(vector<int>& arr, int d) {
+        int n = arr.size(), res = 0;
+        vector<pii> nums;
+        vector<int> dp(n,0);
+        for (int i = 0; i < n; i++)
+            nums.push_back({arr[i],i});
+        sort(nums.begin(), nums.end());
+        for (auto [h,i] : nums){
+            for (int j = i+1; j <= i+d && j < n && arr[j] < arr[i]; j++)
+                dp[i] = max(dp[i], dp[j]);
+            for (int j = i-1; j >= i-d && j >= 0 && arr[j] < arr[i]; j--)
+                dp[i] = max(dp[i], dp[j]);
+            dp[i] += 1;
+            res = max(res, dp[i]);
+        }
+        return res;
+    }
+};
+
+
+
+
+
 class Solution {
 private:
     vector<int> tree;

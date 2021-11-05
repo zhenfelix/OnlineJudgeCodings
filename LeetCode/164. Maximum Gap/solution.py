@@ -1,6 +1,31 @@
 class Solution:
     def maximumGap(self, nums: List[int]) -> int:
         n = len(nums)
+        mx = max(nums)
+        mi = min(nums)
+        d = (mx-mi+1)//n+1
+        lo = [float('inf')]*n 
+        hi = [-float('inf')]*n 
+        for x in nums:
+            idx = (x-mi)//d 
+            lo[idx] = min(lo[idx],x)
+            hi[idx] = max(hi[idx],x)
+        res = 0
+        cur = -1
+        # print(d,lo,hi)
+        for i in range(n):
+            res = max(res, hi[i]-lo[i])
+            if i and cur > -1 and lo[i] < float('inf'):
+                res = max(res, lo[i]-cur)
+            cur = max(cur,hi[i])
+        return res
+
+
+
+
+class Solution:
+    def maximumGap(self, nums: List[int]) -> int:
+        n = len(nums)
         if n < 2:
             return 0
         mi_, mx_ = min(nums), max(nums)

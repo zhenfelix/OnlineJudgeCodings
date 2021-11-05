@@ -1,3 +1,67 @@
+# class Solution:
+#     def pileBox(self, box: List[List[int]]) -> int:
+#         box.sort()
+#         n = len(box)
+#         dp = [0]*n 
+#         for i in range(n):
+#             h = 0
+#             for j in range(i):
+#                 if all(box[j][k] < box[i][k] for k in range(3)):
+#                     h = max(h, dp[j])
+#             dp[i] = h+box[i][2]
+#         return max(dp)
+
+class BIT:
+    def __init__(self,n,m):
+        self.tree = [[0]*(m+1) for _ in range(n+1)]
+        self.n, self.m = n, m 
+
+    def query(self,qx,qy):
+        res = 0
+        x = qx
+        while x:
+            y = qy
+            while y:
+                res = max(res, self.tree[x][y])
+                y -= y&(-y)
+            x -= x&(-x)
+        return res
+
+    def update(self,qx,qy,val):
+        n, m = self.n, self.m
+        x = qx
+        while x <= n:
+            y = qy
+            while y <= m:
+                self.tree[x][y] = max(self.tree[x][y], val)
+                y += y&(-y)
+            x += x&(-x)
+
+
+class Solution:
+    def pileBox(self, box: List[List[int]]) -> int:
+        box.sort(key=lambda x: (x[-1],-x[0],-x[1]))
+        w2id, d2id = {}, {}
+        ws = sorted(list(set([w for w,_,_ in box])))
+        for i, w in enumerate(ws,1):
+            w2id[w] = i
+        ds = sorted(list(set([d for _,d,_ in box])))
+        for i, d in enumerate(ds,1):
+            d2id[d] = i
+        n, m = len(ws), len(ds)
+        T = BIT(n,m)
+        res = 0
+        for w,d,h in box:
+            hsum = T.query(w2id[w]-1,d2id[d]-1)
+            T.update(w2id[w],d2id[d],hsum+h)
+            res = max(res,hsum+h)
+        return res
+
+
+
+
+
+
 class SegmentTree:
     def __init__(self,n,m):
         self.tree = [[0]*(4*(m+1)) for _ in range(4*(n+1))]

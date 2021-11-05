@@ -1,3 +1,39 @@
+const int inf = 0x3f3f3f3f;
+const int maxn = 1e5+10;
+const int MOD = 1e9+7;
+using ll = long long;
+
+int cnt[maxn];
+
+
+class Solution {
+public:
+    int minWastedSpace(vector<int>& packages, vector<vector<int>>& boxes) {
+        memset(cnt, 0, maxn*sizeof(int));
+        ll tot = 0;
+        int n = packages.size();
+        for (auto p : packages) cnt[p]++, tot += p;
+        for (int i = 1; i < maxn; i++) cnt[i] += cnt[i-1];
+        ll res = LONG_MAX;
+        for (auto &box : boxes){
+            sort(box.begin(), box.end());
+            ll sums = 0, pre = 0, cur = 0;
+            for (auto b : box){
+                cur = cnt[b];
+                sums += (cur-pre)*b;
+                pre = cur;
+                if (cur == n)
+                    break;
+            }
+            if (cur < n)
+                continue;
+            res = min(res, sums-tot);
+        }
+        return res == LONG_MAX ? -1 : res%MOD;
+    }
+};
+
+
 class Solution {
 public:
     int minWastedSpace(vector<int>& A, vector<vector<int>>& boxes) {

@@ -84,46 +84,79 @@
             
 #         return res
                     
-            
+
 class Solution:
     def findSubstring(self, s: str, words: List[str]) -> List[int]:
-        if len(words) == 0:
-            return []
-        # initialize d, l, ans
-        l = len(words[0])
-        d = {}
-        for w in words:
-            if w in d:
-                d[w] += 1
-            else:
-                d[w] = 1
-        i = 0
-        ans = []
-
-        # sliding window(s)
-        for k in range(l):
-            left = k
-            subd = {}
-            count = 0
-            for j in range(k, len(s)-l+1, l):
-                tword = s[j:j+l]
-                # valid word
-                if tword in d:
-                    if tword in subd:
-                        subd[tword] += 1
-                    else:
-                        subd[tword] = 1
-                    count += 1
-                    while subd[tword] > d[tword]:
-                        subd[s[left:left+l]] -= 1
-                        left += l
-                        count -= 1
-                    if count == len(words):
-                        ans.append(left)
-                # not valid
+        n = len(s)
+        m = len(words)
+        k = len(words[0])
+        mp = Counter(words)
+        res = []
+        for delta in range(k):
+            left = right = delta
+            cc = Counter()
+            cnt = 0
+            while right < n:
+                wr = s[right:right+k]
+                if wr in words:
+                    cnt += 1
+                    cc[wr] += 1
+                    while cc[wr] > mp[wr]:
+                        wl = s[left:left+k]
+                        cc[wl] -= 1
+                        cnt -= 1
+                        left += k
                 else:
-                    left = j + l
-                    subd = {}
-                    count = 0
+                    cc = Counter()
+                    cnt = 0
+                    left = right+k
+                if cnt == m:
+                    res.append(left)
+                    # print(left,right,delta)
+                right += k
+        return res
 
-        return ans 
+
+            
+# class Solution:
+#     def findSubstring(self, s: str, words: List[str]) -> List[int]:
+#         if len(words) == 0:
+#             return []
+#         # initialize d, l, ans
+#         l = len(words[0])
+#         d = {}
+#         for w in words:
+#             if w in d:
+#                 d[w] += 1
+#             else:
+#                 d[w] = 1
+#         i = 0
+#         ans = []
+
+#         # sliding window(s)
+#         for k in range(l):
+#             left = k
+#             subd = {}
+#             count = 0
+#             for j in range(k, len(s)-l+1, l):
+#                 tword = s[j:j+l]
+#                 # valid word
+#                 if tword in d:
+#                     if tword in subd:
+#                         subd[tword] += 1
+#                     else:
+#                         subd[tword] = 1
+#                     count += 1
+#                     while subd[tword] > d[tword]:
+#                         subd[s[left:left+l]] -= 1
+#                         left += l
+#                         count -= 1
+#                     if count == len(words):
+#                         ans.append(left)
+#                 # not valid
+#                 else:
+#                     left = j + l
+#                     subd = {}
+#                     count = 0
+
+#         return ans 

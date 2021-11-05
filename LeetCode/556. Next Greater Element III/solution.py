@@ -45,6 +45,26 @@
 #         return -1
 
 class Solution:
+    def nextGreaterElement(self, n: int) -> int:
+        nums = list(str(n))
+        m = len(nums)
+        for i in range(m)[::-1]:
+            if i < m-1 and nums[i] < nums[i+1]:
+                j = i+1
+                while j < m and nums[j] > nums[i]:
+                    j += 1
+                j -= 1
+                nums[i], nums[j] = nums[j], nums[i]
+                left, right = i+1, m-1
+                while left < right:
+                    nums[left], nums[right] = nums[right], nums[left]
+                    left += 1
+                    right -= 1
+                res = int(''.join(nums))
+                return res if res < (1<<31) else -1
+        return -1
+
+class Solution:
     def nextGreaterElement(self, n):
         """
         :type n: int

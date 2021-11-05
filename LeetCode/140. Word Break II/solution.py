@@ -61,6 +61,14 @@ class Solution:
                        for j in range(i+1, len(s)+1)
                        if s[i:j] in wordDict
                        for tail in sentences(j)]
+            # res = []
+            # for j in range(i+1, len(s)+1):
+            #     if s[i:j] in wordDict:
+            #         for tail in sentences(j):
+            #             if tail:
+            #                 res.append(s[i:j] + ' ' + tail)
+            #             else:
+            #                 res.append(s[i:j])
             return res
         wordDict = set(wordDict)
         return sentences(0)

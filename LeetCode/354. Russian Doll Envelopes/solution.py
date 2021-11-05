@@ -51,3 +51,26 @@ class Solution:
         # print(st)
         return len(st)
         
+
+class Solution:
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        envelopes.sort(key = lambda x : (x[0],-x[1]))
+        res = 0
+        maxn = 10**4+10
+        sums = [0]*maxn
+        def query(x):
+            ans = 0
+            while x:
+                ans = max(ans, sums[x])
+                x -= (x&(-x))
+            return ans
+        def update(x, v):
+            while x < maxn:
+                sums[x] = max(sums[x], v)
+                x += (x&(-x))
+
+        for w, h in envelopes:
+            cur = query(h-1)+1
+            res = max(res,cur)
+            update(h, cur)
+        return res

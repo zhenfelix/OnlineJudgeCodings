@@ -88,6 +88,20 @@
 
 #         return dp[-1]
 
+# Imagine you have budget of m moves and k eggs (drop eggs m times and break no more than k of them) and we like to figure out maximum floor N, you like to pick a floor n to drop the first egg, the value of n can not be too big as otherwise if it broke, you can not finish the n-1 floors below it with (m-1,k-1). In fact, the largest n you can afford is dp[m-1][k-1]+1. If the first egg does not break, you can check dp[m-1][k] floors above it. So overall, the maximum floors is dp[m-1][k-1]+1+dp[m-1][k].
+
+# time complexity should be k*n^(1/k)
+class Solution:
+    def superEggDrop(self, k: int, n: int) -> int:
+        dp = [0] * (k+1)
+        m = 0
+        while dp[k] < n:
+            m += 1
+            for i in range(k,0,-1):
+                dp[i] += dp[i-1] + 1
+        return m 
+
+
 
 class Solution:
     def superEggDrop(self, K: int, N: int) -> int:

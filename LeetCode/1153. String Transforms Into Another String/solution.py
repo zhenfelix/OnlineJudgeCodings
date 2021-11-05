@@ -1,3 +1,24 @@
+# 1，当str1 == str2时显然可以转化
+# 2，如果str1 != str2，如果str2包含所有的26个字母，则没有了操作空间，因此肯定不能转化
+# 3，如果str1某两个下标i, j对应的字符相同，则必须要求str2中的相同下标也必须相同
+# 如果判断以上情况后没有问题，则可以转化成功
+
+# 作者：da-li-wang
+# 链接：https://leetcode-cn.com/problems/string-transforms-into-another-string/solution/c-jian-dan-bian-li-ji-ke-by-da-li-wang/
+# 来源：力扣（LeetCode）
+# 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+class Solution:
+    def canConvert(self, str1: str, str2: str) -> bool:
+        return str1 == str2 or (len(set(str2)) < 26 and len(set(zip(str1, str2))) == len(set(str1)))
+
+
+# 作者：ling-jian-2012
+# 链接：https://leetcode-cn.com/problems/string-transforms-into-another-string/solution/yi-xing-python-by-ling-jian-2012-kf8h/
+# 来源：力扣（LeetCode）
+# 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
 # class Solution:
 #     def canConvert(self, str1: str, str2: str) -> bool:
 #         mp = {}

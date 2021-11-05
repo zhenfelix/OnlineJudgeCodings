@@ -1,6 +1,49 @@
 class Solution {
 public:
     int maxStudents(vector<vector<char>>& seats) {
+        int n = seats.size(), m = seats[0].size();
+        vector<int> dp(1<<m, 0);
+        for (int i = 0; i < n; i++){
+            int mask = 0;
+            for (int j = 0; j < m; j++)
+                if (seats[i][j] == '.')
+                    mask |= (1<<j);
+            vector<int> ndp(1<<m, 0);
+            for (int s = mask; ; s = (s-1)&mask){
+                if (s&(s>>1))
+                    continue;
+                for (int p = 0; p < (1<<m); p++){
+                    if ((s&(p>>1)) || (s&(p<<1)))
+                        continue;
+                    ndp[s] = max(ndp[s],dp[p]);
+                }
+                ndp[s] += __builtin_popcount(s);
+                if (s == 0)
+                    break;
+            }
+            swap(dp,ndp);
+        }
+        return *max_element(dp.begin(), dp.end());
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution {
+public:
+    int maxStudents(vector<vector<char>>& seats) {
         int m = seats.size();
         int n = seats[0].size();
         vector<int> validity; // the validity of each row in the classroom

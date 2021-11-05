@@ -30,3 +30,18 @@ class Solution:
         table.sort(key = lambda x: x[1], reverse = True) 
 
         return ''.join(map(lambda x: x[0] * x[1], table))
+
+
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        cc = Counter(s)
+        arr = sorted([(-v,k) for k,v in cc.items()])
+        # print(arr)
+        # print([k*(-v) for v,k in arr])
+        return ''.join([k*(-v) for v,k in arr])
+
+
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        cc = Counter(s)
+        return ''.join(sorted(list(s), key = lambda x: (-cc[x], x)))

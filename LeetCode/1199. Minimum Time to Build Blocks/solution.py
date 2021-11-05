@@ -11,6 +11,8 @@ import heapq
 #             heapq.heappush(blocks, xy)
 #         return blocks[0]
 
+
+# huffman encoding
 class Solution:
     def minBuildTime(self, blocks: List[int], split: int) -> int:
         heapq.heapify(blocks)

@@ -106,3 +106,24 @@ class NestedIterator(object):
                 return False
         else:
             return True
+
+
+
+class NestedIterator:
+    def __init__(self, nestedList: [NestedInteger]):
+        self.st = nestedList[::-1]
+    
+    def next(self) -> int:
+        return self.st.pop().getInteger()
+    
+    def hasNext(self) -> bool:
+        while self.st:
+            cur = self.st[-1]
+            if cur.isInteger():
+                return True
+            self.st.pop()
+            q = cur.getList()
+            for nxt in q[::-1]:
+                self.st.append(nxt)
+        return False
+         

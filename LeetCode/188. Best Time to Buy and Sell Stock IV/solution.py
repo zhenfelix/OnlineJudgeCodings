@@ -58,3 +58,19 @@ class Solution:
             for i in range(k,0,-1):
                 cash[i], hold[i] = max(cash[i],hold[i]+p), max(hold[i],cash[i-1]-p)
         return cash[-1]
+
+
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+        f = [[0]*(n+1) for _ in range(k+1)]
+        g = [[0]*(n+1) for _ in range(k+1)]
+        for j in range(k+1):
+            g[j][0] = -float('inf')
+        for i in range(n):
+            g[0][i+1] = max(g[0][i], -prices[i])
+        for kk in range(k):
+            for i in range(1, n+1):
+                f[kk+1][i] = max(f[kk+1][i-1], prices[i-1]+g[kk][i-1])
+                g[kk+1][i] = max(g[kk+1][i-1], f[kk+1][i-1]-prices[i-1])
+        return f[-1][-1]

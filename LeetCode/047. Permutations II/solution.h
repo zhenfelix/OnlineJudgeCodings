@@ -29,32 +29,32 @@
 
 
 
-// class Solution {
-// public:
-//     vector<vector<int>> permuteUnique(vector<int>& nums) {
-//         vector<vector<int>> result;
-//         // sort(nums.begin(), nums.end());
-//         permuteUniqueHelper(nums, 0, result);
-//         return result;
-//     }
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        vector<vector<int>> result;
+        // sort(nums.begin(), nums.end());
+        permuteUniqueHelper(nums, 0, result);
+        return result;
+    }
     
-//     void permuteUniqueHelper(vector<int>& nums, int start, vector<vector<int>>& result) {
-//         if (start >= nums.size()) {
-//             result.push_back(nums);
-//             return;
-//         }
-//         unordered_set<int> s;
-//         for (int i = start; i < nums.size(); i++) {
-//             if (s.find(nums[i]) != s.end()) {
-//                 continue;
-//             }
-//             s.insert(nums[i]);
-//             swap(nums[i], nums[start]);
-//             permuteUniqueHelper(nums, start + 1, result);
-//             swap(nums[i], nums[start]);
-//         }
-//     }
-// };
+    void permuteUniqueHelper(vector<int>& nums, int start, vector<vector<int>>& result) {
+        if (start >= nums.size()) {
+            result.push_back(nums);
+            return;
+        }
+        unordered_set<int> s;
+        for (int i = start; i < nums.size(); i++) {
+            if (s.count(nums[i])) {
+                continue;
+            }
+            s.insert(nums[i]);
+            swap(nums[i], nums[start]);
+            permuteUniqueHelper(nums, start + 1, result);
+            swap(nums[i], nums[start]);
+        }
+    }
+};
 
 
 
@@ -70,6 +70,32 @@ public:
             swap(num[i], num[k]);
             recursion(num, i+1, j, res);
         }
+    }
+    vector<vector<int> > permuteUnique(vector<int> &num) {
+        sort(num.begin(), num.end());
+        vector<vector<int> >res;
+        recursion(num, 0, num.size(), res);
+        return res;
+    }
+};
+
+
+class Solution {
+public:
+    void recursion(vector<int> &num, int i, int n, vector<vector<int> > &res) {
+        if (i == n-1) {
+            res.push_back(num);
+            return;
+        }
+        for (int k = i; k < n; k++) {
+            if (i != k && num[i] == num[k]) continue;
+            swap(num[i], num[k]);
+            recursion(num, i+1, n, res);
+        }
+        int tmp = num[i];
+        for (int j = i; j < n-1; j++)
+            num[j] = num[j+1];
+        num[n-1] = tmp;
     }
     vector<vector<int> > permuteUnique(vector<int> &num) {
         sort(num.begin(), num.end());

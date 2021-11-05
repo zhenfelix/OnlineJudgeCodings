@@ -21,6 +21,27 @@
 // };
 // bsf
 
+
+const int inf = 0x3f3f3f3f;
+
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        vector<int> dp(amount+1,inf);
+        dp[0] = 0;
+        int n = coins.size();
+        for (int i = 0; i < n; i++){
+            for (int w = coins[i]; w <= amount; w++)
+                dp[w] = min(dp[w], dp[w-coins[i]]+1);
+        }
+        int res = dp.back();
+        return res < inf ? res : -1;
+    }
+};
+
+
+
+
 class Solution {
 public:
     int coinChange(vector<int>& coins, int amount) {

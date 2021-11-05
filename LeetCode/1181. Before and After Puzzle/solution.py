@@ -42,3 +42,19 @@ class Solution(object):
                     ans.append(" ".join(a1 + a2[1:]))
         
         return sorted(set(ans))
+
+
+
+class Solution:
+    def beforeAndAfterPuzzles(self, phrases: List[str]) -> List[str]:
+        phrases = [p.split() for p in phrases]
+        # print(phrases)
+        n = len(phrases)
+        res = []
+        for i in range(n):
+            for j in range(n):
+                if i == j:
+                    continue
+                if phrases[i][-1] == phrases[j][0]:
+                    res.append(' '.join(phrases[i]+phrases[j][1:]))
+        return sorted(list(set(res)))

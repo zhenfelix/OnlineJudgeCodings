@@ -26,3 +26,28 @@ public:
 //     std::cout.tie(nullptr);
 //     return nullptr;
 // }();
+
+
+
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int i = n-2;
+        for (; i >= 0 && nums[i] >= nums[i+1]; i--){}
+        if (i < 0){
+            for (int i = 0, j = n-1; i < j; i++, j--)
+                swap(nums[i],nums[j]);
+            return;
+        }
+        // cout << i << endl;
+        int j = i+1;
+        for (; j < n && nums[j] > nums[i]; j++){}
+        j--;
+        swap(nums[i],nums[j]);
+        i++;
+        for (int j = n-1; i < j; i++, j--)
+            swap(nums[i],nums[j]);
+        return;
+    }
+};

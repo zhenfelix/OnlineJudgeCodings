@@ -30,3 +30,18 @@ class Solution:
         dfs(0,nums.copy())
         return res
                 
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        res = []
+        def dfs(i,arr):
+            if i == n:
+                res.append(arr.copy())
+                return
+            for k in range(i,n):
+                arr[i], arr[k] = arr[k], arr[i]
+                dfs(i+1,arr)
+                arr[i], arr[k] = arr[k], arr[i]
+            return
+        dfs(0,nums)
+        return res

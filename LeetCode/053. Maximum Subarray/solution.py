@@ -1,3 +1,13 @@
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        pre, cur, ans = 0, 0, -float('inf')
+        for x in nums:
+            cur = max(0,pre)+x
+            ans = max(ans,cur)
+            pre = cur 
+        return ans 
+
+
 import math
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:

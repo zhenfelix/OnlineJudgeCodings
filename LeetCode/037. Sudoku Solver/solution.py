@@ -92,3 +92,46 @@ class Solution:
 
         dfs(0)
         return
+
+
+
+class Solution:
+    def solveSudoku(self, board: List[List[str]]) -> None:
+        """
+        Do not return anything, modify board in-place instead.
+        """
+        candidates = []
+        horizontal = [set() for _ in range(9)]
+        vertical = [set() for _ in range(9)]
+        box = [[set() for _ in range(3)] for _ in range(3)]
+        for i in range(9):
+            for j in range(9):
+                if board[i][j] == ".":
+                    candidates.append((i,j))
+                else:
+                    ch = int(board[i][j])
+                    horizontal[i].add(ch)
+                    vertical[j].add(ch)
+                    box[i//3][j//3].add(ch)
+        n = len(candidates)
+
+        def dfs(k):
+            if k == n:
+                return True
+            i, j = candidates[k]
+            for x in range(1,10):
+                if x not in horizontal[i] and x not in vertical[j] and x not in box[i//3][j//3]:
+                    board[i][j] = str(x)
+                    horizontal[i].add(x)
+                    vertical[j].add(x)
+                    box[i//3][j//3].add(x)
+                    if dfs(k+1):
+                        return True
+                    horizontal[i].remove(x)
+                    vertical[j].remove(x)
+                    box[i//3][j//3].remove(x)
+            return False
+
+        dfs(0)
+        return
+

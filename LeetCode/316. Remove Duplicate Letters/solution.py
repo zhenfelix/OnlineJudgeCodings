@@ -1,3 +1,97 @@
+维护动态区间的最小值
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        mp = {ch:i for i, ch in enumerate(s)}
+        q = []
+        cc = Counter()
+        res = []
+        cur = -1
+        for i, ch in enumerate(s):
+            heapq.heappush(q,(ch,i))
+            if i == mp[ch] and cc[ch] == 0:
+                while q:
+                    ch2, j = heapq.heappop(q)
+                    if j <= cur or cc[ch2] == 1:
+                        continue
+                    res.append(ch2)
+                    cc[ch2] += 1
+                    cur = j
+                    if ch2 == ch:
+                        break
+                # print(i,ch,res)            
+        return ''.join(res)
+
+
+
+
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        alphas = [chr(ord('a')+i) for i in range(26)]
+        mp = defaultdict(deque)
+        res = []
+        cc = Counter()
+        cur = -1
+        for i, ch in enumerate(s):
+            mp[ch].append(i)
+        for i, ch in enumerate(s):
+            if i == mp[ch][-1] and cc[ch] == 0:
+                for a in alphas:
+                    if cc[a] == 1:
+                        continue
+                    while mp[a] and mp[a][0] <= cur:
+                        mp[a].popleft()
+                    if mp[a] and mp[a][0] <= i:
+                        res.append(a)
+                        cc[a] += 1
+                        cur = mp[a][0]
+                        if a == ch:
+                            break
+                # print(cur,i,ch,res)
+        return ''.join(res)
+
+
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        mp = {ch:i for i, ch in enumerate(s)}
+        q = deque()
+        res = []
+        for i, ch in enumerate(s):
+            if (ch not in q) and (ch not in res):
+                while q and q[-1] > ch:
+                    q.pop()
+                q.append(ch)
+            # print(i,ch,q,res)
+            while (ch not in res) and mp[ch] == i:
+                ch2 = q.popleft()
+                if ch2 not in res:
+                    res.append(ch2)
+        return ''.join(res)
+
+
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        mp = {ch:i for i, ch in enumerate(s)}
+        q = deque()
+        res = []
+        for i, ch in enumerate(s):
+            if ch in res:
+                continue
+            if ch not in q:
+                while q and q[-1] > ch:
+                    q.pop()
+                q.append(ch)
+            
+            # print(i,ch,q,res)
+            while (ch not in res) and mp[ch] == i:
+                ch2 = q.popleft()
+                if ch2 not in res:
+                    res.append(ch2)
+        return ''.join(res)
+
+
+
+
+
 # from collections import Counter
 
 # class Solution:
@@ -44,3 +138,14 @@ class Solution:
                 seen.add(c)
                 stack.append(c)
         return ''.join(stack)
+
+
+    def smallestSubsequence(self, S):
+        last = {c: i for i, c in enumerate(S)}
+        stack = []
+        for i, c in enumerate(S):
+            if c in stack: continue
+            while stack and stack[-1] > c and i < last[stack[-1]]:
+                stack.pop()
+            stack.append(c)
+        return "".join(stack)

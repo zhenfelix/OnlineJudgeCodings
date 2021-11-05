@@ -20,6 +20,28 @@
 #         return dp[-1]
 
 
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        factors = [2, 3, 5]
+        seen = {1}
+        heap = [1]
+
+        for i in range(n - 1):
+            curr = heapq.heappop(heap)
+            for factor in factors:
+                if (nxt := curr * factor) not in seen:
+                    seen.add(nxt)
+                    heapq.heappush(heap, nxt)
+
+        return heapq.heappop(heap)
+
+
+# 作者：LeetCode-Solution
+# 链接：https://leetcode-cn.com/problems/ugly-number-ii/solution/chou-shu-ii-by-leetcode-solution-uoqd/
+# 来源：力扣（LeetCode）
+# 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
 import math
 
 class Solution:
@@ -38,3 +60,19 @@ class Solution:
             dp.append(min(dp[i]*2,dp[j]*3,dp[k]*5))
         # print(dp)
         return dp[-1]
+
+
+class Solution:
+    def nthUglyNumber(self, n: int) -> int:
+        q = [(2,2,0),(3,3,0),(5,5,0)]
+        arr = [1]
+        while len(arr) < n:
+            cur, m, i = heapq.heappop(q)
+            if cur > arr[-1]:
+                arr.append(cur)
+            i += 1
+            # print(arr,i,m)
+            while arr[i]*m <= arr[-1]:
+                i += 1
+            heapq.heappush(q,(arr[i]*m,m,i))
+        return arr[-1]

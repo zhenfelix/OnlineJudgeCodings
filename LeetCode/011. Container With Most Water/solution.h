@@ -1,3 +1,22 @@
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n = height.size(), res = 0;
+        for (int left = 0, right = n-1; left < right;){
+            res = max(res, min(height[left],height[right])*(right-left));
+            // cout << left << " " << right << " " << endl;
+            if (height[left] < height[right])
+                left++;
+            else
+                right--;
+        }
+        return res;
+    }
+};
+
+
+
 class Solution {
 public:
     int maxArea(vector<int>& height) {

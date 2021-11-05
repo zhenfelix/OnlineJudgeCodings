@@ -1,3 +1,33 @@
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<int,int> cc;
+        for (auto x : nums){
+            cc[x]++;
+            if (cc.size() > 3){
+                vector<int> rm;
+                for (auto [k,v] : cc){
+                    cc[k]--;
+                    if (cc[k] == 0)
+                        rm.push_back(k);
+                }
+                for (auto k : rm)
+                    cc.erase(k);
+            }
+        }
+        vector<int> res;
+        for (auto [k,v] : cc){
+            int cnt = 0;
+            for (auto x : nums)
+                cnt += (x == k);
+            if (cnt > n/3)
+                res.push_back(k);
+        }
+        return res;
+    }
+};
+
 // class Solution {
 // public:
 //     vector<int> majorityElement(vector<int>& nums) {

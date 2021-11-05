@@ -60,3 +60,18 @@ class Solution(object):
             else:
                 st.append(i)
         return res
+
+class Solution(object):
+    def longestValidParentheses(self, s):
+        n = len(s)
+        dp = [-1]*n
+        res = 0
+        for i, ch in enumerate(s):
+            if ch == ')' and i:
+                if s[i-1] == '(':
+                    dp[i] = dp[i-2] if i-2 >= 0 and dp[i-2] >= 0 else i-1
+                elif dp[i-1] >= 0 and dp[i-1]-1 >= 0 and s[dp[i-1]-1] == '(':
+                    dp[i] = dp[dp[i-1]-2] if dp[i-1]-2 >= 0 and dp[dp[i-1]-2] >= 0 else dp[i-1]-1
+                if dp[i] >= 0:
+                    res = max(res, i-dp[i]+1)
+        return res

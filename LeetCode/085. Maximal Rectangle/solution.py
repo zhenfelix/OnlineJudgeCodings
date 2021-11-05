@@ -1,3 +1,29 @@
+class Solution:
+    def maximalRectangle(self, matrix: List[List[str]]) -> int:
+        n = len(matrix)
+        if n == 0:
+            return 0
+        m = len(matrix[0])
+        dp = [0]*(m+1)
+        dp[-1] = -1
+        res = 0
+        for i in range(n):
+            for j in range(m):
+                if matrix[i][j] == '1':
+                    dp[j] += 1
+                else:
+                    dp[j] = 0
+            st = [-1]
+            for j in range(m+1):
+                while st and dp[st[-1]] >= dp[j]:
+                    cur = st.pop()
+                    # print(st[-1],cur,j)
+                    if cur == -1:
+                        break
+                    res = max(res, dp[cur]*(j-st[-1]-1))
+                st.append(j)
+        return res
+
 from __future__ import annotations
 from pprint import pprint
 
