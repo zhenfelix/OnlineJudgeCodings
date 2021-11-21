@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DC742DCF2119822F0072BD42 /* test.cc in Sources */ = {isa = PBXBuildFile; fileRef = DC742DCE2119822F0072BD42 /* test.cc */; };
+		DCB5F45425F3887A00A33295 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCB5F45325F3887A00A33295 /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -27,6 +28,7 @@
 		DC742DCE2119822F0072BD42 /* test.cc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = test.cc; sourceTree = "<group>"; };
 		DC742DD0211982380072BD42 /* Catch */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Catch; sourceTree = "<group>"; };
 		DCAEC9FA21197D8100C25C8D /* XcodeDev */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = XcodeDev; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCB5F45325F3887A00A33295 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				DC742DCD2119822F0072BD42 /* solution.h */,
 				DC742DCE2119822F0072BD42 /* test.cc */,
+				DCB5F45325F3887A00A33295 /* main.cpp */,
 			);
 			path = XcodeDev;
 			sourceTree = "<group>";
@@ -123,6 +126,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCB5F45425F3887A00A33295 /* main.cpp in Sources */,
 				DC742DCF2119822F0072BD42 /* test.cc in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -166,7 +170,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -220,7 +224,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -237,6 +241,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				GCC_NO_COMMON_BLOCKS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -245,6 +250,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				GCC_NO_COMMON_BLOCKS = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
