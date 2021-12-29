@@ -1,30 +1,23 @@
-# class Solution:
-#     def checkValidString(self, s: str) -> bool:
-#         st = []
-#         right, star = 0, 0
-#         for ch in s:
-#             if ch != ")":
-#                 st.append(ch)
-#             elif not st:
-#                 return False
-#             elif st and st[-1] == "(":
-#                 st.pop()
-#             else:
-#                 st.append(ch)
-                    
-#         while st:
-#             ch = st.pop()
-#             if ch == ")":
-#                 right += 1
-#             elif ch == "*":
-#                 star += 1
-#             elif right > 0:
-#                 right -= 1
-#             elif star > 0:
-#                 star -= 1
-#             else:
-#                 return False
-#         return star >= right
+
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        cnt = 0
+        for ch in s:
+            if ch == '(' or ch == '*':
+                cnt += 1
+            elif cnt > 0:
+                cnt -= 1
+            else:
+                return False
+        cnt = 0
+        for ch in s[::-1]:
+            if ch == ')' or ch == '*':
+                cnt += 1
+            elif cnt > 0:
+                cnt -= 1
+            else:
+                return False
+        return True
 
 class Solution:
     def checkValidString(self, s: str) -> bool:
@@ -44,6 +37,25 @@ class Solution:
                 return False
         return lo == 0
        
+class Solution:
+    def checkValidString(self, s: str) -> bool:
+        lo, hi = 0, 0
+        for ch in s:
+            if ch == '(':
+                lo += 1
+                hi += 1
+            elif ch == ')':
+                lo -= 1
+                hi -= 1
+            else:
+                hi += 1
+                if lo > 0:
+                    lo -= 1
+            if lo < 0:
+                lo = 0
+            if hi < 0:
+                return False
+        return lo == 0
 
 # class Solution(object):
 #     def checkValidString(self, s):
@@ -106,3 +118,32 @@ class Solution:
 #                     return False
 #         # return left <= star_left and right <= star_right
 #         return True
+
+
+# class Solution:
+#     def checkValidString(self, s: str) -> bool:
+#         st = []
+#         right, star = 0, 0
+#         for ch in s:
+#             if ch != ")":
+#                 st.append(ch)
+#             elif not st:
+#                 return False
+#             elif st and st[-1] == "(":
+#                 st.pop()
+#             else:
+#                 st.append(ch)
+                    
+#         while st:
+#             ch = st.pop()
+#             if ch == ")":
+#                 right += 1
+#             elif ch == "*":
+#                 star += 1
+#             elif right > 0:
+#                 right -= 1
+#             elif star > 0:
+#                 star -= 1
+#             else:
+#                 return False
+#         return star >= right
