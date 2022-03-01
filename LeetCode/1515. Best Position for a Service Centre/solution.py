@@ -53,6 +53,40 @@ class Solution:
         return (c1+c2)/2
 
 
+class Solution:
+    def getMinDistSum(self, positions: List[List[int]]) -> float:
+        # 到各点距离之和
+        def dis(x, y):
+            return sum([((px - x) ** 2 + (py - y) ** 2) ** 0.5 for px, py in positions])
+
+        # 三分找最小
+        def three_divide(l, r, f, eps=1e-6):
+            while r - l > eps:
+                m = l + (r - l) / 3
+                mm = r - (r - l) / 3
+                if f(m) < f(mm):
+                    r = mm
+                else:
+                    l = m
+            return f((l + r) / 2)
+
+        # 左右边界
+        lmin, rmax = 0, 100
+
+        # 外层查x,x=mx时最小距离
+        def xf(mx):
+            # 内层查y,x=mx且y=my的距离
+            def yf(my): return dis(mx, my)
+            return three_divide(lmin, rmax, yf)
+
+        return three_divide(lmin, rmax, xf)
+
+
+作者：lyhshang
+链接：https://leetcode-cn.com/problems/best-position-for-a-service-centre/solution/san-fen-tao-san-fen-by-lyhshang/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 class Solution:    
     def getMinDistSum(self, P: List[List[int]]) -> float:
         from math import sqrt

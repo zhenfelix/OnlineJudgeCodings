@@ -12,3 +12,17 @@ class Solution:
             else:
                 mp[sums] += 1
         return ans
+
+class Solution:
+    def subarraySum(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        cc = Counter()
+        cc[0] += 1
+        cursum = 0
+        cnt = 0
+        for v in nums:
+            cursum += v 
+            cnt += cc[cursum-k]
+            cc[cursum] += 1
+        return cnt
+

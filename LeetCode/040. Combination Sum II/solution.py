@@ -1,3 +1,30 @@
+from functools import lru_cache
+class Solution:
+    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
+        candidates.sort()
+        n = len(candidates)
+        pre = [-1]*n 
+        for i in range(n):
+            if candidates[i] == candidates[i-1]:
+                pre[i] = pre[i-1]
+            else:
+                pre[i] = i-1
+
+        @lru_cache(None)
+        def dfs(i, sums):
+            if sums == 0:
+                return [[]]
+            if i < 0 or sums < 0:
+                return []
+            res = dfs(pre[i], sums)
+            res2 = dfs(i-1, sums-candidates[i])
+            # print(i,sums,res,res2)
+            # for c in res2:
+            #     res.append(c+[candidates[i]])
+            # print(i,sums,res)
+            return res+[c+[candidates[i]] for c in res2]
+        return dfs(len(candidates)-1, target)
+
 # class Solution:
 #     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
 #         candidates.sort()

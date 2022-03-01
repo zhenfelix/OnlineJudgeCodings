@@ -25,3 +25,18 @@ class Solution:
                 pre = i 
             mp[sums] = i 
         return cnt
+
+
+class Solution:
+    def maxNonOverlapping(self, nums: List[int], target: int) -> int:
+        n = len(nums)
+        dp = [0]*(n+1)
+        mp = {0: 0}
+        cursum = 0
+        for i, v in enumerate(nums):
+            dp[i+1] = dp[i]
+            cursum += v 
+            if cursum-target in mp:
+                dp[i+1] = max(dp[i+1], dp[mp[cursum-target]]+1)
+            mp[cursum] = i+1
+        return max(dp)

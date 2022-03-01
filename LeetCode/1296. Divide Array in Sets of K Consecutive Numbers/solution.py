@@ -54,6 +54,19 @@
 
 class Solution:
     def isPossibleDivide(self, nums: List[int], k: int) -> bool:
+        if len(nums)%k:
+            return False
+        cc = Counter(nums)
+        for x in sorted(nums):
+            if cc[x]:
+                for y in range(x,x+k):
+                    cc[y] -= 1
+                    if cc[y] < 0:
+                        return False
+        return True
+
+class Solution:
+    def isPossibleDivide(self, nums: List[int], k: int) -> bool:
         nums.sort()
         cc = collections.Counter(nums)
         for num in nums:
