@@ -73,3 +73,32 @@ class Solution(object):
             if res[-1][1] != -live[0][0]:
                 res += [ [pos, -live[0][0]] ]
         return res[1:]
+
+
+
+class Solution:
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        lines = []
+        for l, r, h in buildings:
+            lines.append([l,-1,-h])
+            lines.append([r,1,h])
+        res = []
+        h = 0
+        hq = [0]
+        cc = defaultdict(int)
+        cc[0] = 1
+        # print(sorted(lines))
+        for x, flag, nh in sorted(lines):
+            if flag == -1:
+                cc[nh] += 1
+                heapq.heappush(hq,nh)
+            else:
+                cc[-nh] -= 1
+            while hq and cc[hq[0]] == 0:
+                heapq.heappop(hq)
+            hh = -hq[0]
+            if hh != h:
+                res.append([x,hh])
+                h = hh
+            # print(x,flag,nh,hh)
+        return res

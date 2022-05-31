@@ -32,3 +32,41 @@ class Solution:
                 return right
 
         return root
+
+
+
+
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+        def dfs(cur):
+            if not cur:
+                return None
+            if cur.val == key:                
+                tmp = cur
+                pre, cur = None, cur.left
+                if not cur:
+                    return tmp.right
+                if not cur.right:
+                    cur.right = tmp.right
+                    return cur
+                while cur.right:
+                    pre = cur
+                    cur = cur.right
+                pre.right = cur.left
+                cur.left = tmp.left
+                cur.right = tmp.right
+                return cur
+            if key < cur.val:
+                cur.left = dfs(cur.left)
+            else:
+                cur.right = dfs(cur.right)
+            return cur
+        return dfs(root)

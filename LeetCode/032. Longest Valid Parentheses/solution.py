@@ -75,3 +75,20 @@ class Solution(object):
                 if dp[i] >= 0:
                     res = max(res, i-dp[i]+1)
         return res
+
+
+class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        n = len(s)
+        dp = [0]*n  
+        if not dp:
+            return 0
+        st = []
+        for i, ch in enumerate(s):
+            if ch == ')':
+                if st:
+                    j = st.pop()
+                    dp[i] = i-j+1+dp[j-1]
+            else:
+                st.append(i)
+        return max(dp)
