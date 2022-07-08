@@ -1,3 +1,13 @@
+class Solution:
+    def getMoneyAmount(self, n: int) -> int:
+        @cache
+        def dfs(lo, hi):
+            if lo >= hi:
+                return 0
+            return min(i+max(dfs(lo,i-1),dfs(i+1,hi)) for i in range(lo,hi+1))
+        return dfs(1,n)
+
+
 # class Solution:
 #     def getMoneyAmount(self, n: int) -> int:
 #         def dfs(left,right):

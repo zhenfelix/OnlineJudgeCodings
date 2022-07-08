@@ -1,3 +1,34 @@
+class Solution:
+    def minArea(self, image: List[List[str]], r: int, c: int) -> int:
+        n, m = len(image), len(image[0])
+        def isblack(scan_col, j, limit):
+            for i in range(limit):
+                if scan_col:
+                    if image[i][j] == '1':
+                        return 1
+                else:
+                    if image[j][i] == '1':
+                        return 1
+            return 0
+
+        def bs(lo,hi,white_lo,scan_col,limit):
+            # print("before: ",white_lo,scan_col,limit,lo,hi)
+            while lo <= hi:
+                mid = (lo+hi)//2
+                if isblack(scan_col,mid,limit)^white_lo:
+                    lo = mid + 1
+                else:
+                    hi = mid - 1
+            # print("after: ","white_lo: ",white_lo,"scan_col: ",scan_col,limit,lo,hi)
+            if white_lo:
+                return lo 
+            else:
+                return hi 
+
+        return (bs(c,m-1,0,1,n)-bs(0,c,1,1,n)+1)*(bs(r,n-1,0,0,m)-bs(0,r,1,0,m)+1)
+
+
+
 # from collections import deque
 
 # class Solution:

@@ -55,3 +55,19 @@ class Solution(object):
     #     return sum(Q.x <= x <= P.x and Q.y <= y <= P.y for x, y in sea._Sea__ans)
 
     # print(dir(sea))
+
+
+
+class Solution(object):
+    def countShips(self, sea: 'Sea', topRight: 'Point', bottomLeft: 'Point') -> int:
+        hix, hiy = topRight.x, topRight.y 
+        lox, loy = bottomLeft.x, bottomLeft.y 
+        if hix == lox and hiy == loy:
+            return sea.hasShips(topRight,bottomLeft)
+        if not sea.hasShips(topRight,bottomLeft):
+            return 0
+        if hix == lox:
+            mid = (hiy+loy)//2
+            return self.countShips(sea, Point(lox,mid), bottomLeft) + self.countShips(sea, topRight, Point(lox,mid+1))
+        mid = (hix+lox)//2
+        return self.countShips(sea, topRight, Point(mid+1,loy)) + self.countShips(sea, Point(mid,hiy), bottomLeft)

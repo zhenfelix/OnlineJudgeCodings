@@ -59,3 +59,50 @@ class Solution:
         return
 
 
+class Solution:
+    def cleanRoom(self, robot):
+        """
+        :type robot: Robot
+        :rtype: None
+        """
+        visited = set()
+        dxy = [(1,0),(0,-1),(-1,0),(0,1)]
+        x, y, cur = 1, 3, 2
+
+        def check():
+            nonlocal x, y, cur
+            return (x+dxy[cur][0],y+dxy[cur][1]) not in visited and robot.move()
+
+        def dfs():
+            nonlocal x, y, cur
+            # print(x,y,dxy[cur])
+            visited.add((x,y))
+            robot.clean()
+            # if (x,y) == (2,0):
+            #     return 
+            # pre = cur
+            for _ in range(4):
+                # if (x,y) == (2,0):
+                #     return 
+                if check():
+                    x += dxy[cur][0]
+                    y += dxy[cur][1]
+                    # print("success move: {}".format((x,y)))
+                    dfs()
+                    robot.turnRight()
+                    cur = (cur+1)%4
+                else:
+                    robot.turnLeft()
+                    cur = (cur-1)%4
+            robot.turnLeft()
+            robot.turnLeft()
+            cur = (cur+2)%4
+            if robot.move():
+                x = x+dxy[cur][0]
+                y = y+dxy[cur][1]
+            return 
+        dfs()
+        # robot.clean()
+        # robot.move()
+        # robot.clean()
+        return

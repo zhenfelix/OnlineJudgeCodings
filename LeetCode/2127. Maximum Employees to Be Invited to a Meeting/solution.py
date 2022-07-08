@@ -1,6 +1,43 @@
 class Solution:
     def maximumInvitations(self, favorite: List[int]) -> int:
         n = len(favorite)
+        dp = [1]*n
+        cc = Counter(favorite)
+        q = deque([i for i in range(n) if cc[i] == 0])
+        while q:
+            cur = q.popleft()
+            nxt = favorite[cur]
+            dp[nxt] = max(dp[nxt], dp[cur]+1)
+            cc[nxt] -= 1
+            if cc[nxt] == 0:
+                q.append(nxt)
+
+        visited = [False]*n 
+        def dfs(cur):
+            visited[cur] = True
+            nxt = favorite[cur]
+            if visited[nxt]:
+                return True, 1
+            flag, depth = dfs(nxt)
+            return flag, depth+1
+
+        ans, bi = 0, 0
+        for i in range(n):
+            if cc[i] and not visited[i]:
+                _, cnt = dfs(i)
+                if cnt == 2:
+                    bi += dp[i]+dp[favorite[i]]
+                else:
+                    ans = max(ans, cnt)
+        return max(ans,bi) 
+
+
+
+
+
+class Solution:
+    def maximumInvitations(self, favorite: List[int]) -> int:
+        n = len(favorite)
         # print(n)
         # if n <= 3:
         #     return n 

@@ -221,3 +221,50 @@ class Solution:
         if to_ret > 1e66 :
             return -1
         return to_ret
+
+
+
+
+
+
+
+
+
+class Solution:
+    def minimumIncompatibility(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        if k == n:
+            return 0
+        m = n//k 
+        cnt = [0]*(1<<n)
+        dp = [float('inf')]*(1<<n)
+        for s in range(1,1<<n):
+            cnt[s] = cnt[s-(s&-s)] + 1
+            mx, mi = -float('inf'), float('inf')
+            if cnt[s] == m:
+                seen = set()
+                for i in range(n):
+                    if (s>>i)&1:
+                        mx = max(mx,nums[i])
+                        mi = min(mi,nums[i])
+                        if nums[i] in seen:
+                            break
+                        seen.add(nums[i])
+                else:
+                    dp[s] = mx-mi
+
+        @cache
+        def dfs(s):
+            if cnt[s] == m:
+                return dp[s]
+            cur = mask = s 
+            while True:
+                if cnt[cur] == m:
+                    dp[s] = min(dp[s], dfs(s^cur)+dp[cur])
+                if cur == 0:
+                    break
+                cur = (cur-1)&mask
+            return dp[s]
+
+        ans = dfs((1<<n)-1)
+        return ans if ans < float('inf') else -1

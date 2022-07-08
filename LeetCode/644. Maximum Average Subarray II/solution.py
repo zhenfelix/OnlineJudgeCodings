@@ -1,3 +1,28 @@
+class Solution:
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        n = len(nums)
+        lo, hi = min(nums), max(nums)
+        presums = [0]
+        for x in nums:
+            presums.append(presums[-1]+x)
+        while hi-lo >= 10**-5:
+            mid = (lo+hi)/2
+            mi = float('inf')
+            flag = False
+            for i in range(k,n+1):
+                mi = min(mi, presums[i-k]-mid*(i-k))
+                if presums[i]-mid*i >= mi:
+                    flag = True
+                    break
+            if flag:
+                lo = mid
+            else:
+                hi = mid
+        return (lo+hi)/2
+
+
+
+
 # http://buttercola.blogspot.com/2019/03/lintcode-617-maximum-average-subarray-ii.html
 
 import math

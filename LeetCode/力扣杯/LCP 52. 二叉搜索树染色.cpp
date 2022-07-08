@@ -22,10 +22,14 @@ public:
         dfs(root);
         int ans = 0;
         for (int i = (int) ops.size() - 1; i >= 0; i--) {
-            while (true) {
-                auto it = st.lower_bound(ops[i][1]);
-                if (it == st.end() || (*it) > ops[i][2]) break;
-                st.erase(it);
+            // while (true) {
+            //     auto it = st.lower_bound(ops[i][1]);
+            //     if (it == st.end() || (*it) > ops[i][2]) break;
+            //     st.erase(it);
+            //     if (ops[i][0]) ans++;
+            // }
+            for (auto it = st.lower_bound(ops[i][1]); it != st.end() && (*it) <= ops[i][2];){
+                st.erase(it++);
                 if (ops[i][0]) ans++;
             }
         }
@@ -110,3 +114,5 @@ public:
         dfs(root->right);
     }
 };
+
+// feibilun

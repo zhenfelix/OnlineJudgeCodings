@@ -48,6 +48,45 @@ class Solution:
         return ans 
 
 
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def getNumber(self, root: Optional[TreeNode], ops: List[List[int]]) -> int:
+        cnt = 0
+        mp = dict()
+        def dfs(cur):
+            nonlocal cnt
+            if not cur:
+                return
+            dfs(cur.left)
+            mp[cur.val] = cnt
+            cnt += 1
+            dfs(cur.right)
+        dfs(root)
+        push = [[] for _ in range(cnt+1)]
+        pop = [[] for _ in range(cnt+1)]
+        state = [(cnt, 0)]
+        valid = set([(cnt, 0)])
+        ans = 0
+        for i, (t,x,y) in enumerate(ops):
+            lo, hi = mp[x], mp[y]
+            push[lo].append((i, t))
+            pop[hi+1].append((i, t))
+        for i in range(cnt):
+            for j, t in push[i]:
+                heapq.heappush(state, (-j, t))
+                valid.add((-j, t))
+            for j, t in pop[i]:
+                valid.remove((-j, t))
+            while state and state[0] not in valid:
+                heapq.heappop(state)
+            _, t = state[0]
+            ans += t  
+        return ans
 
 
 

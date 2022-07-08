@@ -62,3 +62,75 @@ class Node:
 # obj.mkdir(path)
 # obj.addContentToFile(filePath,content)
 # param_4 = obj.readContentFromFile(filePath)
+
+
+class TrieNode:
+    def __init__(self):
+        self.isFile = False
+        self.fileName = ""
+        self.children = dict()
+        self.contents = []
+
+class FileSystem:
+
+    def __init__(self):
+        self.root = TrieNode()
+
+
+    def ls(self, path: str) -> List[str]:
+        path = path[1:].split('/')
+        # print(path)
+        cur = self.root
+        for p in path:
+            if not p:
+                continue
+            cur = cur.children[p]
+        if cur.isFile:
+            return [cur.fileName]
+        return sorted([k for k, _ in cur.children.items()])
+
+
+    def mkdir(self, path: str) -> None:
+        path = path[1:].split('/')
+        cur = self.root
+        for p in path:
+            if not p:
+                continue
+            if p not in cur.children:
+                cur.children[p] = TrieNode()
+            cur = cur.children[p]
+        return
+
+
+    def addContentToFile(self, path: str, content: str) -> None:
+        path = path[1:].split('/')
+        cur = self.root
+        for p in path:
+            if not p:
+                continue
+            if p not in cur.children:
+                cur.children[p] = TrieNode()
+            cur = cur.children[p]
+        cur.isFile = True
+        cur.fileName = path[-1]
+        cur.contents.append(content)
+        return
+
+
+    def readContentFromFile(self, path: str) -> str:
+        path = path[1:].split('/')
+        cur = self.root
+        for p in path:
+            if not p:
+                continue
+            cur = cur.children[p]
+        return ''.join(cur.contents)
+
+
+
+# Your FileSystem object will be instantiated and called as such:
+# obj = FileSystem()
+# param_1 = obj.ls(path)
+# obj.mkdir(path)
+# obj.addContentToFile(filePath,content)
+# param_4 = obj.readContentFromFile(filePath)

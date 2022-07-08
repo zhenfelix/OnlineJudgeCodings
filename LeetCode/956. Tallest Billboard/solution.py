@@ -1,3 +1,52 @@
+class Solution:
+    def tallestBillboard(self, rods: List[int]) -> int:
+        dp = defaultdict(int)
+        dp[0] = 0
+        for r in rods:
+            for k, v in list(dp.items()):
+                dp[k+r] = max(dp[k+r], v+r)
+                dp[k-r] = max(dp[k-r], v)
+        return dp[0]
+
+class Solution:
+    def tallestBillboard(self, rods: List[int]) -> int:
+        dp = defaultdict(int)
+        
+        n = len(rods)
+        m = n//2
+        h = defaultdict(int)
+        s = defaultdict(int)
+        for i in range(m):
+            h[1<<i] = rods[i]
+        for i in range(1,1<<m):
+            s[i] = s[i-(i&-i)] + h[i&-i]
+        for i in range(1,1<<m):
+            mask = i  
+            j = mask
+            while True:
+                dp[s[j]-s[mask^j]] = max(dp[s[j]-s[mask^j]], s[j])
+                if j == 0:
+                    break
+                j = (j-1)&mask
+        # print(h,s,dp)
+        h = defaultdict(int)
+        s = defaultdict(int)
+        for i in range(m,n):
+            h[1<<(i-m)] = rods[i]
+        for i in range(1,1<<(n-m)):
+            s[i] = s[i-(i&-i)] + h[i&-i]
+        ans = 0
+        for i in range(1,1<<(n-m)):
+            mask = i  
+            j = mask
+            while True:
+                if -(s[j]-s[mask^j]) in dp:
+                    ans = max(ans, dp[-(s[j]-s[mask^j])]+s[j])
+                if j == 0:
+                    break
+                j = (j-1)&mask
+        return ans
+
 from functools import lru_cache
 class Solution:
     def tallestBillboard(self, rods: List[int]) -> int:

@@ -1,4 +1,45 @@
 class Solution:
+    def maxProduct(self, string: str) -> int:
+        n = len(string)
+        # print(n,s.count('a'))
+        def manacher(s):
+            sz = [1]*n 
+            dp = [1]*n
+            lo, hi = 0, 0
+            for i in range(1,n):
+                if i <= hi:
+                    sz[i] = min(sz[lo+hi-i],hi-i+1)
+                if i+sz[i]-1 >= hi:
+                    while i+sz[i] < n and i-sz[i] >= 0 and s[i+sz[i]] == s[i-sz[i]]:
+                        dp[i+sz[i]] = sz[i]*2+1
+                        sz[i] += 1
+                # print(i,lo,hi,sz[i])
+                if i+sz[i]-1 > hi:
+                    lo, hi = i-sz[i]+1, i+sz[i]-1
+            return dp
+        
+
+        left = manacher(string)
+        right = manacher(string[::-1])
+        
+        # print(right)
+        for i in range(1,n):
+            left[i] = max(left[i],left[i-1])
+            right[i] = max(right[i],right[i-1])
+
+        right = right[::-1]
+
+        # print(left,right)
+        ans = 0
+        for i in range(n-1):
+            ans = max(ans, left[i]*right[i+1])
+        return ans
+
+
+
+
+
+class Solution:
     def maxProduct(self, s: str) -> int:
         n = len(s)
         radius = [1]*n 

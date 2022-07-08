@@ -1,3 +1,20 @@
+class Solution:
+    def minCostII(self, costs: List[List[int]]) -> int:
+        n, k = len(costs), len(costs[0])
+        left = [0]*(k+1)
+        right = [0]*(k+1)
+        for cost in costs:
+            dp = [float('inf')]*(k+1)
+            for i in range(k):
+                dp[i] = min(dp[i], left[i-1]+cost[i], right[i+1]+cost[i])
+            left[-1] = right[-1] = float('inf')
+            for i in range(k):
+                left[i] = min(left[i-1], dp[i])
+            for i in range(k)[::-1]:
+                right[i] = min(right[i+1], dp[i])
+        return min(dp)
+
+
 # class Solution:
 #     def minCostII(self, costs: List[List[int]]) -> int:
 #         if not costs:

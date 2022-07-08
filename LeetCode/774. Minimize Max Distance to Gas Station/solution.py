@@ -33,6 +33,23 @@
 
 
 class Solution:
+    def minmaxGasDist(self, stations: List[int], k: int) -> float:
+        lo, hi = 0, 10**8
+        while hi-lo >= 10**-6:
+            mid = (lo+hi)/2
+            cnt = 0
+            for a, b in zip(stations[:-1],stations[1:]):
+                cnt += (b-a)//mid
+                if cnt > k:
+                    break
+            if cnt > k:
+                lo = mid 
+            else:
+                hi = mid 
+        return (lo+hi)/2
+
+
+class Solution:
     def minmaxGasDist(self, stations: List[int], K: int) -> float:
         lo, hi, delta = 0, stations[-1]-stations[0], 1e-6
         distances = [b-a for a,b in zip(stations,stations[1:])]
