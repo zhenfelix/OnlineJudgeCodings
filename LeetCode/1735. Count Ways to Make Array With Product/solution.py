@@ -1,3 +1,31 @@
+MOD = 10**9+7
+N, M = 10000+20, 20
+cb = [[0]*M for _ in range(N)]
+for i in range(N):
+    cb[i][0] = 1
+    for j in range(1,min(i+1,M)):
+        cb[i][j] = (cb[i-1][j]+cb[i-1][j-1])%MOD
+
+class Solution:
+    def waysToFillArray(self, queries: List[List[int]]) -> List[int]:
+        ans = []
+        for n, k in queries:
+            n -= 1
+            cur, f = 1, 2
+            while f*f <= k:
+                cnt = 0
+                while k%f == 0:
+                    cnt += 1
+                    k //= f 
+                cur = (cur*cb[n+cnt][cnt])%MOD
+                # print(f,k,cnt,cb[n+cnt][cnt])
+                f += 1
+            if k > 1:
+                cur = (cur*cb[n+1][1])%MOD
+            ans.append(cur)
+        return ans
+
+
 # class Solution:
 #     def init(self):
 #         total, choice = 10**4+15, 15
