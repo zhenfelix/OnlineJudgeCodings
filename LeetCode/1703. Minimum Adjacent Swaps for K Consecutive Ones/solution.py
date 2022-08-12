@@ -1,5 +1,28 @@
 class Solution:
     def minMoves(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        presums = [0]
+        pos = []
+        shift = 0
+        for i, x in enumerate(nums):
+            if x == 1:
+                pos.append(i-shift)
+                presums.append(presums[-1]+i-shift)
+                shift += 1
+        m = len(pos)
+        ans = float('inf')
+        for right in range(k-1,m):
+            left = right-k+1
+            mid = (left+right)//2
+            ans = min(ans, pos[mid]*(mid-left)-(presums[mid]-presums[left])+(presums[right+1]-presums[mid+1]-(right-mid)*pos[mid]))
+        return ans
+
+
+
+
+
+class Solution:
+    def minMoves(self, nums: List[int], k: int) -> int:
         arr = []
         for i, x in enumerate(nums):
             if x == 1:

@@ -1,5 +1,20 @@
 class Solution:
     def crackSafe(self, n: int, k: int) -> str:
+        g = defaultdict(int)
+        path = []
+        def dfs(cur, pch):
+            while g[cur] < k:
+                ch = str(g[cur])
+                g[cur] += 1
+                dfs((cur+ch)[1:], ch)
+            path.append(pch)
+        dfs('0'*(n-1), '0'*(n-1))
+        return ''.join(path)
+
+
+
+class Solution:
+    def crackSafe(self, n: int, k: int) -> str:
         def dfs(node, k, visited, ans):
             for x in map(str, range(k)):
                 edge = node + x

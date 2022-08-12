@@ -26,3 +26,13 @@ class Solution:
         for i, a in enumerate(A):
             res += ((i + 1) * (n - i) + 1) // 2 * a
         return res
+
+class Solution:
+    def sumOddLengthSubarrays(self, arr: List[int]) -> int:
+        n = len(arr)
+        ans = 0
+        for i, x in enumerate(arr):
+            left, right = i+1, n-i-1
+            # print(i,left,right,left//2*((right+1)//2),(left+1)//2*((right+2)//2))
+            ans += (left//2*((right+1)//2)+(left+1)//2*((right+2)//2))*x
+        return ans

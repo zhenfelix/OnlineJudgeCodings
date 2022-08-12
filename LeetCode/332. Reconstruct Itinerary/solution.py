@@ -1,28 +1,28 @@
 import collections
 
-# class Solution:
-#     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
-#         # visited = collections.Counter()
-#         mp = collections.defaultdict(list)
-#         for a, b in sorted(tickets)[::-1]:
-#             mp[a].append(b)
-#             # visited[(a, b)] += 1
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        # visited = collections.Counter()
+        mp = collections.defaultdict(list)
+        for a, b in sorted(tickets)[::-1]:
+            mp[a].append(b)
+            # visited[(a, b)] += 1
         
-#         # for k, v in mp.items():
-#         #     mp[k] = sorted(v, reverse = False)
+        # for k, v in mp.items():
+        #     mp[k] = sorted(v, reverse = False)
         
         
-#         path = []
+        path = []
         
-#         def dfs(node):
-#             while mp[node]:
-#                 dfs(mp[node].pop())
-#             path.append(node)
+        def dfs(node):
+            while mp[node]:
+                dfs(mp[node].pop())
+            path.append(node)
             
-#         dfs('JFK')
-#         # print(path)
-#         # path.append('JFK')
-#         return path[::-1]
+        dfs('JFK')
+        # print(path)
+        # path.append('JFK')
+        return path[::-1]
 
 # class Solution:
 #     """docstring for Solution"""

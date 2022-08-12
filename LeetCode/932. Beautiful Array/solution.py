@@ -1,3 +1,11 @@
+class Solution:
+    def beautifulArray(self, n: int) -> List[int]:
+        if n <= 2:
+            return [i+1 for i in range(n)]
+        left = self.beautifulArray((n+1)//2)
+        right = self.beautifulArray(n//2)
+        return [l*2-1 for l in left]+[r*2 for r in right]
+
 from functools import lru_cache
 class Solution(object):
     @lru_cache(None)

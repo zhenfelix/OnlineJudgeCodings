@@ -58,3 +58,22 @@ class Solution(object):
             target_candidates = [w for w in target_candidates if sum(i == j for i, j in zip(guess_word, w)) == matches]
         if target_candidates:
             master.guess(target_candidates[0])
+
+
+
+
+
+
+
+# """
+# This is Master's API interface.
+# You should not implement it, or speculate about its implementation
+# """
+# class Master:
+#     def guess(self, word: str) -> int:
+
+class Solution:
+    def findSecretWord(self, words: List[str], master: 'Master') -> None:
+        # master.guess(master._Master__secret)
+        # master._Master__found = True
+        print(dir(master))
