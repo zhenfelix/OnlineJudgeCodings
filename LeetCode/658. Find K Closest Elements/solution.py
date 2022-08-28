@@ -30,3 +30,10 @@ class Solution:
             else:
                 left = mid + 1
         return arr[left:left+k]
+
+
+# class Solution:
+#     def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+#         nums = [(abs(y-x),y) for y in arr]
+#         nums = sorted(nums)[:k]
+#         return [y for _, y in sorted(nums, key = lambda t: t[-1])]

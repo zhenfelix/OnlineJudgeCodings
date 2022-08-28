@@ -36,3 +36,14 @@ class Solution:
                 f[i] += f[i - coin]
         return f[n] % mod
 
+class Solution:
+    def waysToChange(self, n: int) -> int:
+        arr = [1,5,10,25]
+        dp = [0]*(n+1)
+        dp[0] = 1
+        MOD = 10**9+7
+        for delta in arr:
+            for i in range(delta,n+1):
+                dp[i] += dp[i-delta]
+                dp[i] %= MOD
+        return dp[-1]

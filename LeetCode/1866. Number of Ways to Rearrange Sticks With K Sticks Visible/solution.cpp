@@ -1,3 +1,60 @@
+using ll = long long;
+class Solution {
+public:
+    int rearrangeSticks(int n, int k) {
+        int MOD = 1e9+7;
+        vector<int> dp(k+1, 0);
+        dp[0] = 1;
+        for (int i = 1; i <= n; i++){
+            for (int j = k; j > 0; j--){
+                dp[j] = ((ll) dp[j]*(i-1) + dp[j-1])%MOD;
+            }
+            dp[0] = 0;
+        }
+        return dp[k];
+    }
+};
+
+
+static constexpr int mod = 1000000007;
+long long f[1001][1001];
+auto _init_f = [](){
+    f[0][0] = 1;
+    for (int i = 1; i <= 1000; ++i) {
+        for (int j = 1; j <= i; ++j) {
+            f[i][j] = (f[i - 1][j - 1] + f[i - 1][j] * (i - 1)) % mod;
+        }
+    }
+    return 0;
+}();
+class Solution {
+public:
+    int rearrangeSticks(int n, int k) {
+        /*
+        //vector<int> f(k + 1);
+        if (n == k) {
+            return 1;
+        }
+        for (int i = 1; i <= n; ++i) {
+            //vector<int> g(k + 1);
+            for (int j = 1; j <= k; ++j) {
+                //g[j] = ((long long)f[j] * (i - 1) % mod + f[j - 1]) % mod;
+                f[i][j] = ((long long)f[i - 1][j] * (i - 1) % mod + f[i - 1][j - 1]) % mod;
+                //每次考虑最短的木棍，若能被看见则其一定位于第一个
+                //f[n][k] = f[n - 1][k - 1]
+                //若不能被看见，则说明其一定被遮挡
+                //f[n][k] = f[n - 1][k] * n - 1
+            }
+            //f = move(g);
+        }
+        */
+        return f[n][k];
+    }
+};
+
+
+
+
 class Solution {
 public:
     bool vis[1005][1005];

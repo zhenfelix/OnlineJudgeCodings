@@ -1,3 +1,28 @@
+from sortedcontainers import SortedList
+class Solution:
+    def maxSumSubmatrix(self, matrix: List[List[int]], mx: int) -> int:
+        n, m = len(matrix), len(matrix[0])
+        presums = [[0]*m for _ in range(n+1)]
+        for j in range(m):
+            for i in range(n):
+                presums[i+1][j] = presums[i][j]+matrix[i][j]
+        ans = -float('inf')
+        for i in range(n):
+            for j in range(i,n):
+                seen = SortedList()
+                cur = 0
+                for k in range(m):
+                    seen.add(cur)
+                    cur += presums[j+1][k]-presums[i][k]
+                    # print(cur)
+                    idx = seen.bisect_left(cur-mx)
+                    if idx < len(seen):
+                        ans = max(ans, cur-seen[idx])
+                # print(i,j,seen)
+        return ans 
+
+
+
 import bisect
 
 # class Solution:

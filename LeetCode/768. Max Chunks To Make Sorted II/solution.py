@@ -1,17 +1,17 @@
 # class Solution:
 #     def maxChunksToSorted(self, arr: List[int]) -> int:
-#         nums = sorted(arr)
-#         n = len(nums)
-#         mp = {}
-#         for i in range(n)[::-1]:
-#             mp[nums[i]] = i 
-#         res, reach = 0, -1
-#         for i, a in enumerate(arr):
-#             if i > reach:
-#                 res += 1
-#             reach = max(reach,mp[a])
-#             mp[a] += 1
-#         return res 
+#         mp = dict()
+#         for i, x in enumerate(sorted(arr)):
+#             if x not in mp:
+#                 mp[x] = i 
+#         reach = -1
+#         cnt = 0
+#         for i, x in enumerate(arr):
+#             reach = max(reach, mp[x])
+#             mp[x] += 1
+#             if i == reach:
+#                 cnt += 1
+#         return cnt
 
 
 class Solution:

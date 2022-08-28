@@ -47,3 +47,22 @@ class Solution:
             reach += -heapq.heappop(pq)
             cnt += 1
         return cnt
+
+
+class Solution:
+    def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:
+        stations = [[0,0]]+stations+[[target,0]]
+        n = len(stations)
+        hq = []
+        cnt = 0
+        for i in range(n-1):
+            _, fuel = stations[i]
+            heapq.heappush(hq, -fuel)
+            if startFuel < stations[i+1][0]:
+                while startFuel < stations[i+1][0] and hq:
+                    startFuel -= heapq.heappop(hq)
+                    cnt += 1
+                if startFuel < stations[i+1][0]:
+                    return -1
+        return cnt
+            

@@ -1,5 +1,23 @@
-# class Solution:
-#     def threeSum(self, nums: List[int]) -> List[List[int]]:
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        n = len(nums)
+        res = []
+        nums.sort()
+        for i in range(n):
+            if i and nums[i] == nums[i-1]:
+                continue
+            k = n-1
+            for j in range(i+1,n):
+                if j >= k:
+                    break
+                if j > i+1 and nums[j] == nums[j-1]:
+                    continue
+                while j < k and nums[j]+nums[k] >= -nums[i]:
+                    if nums[j]+nums[k] == -nums[i]:
+                        if k == n-1 or nums[k] != nums[k+1]:
+                            res.append([nums[i],nums[j],nums[k]])
+                    k -= 1
+        return res
 
         
 class Solution:
@@ -35,20 +53,20 @@ class Solution:
                     
             
 
-class Solution:
-    def threeSum(self, nums):
-        ht={}
-        nums.sort()
-        ans=set()
-        for i,n in enumerate(nums):
-            ht[n]=i
-        for i in range(len(nums)):
-            for j in range(i+1,len(nums)):
-                target=-(nums[i]+nums[j])
-                if target in ht and ht[target]>j:
-                    ans.add((nums[i],nums[j],-(nums[i]+nums[j])))
+# class Solution:
+#     def threeSum(self, nums):
+#         ht={}
+#         nums.sort()
+#         ans=set()
+#         for i,n in enumerate(nums):
+#             ht[n]=i
+#         for i in range(len(nums)):
+#             for j in range(i+1,len(nums)):
+#                 target=-(nums[i]+nums[j])
+#                 if target in ht and ht[target]>j:
+#                     ans.add((nums[i],nums[j],-(nums[i]+nums[j])))
                     
-        return list(ans)        
+#         return list(ans)        
 
 class Solution:
     def threeSum(self, nums):
