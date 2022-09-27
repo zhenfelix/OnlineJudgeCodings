@@ -213,3 +213,24 @@ class Solution:
                 j = i + 1
             k = 0
         return s[i:]
+
+
+class Solution:
+    def lastSubstring(self, s: str) -> str:
+        # Python Version
+        n = len(s)
+        sec = s+'a'*n
+        k, i, j = 0, 0, 1
+        while k < n and i < n and j < n:
+            if sec[(i + k)] == sec[(j + k)]:
+                k += 1
+            else:
+                if sec[(i + k)] < sec[(j + k)]:
+                    i = i + k + 1
+                else:
+                    j = j + k + 1
+                if i == j:
+                    i += 1
+                k = 0
+        i = min(i, j)
+        return s[i:]

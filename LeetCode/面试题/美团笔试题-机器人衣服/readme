@@ -1,0 +1,74 @@
+
+> 有 n 件衣服排成一列，每件衣服旁边有一个机器人，给定每个机器人启动消耗的电池数 p[i] 和收一件衣服用的时间 t[i] ，你有 B 块电池，只能在开始前选定几个机器人同时启动，第 i 个机器人收完衣服后，会尝试收 i+1 位置的衣服（最后一个机器人不会回到开头），如果 i+1 位置的衣服已经被收掉或者有机器人正在收衣服，第 i 个机器人不再前进，求收完所有衣服的最短时间；无法收完所有衣服则返回-1.
+
+作者：∞
+链接：https://leetcode.cn/circle/discuss/LXnvFH/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+
+第二题两种方法
+方法一，暴力dp O(n2B)
+```python
+def solve():
+    n, B = list(map(int,input().split()))
+    ts = list(map(int,input().split()))
+    ps = list(map(int,input().split()))
+
+    @lru_cache(None)
+    def dfs(i,w):
+        res = float('inf')
+        if w < ps[i]:
+            return res 
+        res = (n-i)*ts[i]
+        for j in range(i+1,n):
+            res = min(res, max((j-i)*ts[i], dfs(j,w-ps[i])))
+        return res 
+    ans = dfs(0,B)
+    return ans if ans < float('inf') else -1
+```
+
+方法二，二分+dijkstra O(n2log(n)log(n*tmax)
+```python
+def solve():
+    n, B = list(map(int,input().split()))
+    ts = list(map(int,input().split()))
+    ps = list(map(int,input().split()))
+    ps.append(0)
+
+    def check(t):
+        # if ps[0] > B:
+        #     return False 
+        dist = [float('inf')]*(n+1)
+        q = [(ps[0],0)]
+        dist[0] = ps[0]
+        while q:
+            w, i = heappop(q)
+            if w > B:
+                return False
+            if i == n:
+                return True
+            if w > dist[i]:
+                continue
+            for j in range(i+1,n+1):
+                if (j-i)*ts[i] > t:
+                    break
+                if w+ps[j] < dist[j]:
+                    dist[j] = w+ps[j]
+                    heappush(q,(dist[j],j))
+        return False
+
+
+    mx = max(ts)*n 
+    lo, hi = 1, mx 
+    while lo <= hi:
+        mid = (lo+hi)//2
+        if check(mid):
+            hi = mid - 1
+        else:
+            lo = mid + 1
+    ans = lo 
+    
+    return ans if ans <= mx else -1
+```

@@ -1,5 +1,16 @@
 class Solution:
     def minimumEffort(self, tasks: List[List[int]]) -> int:
+        tasks.sort(key = lambda x: x[0]-x[1])
+        s, cur = 0, 0
+        for a, m in tasks:
+            if cur < m:
+                s += (m-cur)
+                cur = m 
+            cur -= a 
+        return s 
+
+class Solution:
+    def minimumEffort(self, tasks: List[List[int]]) -> int:
         tasks.sort(key=lambda x: x[0] - x[1])
         p = suma = 0
         for ai, mi in tasks:

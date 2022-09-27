@@ -65,3 +65,19 @@ class Solution:
             k, j = index[c]
             res += (len(S) - j) * (j - k)
         return res % (10**9 + 7)
+
+
+class Solution:
+    def uniqueLetterString(self, s: str) -> int:
+        n = len(s)
+        mp = [[-1] for _ in range(26)]
+        for i, ch in enumerate(s):
+            ch = ord(ch)-ord('A')
+            mp[ch].append(i)
+        ans = 0
+        for i in range(26):
+            mp[i].append(n)
+            m = len(mp[i])
+            for j in range(1,m-1):
+                ans += (mp[i][j]-mp[i][j-1])*(mp[i][j+1]-mp[i][j])
+        return ans 

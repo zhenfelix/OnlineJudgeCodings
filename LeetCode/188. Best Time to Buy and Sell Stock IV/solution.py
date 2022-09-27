@@ -1,3 +1,18 @@
+class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        n = len(prices)
+        f = [0]*(n+1)
+        g = [-float('inf')]*(n+1)
+        for _ in range(k):
+            for i in range(n):
+                g[i+1] = max(g[i], f[i]-prices[i])
+            for i in range(1,n+1):
+                f[i] = max(f[i-1], g[i-1]+prices[i-1])
+            # print(g,f)
+        return max(f)
+
+
+
 # class Solution:
 #     def maxProfit(self, k: int, prices: List[int]) -> int:
 #         n = len(prices)

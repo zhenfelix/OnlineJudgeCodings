@@ -1,3 +1,31 @@
+class Solution:
+    def rectangleArea(self, rectangles: List[List[int]]) -> int:
+        MOD = 10**9+7
+        intervals = set()
+        mp = defaultdict(list)
+        for x1, y1, x2, y2 in rectangles:
+            intervals.add(y1)
+            intervals.add(y2)
+            mp[x1].append((1,y1,y2))
+            mp[x2].append((-1,y1,y2))
+        arr = sorted(mp.keys())
+        intervals = sorted(list(intervals))
+        diff = Counter()
+        ans = 0
+        px = -1
+        for x in arr:
+            py = -1
+            cnt = 0
+            for y in intervals:
+                if cnt:
+                    ans += (x-px)*(y-py)
+                py = y  
+                cnt += diff[y]
+            for delta, y1, y2 in mp[x]:
+                diff[y1] += delta
+                diff[y2] -= delta
+            px = x
+        return ans%MOD
 
 # class Solution:
 #     def rectangleArea(self, rectangles: List[List[int]]) -> int:

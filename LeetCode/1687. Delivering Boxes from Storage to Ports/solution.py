@@ -1,5 +1,32 @@
 class Solution:
     def boxDelivering(self, boxes: List[List[int]], portsCount: int, maxBoxes: int, maxWeight: int) -> int:
+        sc, sw, ss = [0], [0], [0]
+        pre = -1
+        for p, w in boxes:
+            sc.append(sc[-1]+1)
+            sw.append(sw[-1]+w)
+            ss.append(ss[-1]+(pre==p))
+            pre = p 
+        # print(sc,sw,ss)
+        n = len(boxes)
+        f, g = [0]*(n+1), [0]*(n+1)
+        q = deque([0])
+        for i in range(1,n+1):
+            while q and (sc[i]-sc[q[0]] > maxBoxes or sw[i]-sw[q[0]] > maxWeight):
+                q.popleft()
+            f[i] = ss[i]+g[q[0]]-1
+            if i < n:
+                g[i] = f[i]-ss[i+1]
+            while q and g[q[-1]] <= g[i]:
+                q.pop()
+            q.append(i)
+            # print(f,g,q)
+        return n-f[-1]
+
+
+
+class Solution:
+    def boxDelivering(self, boxes: List[List[int]], portsCount: int, maxBoxes: int, maxWeight: int) -> int:
         n = len(boxes)
         diff, wsum = [0]*n, [0]*(n+1)
         for i in range(1,n):

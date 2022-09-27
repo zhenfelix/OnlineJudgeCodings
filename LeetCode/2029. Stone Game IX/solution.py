@@ -58,3 +58,24 @@ class Solution:
                 return cnt[s] > 0 and cnt[3-s] > cnt[s]-1
             return cnt[s]-2 > cnt[3-s]
         return check(1) or check(2)
+
+
+
+
+class Solution:
+    def stoneGameIX(self, stones: List[int]) -> bool:
+        def check(i, cnt):
+            if cnt[i] == 0:
+                return False
+            cnt[i] -= 1
+            s = i 
+            while cnt[s]:
+                cnt[s] -= 1
+                s = 3-s
+            if cnt[1] == cnt[2] == 0:
+                return False
+            if cnt[0]%2 == 1:
+                s = 3-s
+            return s == i 
+        cc = Counter([s%3 for s in stones])
+        return check(1, cc.copy()) or check(2, cc.copy())

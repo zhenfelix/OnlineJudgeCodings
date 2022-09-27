@@ -1,5 +1,16 @@
 class Solution:
     def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
+        pos = {v: i for i, v in enumerate(arr)}
+        for p in pieces:
+            for i, v in enumerate(p):
+                if v not in pos:
+                    return False
+                if i and pos[p[i]]-pos[p[i-1]] != 1:
+                    return False
+        return True
+
+class Solution:
+    def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
         s1, s2 = set(arr), set(reduce(lambda x,y: x+y, pieces, []))
         if s1 != s2:
             return False

@@ -1,4 +1,33 @@
+class Solution:
+    def minJump(self, jump: List[int]) -> int:
+        n = len(jump)
+        q = [0]
+        visited = [False]*n 
+        visited[0] = True
+        reach = 0
+        cnt = 0
+        while q:
+            nq = []
+            for cur in q:
+                nxt = jump[cur]+cur
+                if nxt >= n:
+                    return cnt+1
+                if not visited[nxt]:
+                    visited[nxt] = True
+                    nq.append(nxt)
+                while reach < cur:
+                    reach += 1
+                    nxt = reach
+                    if nxt >= n:
+                        return cnt+1
+                    if not visited[nxt]:
+                        visited[nxt] = True
+                        nq.append(nxt)
+            q = nq
+            cnt += 1
+        return -1
 
+        
 # class Solution:
 #     def minJump(self, jump: List[int]) -> int:
 #         q = deque()

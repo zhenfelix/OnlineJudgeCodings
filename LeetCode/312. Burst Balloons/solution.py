@@ -1,3 +1,15 @@
+class Solution:
+    def maxCoins(self, nums: List[int]) -> int:
+        n = len(nums)
+        nums.append(1)
+        @cache
+        def dfs(i,j):
+            if i+1 >= j:
+                return 0
+            return max(nums[i]*nums[k]*nums[j]+dfs(i,k)+dfs(k,j) for k in range(i+1,j))
+        return dfs(-1,n)
+
+
 # class Solution:
 #     def maxCoins(self, nums: List[int]) -> int:
 #         nums = [1]+nums+[1]
