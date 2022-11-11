@@ -7,7 +7,7 @@ class Solution:
                 if d <= radius + epsilon:
                     total += q//(1+d)
             return total
-        res, ii, jj = 0, -1, -1
+        res, ii, jj = -1, -1, -1
         for i in range(51):
             for j in range(51):
                 cur = calc(i,j)

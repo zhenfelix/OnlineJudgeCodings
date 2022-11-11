@@ -48,3 +48,18 @@ class Solution:
             sums += postsum
             st.append((a,i,postsum))
         return sums%(10**9+7)
+
+
+class Solution:
+    def sumSubarrayMins(self, arr: List[int]) -> int:
+        st = [-1]
+        arr.append(0)
+        MOD = 10**9+7
+        ans = 0
+        for i, v in enumerate(arr):
+            while st and arr[st[-1]] > v:
+                j = st.pop()
+                ans += (j-st[-1])*(i-j)*arr[j]
+                ans %= MOD 
+            st.append(i)
+        return ans 
