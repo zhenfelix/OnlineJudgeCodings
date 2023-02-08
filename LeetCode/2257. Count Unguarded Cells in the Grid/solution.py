@@ -1,5 +1,47 @@
 class Solution:
     def countUnguarded(self, n: int, m: int, guards: List[List[int]], walls: List[List[int]]) -> int:
+        grid = [['.']*m for _ in range(n)]
+        for r, c in guards:
+            grid[r][c] = 'G'
+        for r, c in walls:
+            grid[r][c] = 'W'
+
+        def operate(r,c,flag):
+            if grid[r][c] == 'W':
+                flag = False
+            elif grid[r][c] == 'G':
+                flag = True
+            elif flag:
+                grid[r][c] = '#'
+            return flag
+
+        for r in range(n):
+            flag = False
+            for c in range(m):
+                flag = operate(r,c,flag)
+            flag = False
+            for c in range(m)[::-1]:
+                flag = operate(r,c,flag)
+        for c in range(m):
+            flag = False
+            for r in range(n):
+                flag = operate(r,c,flag)
+            flag = False
+            for r in range(n)[::-1]:
+                flag = operate(r,c,flag)
+        return sum(ch == '.' for row in grid for ch in row)
+
+                
+                
+                
+                
+                
+                
+
+
+
+class Solution:
+    def countUnguarded(self, n: int, m: int, guards: List[List[int]], walls: List[List[int]]) -> int:
         guards = set([(r,c) for r, c in guards])
         walls = set([(r,c) for r, c in walls])
         visited = set()

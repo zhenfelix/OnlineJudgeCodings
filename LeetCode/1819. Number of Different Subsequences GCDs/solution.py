@@ -36,3 +36,43 @@ class Solution:
             if dp[x]: ans += 1
                 
         return ans
+
+
+
+# class Solution:
+#     def countDifferentSubsequenceGCDs(self, nums: List[int]) -> int:
+#         mx = max(nums)
+#         dp = [0]*(mx+1)
+#         for a in nums:
+#             dp[a] = 1
+#         ans = 0
+#         def factoring(x):
+#             y = x 
+#             f = 2
+#             fs = []
+#             while f*f <= y:
+#                 if x%f == 0:
+#                     while x%f == 0:
+#                         x //= f 
+#                     fs.append(f)
+#                 f += 1 
+#             if x > 1:
+#                 fs.append(x)
+#             return fs 
+
+#         for i in range(1,mx+1)[::-1]:
+#             if dp[i] == 0:   
+#                 cnt = 0
+#                 seen = set()
+#                 for j in range(i*2,mx+1,i):
+#                     if dp[j] == 0: continue
+#                     fs = factoring(j//i)
+#                     if all(f not in seen for f in fs):
+#                         cnt += 1
+#                     if cnt >= 2:
+#                         dp[i] = 1
+#                         break 
+#                     for f in fs:
+#                         seen.add(f)
+#         # print(dp)
+#         return sum(f for f in dp) 

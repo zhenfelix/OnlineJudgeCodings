@@ -1,4 +1,24 @@
 class Solution:
+    def countExcellentPairs(self, nums: List[int], k: int) -> int:
+        def convert(x):
+            cnt = 0
+            while x:
+                cnt += (x&1)
+                x >>= 1
+            return cnt
+        nums = sorted(list(map(convert,set(nums))))
+        n = len(nums)
+        ans = 0
+        j = n-1
+        for i in range(n):
+            while j >= 0 and nums[i]+nums[j] >= k:
+                j -= 1
+            ans += n-j-1
+        return ans 
+        
+
+
+class Solution:
     def countExcellentPairs(self, nums: List[int], m: int) -> int:
         nums = list(set(nums))
         n = len(nums)

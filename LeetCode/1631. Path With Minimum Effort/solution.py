@@ -1,5 +1,30 @@
 class Solution:
     def minimumEffortPath(self, heights: List[List[int]]) -> int:
+        n, m = len(heights), len(heights[0])
+        dist = [[inf]*m for _ in range(n)]
+        dist[0][0] = 0
+        q = [(0,0,0)]
+        heapify(q)
+        dxy = [-1,0,1,0,-1]
+        while q:
+            h, i, j = heappop(q)
+            if h > dist[i][j]:
+                continue
+            if (i,j) == (n-1,m-1):
+                return h 
+            for di, dj in zip(dxy[1:],dxy[:-1]):
+                di += i 
+                dj += j 
+                
+                if 0 <= di < n and 0 <= dj < m:
+                    nh = max(h,abs(heights[di][dj]-heights[i][j]))
+                    if nh < dist[di][dj]:
+                        heappush(q,(nh,di,dj))
+                        dist[di][dj] = nh
+        return -1
+
+class Solution:
+    def minimumEffortPath(self, heights: List[List[int]]) -> int:
         q = [(0,0,0)]
         n, m = len(heights), len(heights[0])
         dp = [[float('inf')]*m for _ in range(n)]

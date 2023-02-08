@@ -1,3 +1,30 @@
+class Solution:
+    def idealArrays(self, n: int, maxValue: int) -> int:
+        MOD = 10**9+7
+        def mul(a, b):
+            c = [0]*(1+maxValue)
+            for i in range(1,maxValue+1):
+                j = 1
+                while i*j <= maxValue:
+                    c[i*j] += a[i]*b[j]
+                    c[i*j] %= MOD
+                    j += 1 
+            return c 
+
+        ans = [0]*(maxValue+1)
+        ans[1] = 1
+        a = [1]*(1+maxValue)
+        while n:
+            if n&1:
+                ans = mul(ans,a)
+            a = mul(a,a)
+            n >>= 1
+        return sum(ans)%MOD
+
+
+
+
+
 MOD = 10**9+7
 N, M = 15, 10000
 dp = [[0]*M for _ in range(N)]

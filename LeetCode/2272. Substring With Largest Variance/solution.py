@@ -1,24 +1,48 @@
 class Solution:
     def largestVariance(self, s: str) -> int:
-        alphas = [chr(ord('a')+i) for i in range(26)]
+        s = [ord(ch)-ord('a') for ch in s]
+        n = len(s)
         ans = 0
-       
-        for mx in alphas:
-            for mi in alphas:
-                if mx == mi:
+        for a in range(26):
+            for b in range(26):
+                if a == b:
                     continue
-                miv = 0
-                miv2 = float('inf')
-                cur = 0
-                for i, ch in enumerate(s):
-                    if ch == mx:
-                        cur += 1
-                    elif ch == mi:
-                        cur -= 1
-                        miv2 = miv
-                        miv = min(miv, cur)
-                    ans = max(ans, cur-miv2)
-        return ans
+                mi = cnt = 0
+                mi1 = float('inf')
+                for ch in s:
+                    if ch == b:
+                        cnt += 1
+                    if ch == a:
+                        cnt -= 1
+                        mi1 = mi 
+                    # print(a,b,cnt,mi)
+                    #avoid max and min function, because they are slow
+                    if cnt-mi1 > ans:
+                        ans = cnt-mi1
+                    if cnt < mi:
+                        mi = cnt
+        return ans 
+# class Solution:
+#     def largestVariance(self, s: str) -> int:
+#         alphas = [chr(ord('a')+i) for i in range(26)]
+#         ans = 0
+       
+#         for mx in alphas:
+#             for mi in alphas:
+#                 if mx == mi:
+#                     continue
+#                 miv = 0
+#                 miv2 = float('inf')
+#                 cur = 0
+#                 for i, ch in enumerate(s):
+#                     if ch == mx:
+#                         cur += 1
+#                     elif ch == mi:
+#                         cur -= 1
+#                         miv2 = miv
+#                         miv = min(miv, cur)
+#                     ans = max(ans, cur-miv2)
+#         return ans
 
 
 

@@ -28,3 +28,18 @@ class Solution:
 
 # grey code
 # 九连环
+
+
+class Solution:
+    def minimumOneBitOperations(self, n: int) -> int:
+        idx = 0
+        while (1<<idx) <= n:
+            idx += 1
+        def dfs(x, i):
+            # print(x,i)
+            if x <= 1:
+                return x
+            while (x>>i)&1 == 0:
+                i -= 1
+            return ((1<<(i+1))-1)-dfs(x-(1<<i),i)
+        return dfs(n,idx)

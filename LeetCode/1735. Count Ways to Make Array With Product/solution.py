@@ -1,4 +1,46 @@
 MOD = 10**9+7
+
+def quickmul(a, q):
+    ans = 1
+    while q:
+        if q&1:
+            ans = (ans*a)%MOD
+        a = (a*a)%MOD
+        q >>= 1 
+    return ans 
+
+N = 2*10**4+5
+f = [1]*N 
+for i in range(1,N):
+    f[i] = (f[i-1]*i)%MOD
+invf = [1]*N 
+invf[N-1] = quickmul(f[N-1],MOD-2)
+for i in range(1,N)[::-1]:
+    invf[i-1] = (invf[i]*i)%MOD
+
+class Solution:
+    def waysToFillArray(self, queries: List[List[int]]) -> List[int]:
+        ans = []
+        for n, x in queries:
+            n -= 1
+            y = x
+            k = 2
+            res = 1
+            while k*k <= y:
+                cnt = 0
+                while x%k == 0:
+                    x //= k 
+                    cnt += 1 
+                if cnt:
+                    res = (res*f[cnt+n]*invf[n]*invf[cnt])%MOD
+                k += 1
+            if x != 1:
+                res = (res*f[1+n]*invf[n]*invf[1])%MOD
+            ans.append(res)
+        return ans
+
+
+MOD = 10**9+7
 N, M = 10000+20, 20
 cb = [[0]*M for _ in range(N)]
 for i in range(N):

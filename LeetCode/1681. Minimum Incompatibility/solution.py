@@ -1,5 +1,48 @@
 class Solution:
     def minimumIncompatibility(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        if k == 1:
+            return max(nums)-min(nums) if len(set(nums)) == n else -1
+        if k == n:
+            return 0
+        sz = n//k 
+        nums.sort()
+        nums.append(0)
+        # print(nums,sz)
+
+        @lru_cache(None)
+        def dfs(last, cnt, state):
+            
+            if state == 0:
+                return 0
+            if cnt%sz == 0:
+                last = -1
+            start = last+1
+            res = inf
+            if n-start < sz-(cnt%sz):
+                return res 
+            
+            pre = nums[last]
+            # print(start,last,cnt,state)
+            for i in range(start,n):
+                if nums[i] == pre:
+                    continue
+                if (state>>i)&1:
+                    delta = 0 if last == -1 else nums[i]-nums[last]
+                    res = min(res, delta+dfs(i,cnt+1,state^(1<<i)))
+                    pre = nums[i]
+            # print(start,last,cnt,state,res)
+            return res
+        ans = dfs(-1,0,(1<<n)-1)
+        # print(ans)
+        return -1 if ans == inf else ans
+
+
+
+
+
+class Solution:
+    def minimumIncompatibility(self, nums: List[int], k: int) -> int:
         import itertools
         import collections
         import sys

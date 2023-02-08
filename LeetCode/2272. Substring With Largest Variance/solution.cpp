@@ -1,6 +1,33 @@
 class Solution {
 public:
     int largestVariance(string s) {
+        std::vector<int> arr;
+        for (auto ch : s) arr.push_back(ch-'a');
+        int ans = 0;
+        for (int a = 0; a < 26; a++){
+            for (int b = 0; b < 26; b++){
+                if (a == b) continue;
+                int cnt = 0, mi = 0, mi1 = 10000;
+                for (auto &ch : arr){
+                    if (ch == b) cnt++;
+                    else if (ch == a){
+                        cnt--;
+                        mi1 = mi;
+                    }
+                    ans = max(ans, cnt-mi1);
+                    mi = min(mi, cnt);
+                }
+            }
+        }
+        return ans;
+        
+    }
+};
+
+
+class Solution {
+public:
+    int largestVariance(string s) {
         int n = s.size();
         int ans = 0;
         for (char x = 'a'; x <= 'z'; x++) for (char y = 'a'; y <= 'z'; y++) if (x != y) {

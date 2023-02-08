@@ -1,3 +1,40 @@
+class Solution:
+    def minimumBoxes(self, n: int) -> int:
+        def squre(x):
+            return x*(x+1)//2
+        def cube(x):
+            return x*(x+1)*(x+2)//6
+        a = bisect_right(range(n+1),n,key=cube)-1
+        r = n-cube(a)
+        # print(a,cube(a))
+        b = bisect_left(range(n+1),r,key=squre)
+        return squre(a)+b
+
+class Solution:
+    def minimumBoxes(self, n: int) -> int:
+        def squre(x):
+            return x*(x+1)//2
+        def cube(x):
+            return x*(x+1)*(x+2)//6
+        lo, hi = 0, n 
+        while lo <= hi:
+            m = (lo+hi)//2
+            if cube(m) <= n:
+                lo = m + 1
+            else:
+                hi = m - 1
+        n1 = hi
+        r = n-cube(n1)
+        # print(n1,cube(n1))
+        lo, hi = 0, n
+        while lo <= hi:
+            m = (lo+hi)//2
+            if squre(m) < r:
+                lo = m + 1 
+            else:
+                hi = m - 1
+        return squre(n1)+lo
+
 # class Solution:
 #     def minimumBoxes(self, n: int) -> int:
 #         sums, r, c = 0, 1, -1

@@ -1,5 +1,26 @@
 class Solution:
     def totalSteps(self, nums: List[int]) -> int:
+        mx = ans = 0
+        n = len(nums)
+        mx = nums[0]
+        st = []
+        dp = [0]*n 
+        for i in range(1,n):
+            if nums[i] < mx:
+                cur = 0
+                while st and nums[st[-1]] <= nums[i]:
+                    cur = max(cur, dp[st.pop()])
+                dp[i] = cur + 1
+                st.append(i)
+            else:
+                st = []
+                mx = nums[i]
+            ans = max(ans, dp[i])
+        return ans
+
+
+class Solution:
+    def totalSteps(self, nums: List[int]) -> int:
         n = len(nums)
         pre = [i-1 for i in range(n)]
         nxt = [i+1 for i in range(n)]

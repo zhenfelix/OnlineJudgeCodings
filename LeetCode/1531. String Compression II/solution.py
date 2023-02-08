@@ -1,5 +1,68 @@
 class Solution:
     def getLengthOfOptimalCompression(self, s: str, k: int) -> int:
+        n = len(s)
+        def calc(cnt):
+            if cnt <= 1:
+                return cnt
+            elif cnt < 10:
+                return 2
+            elif cnt < 100:
+                return 3
+            return 4
+
+        @lru_cache(None)
+        def dfs(i,r):
+            if i == n:
+                return 0
+            res = inf
+            if r:
+                res = min(res, dfs(i+1,r-1))
+            j = i  
+            cnt = 0 
+            while j < n:
+                if s[j] == s[i]:
+                    cnt += 1 
+                elif r > 0:
+                    res = min(res, dfs(j,r)+calc(cnt))
+                    r -= 1
+                else:
+                    break
+                j += 1
+            res = min(res, dfs(j,r)+calc(cnt))
+            return res
+            
+        return dfs(0,k)
+
+
+class Solution:
+    def getLengthOfOptimalCompression(self, s: str, k: int) -> int:
+        n = len(s)
+        def calc(cnt):
+            if cnt <= 1:
+                return cnt
+            elif cnt < 10:
+                return 2
+            elif cnt < 100:
+                return 3
+            return 4
+
+        @lru_cache(None)
+        def dfs(i,r,ch,cnt):
+            if i == n:
+                return calc(cnt)
+            res = inf
+            if ch == s[i]:
+                res = dfs(i+1,r,ch,cnt+1)
+            else:
+                res = dfs(i+1,r,s[i],1)+calc(cnt)
+            if r:
+                res = min(res, dfs(i+1,r-1,ch,cnt))
+            return res
+        return dfs(0,k,'',0)
+
+
+class Solution:
+    def getLengthOfOptimalCompression(self, s: str, k: int) -> int:
         @lru_cache(None)
         def counter(s, start, last, count, left): #count increase from start
             if left < 0:

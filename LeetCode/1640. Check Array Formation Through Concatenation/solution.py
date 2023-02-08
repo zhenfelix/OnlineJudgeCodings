@@ -1,5 +1,20 @@
 class Solution:
     def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
+        mp = {v: i for i, v in enumerate(arr)}
+        n = len(arr)
+        for row in pieces:
+            if row[0] not in mp:
+                return False
+            i = mp[row[0]]
+            for a in row:
+                if i >= n or arr[i] != a:
+                    return False
+                arr[i] = 0 
+                i += 1
+        return True
+
+class Solution:
+    def canFormArray(self, arr: List[int], pieces: List[List[int]]) -> bool:
         pos = {v: i for i, v in enumerate(arr)}
         for p in pieces:
             for i, v in enumerate(p):

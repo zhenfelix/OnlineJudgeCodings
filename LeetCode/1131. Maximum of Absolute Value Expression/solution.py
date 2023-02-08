@@ -1,4 +1,19 @@
 class Solution:
+    def maxAbsValExpr(self, arr: List[int], brr: List[int]) -> int:
+        dab = [(1,1),(1,-1),(-1,1),(-1,-1)]
+        mi = [inf]*4
+        ans = 0
+        for i, (a,b) in enumerate(zip(arr,brr)):
+            tmp = 0
+            for j, (fa, fb) in enumerate(dab):
+                tmp = max(tmp, fa*a+fb*b+i-mi[j])
+                mi[j] = min(mi[j], fa*a+fb*b+i)
+            ans = max(ans,tmp)
+        return ans
+
+
+
+class Solution:
     def maxAbsValExpr(self, arr1: List[int], arr2: List[int]) -> int:
         n = len(arr1)
         mx1, mx2, mx3, mx4 = -math.inf, -math.inf, -math.inf, -math.inf

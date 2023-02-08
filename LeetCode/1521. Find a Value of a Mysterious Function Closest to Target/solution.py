@@ -1,3 +1,19 @@
+class Solution:
+    def closestToTarget(self, arr: List[int], target: int) -> int:
+        ans = float('inf')
+        cur = []
+        for a in arr:
+            nxt = [a]
+            for b in cur:
+                b &= a 
+                if b < nxt[-1]:
+                    nxt.append(b)
+            for b in nxt:
+                ans = min(ans, abs(target-b))
+            cur = nxt
+        return ans 
+
+
 # class Solution:
 #     def closestToTarget(self, arr: List[int], target: int) -> int:
 #         ans = float('inf')

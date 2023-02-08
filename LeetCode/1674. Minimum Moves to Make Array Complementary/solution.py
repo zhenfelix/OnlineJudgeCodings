@@ -16,6 +16,23 @@
 
 class Solution:
     def minMoves(self, nums: List[int], limit: int) -> int:
+        delta = [0]*(2*limit+2)
+        n = len(nums)
+        for i in range(n//2):
+            a, b = nums[i], nums[n-i-1]
+            mi, mx = min(a,b), max(a,b)
+            delta[mi+1] -= 1
+            delta[mi+mx] -= 1
+            delta[mi+mx+1] += 1
+            delta[mx+limit+1] += 1
+        ans = cur = n 
+        for v in range(2,limit*2+1):
+            cur += delta[v]
+            ans = min(ans, cur)
+        return ans
+
+class Solution:
+    def minMoves(self, nums: List[int], limit: int) -> int:
         delta = collections.Counter()
         n = len(nums)
         for i in range(n // 2):

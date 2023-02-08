@@ -1,3 +1,32 @@
+小引理证明： from s to t such that t-s = xa-yb, for hi-lo = a+b and lo <= s, t <= hi, there is always a way to reorganize the a,b sequence such that no move exceed the boundary of [lo,hi]
+proof: 1. if move a not exceed hi, we move a, the problem reduce to s'-t = (x-1)a-yb subproblem; 2. if move a exceed hi, then move b will not exceed lo, we move b, the problem reduce to s'-t = xa-(y-1)b subproblem
+
+class Solution:
+    def minimumJumps(self, forbidden: List[int], a: int, b: int, x: int) -> int:
+        if a >= b: mx = x+b
+        else: mx = max(max(forbidden)+a+b+1,x+1)
+       
+        forbidden = set(forbidden)
+        visited = set([(0,0)])
+        q = [(0,0)]
+        ans = 0
+        while q:
+            nq = []
+            for cur, back in q:
+                if cur == x:
+                    return ans 
+                tmp = [(cur+a, 0)]
+                if back == 0:
+                    tmp.append((cur-b,1))
+                for nxt, nback in tmp:
+                    if nxt not in forbidden and (nxt,nback) not in visited and 0 < nxt <= mx:
+                        visited.add((nxt,nback))
+                        nq.append((nxt,nback))
+            ans += 1
+            q = nq
+        return -1
+
+
 # proof: https://leetcode-cn.com/problems/minimum-jumps-to-reach-home/solution/dao-jia-de-zui-shao-tiao-yue-ci-shu-zui-duan-lu-zh/
 
 

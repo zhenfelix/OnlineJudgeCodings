@@ -1,3 +1,21 @@
+class Solution:
+    def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
+        arr = [(a,s) for s, a in zip(scores,ages)]
+        arr.sort()
+        arr = [(0,0)]+arr
+        n = len(arr)
+        dp = [0]*(n+1)
+        ans = 0
+        for i in range(1,n):
+            s = arr[i][-1]
+            for j in range(i):
+                if arr[j][-1] <= s:
+                    dp[i] = max(dp[i], dp[j]+s)
+                    ans = max(ans, dp[i])
+        return ans 
+
+
+
 # class Solution:
 #     def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
 #         candidate = [(a,s) for a,s in zip(ages,scores)]
