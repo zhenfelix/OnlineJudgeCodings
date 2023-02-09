@@ -1,5 +1,91 @@
 class Solution:
     def countPairs(self, n: int, edges: List[List[int]], queries: List[int]) -> List[int]:
+        cc = [0]*n 
+        ec = Counter()
+        g = defaultdict(set)
+        for u, v in edges:
+            u -= 1
+            v -= 1
+            cc[u] += 1
+            cc[v] += 1
+            g[u].add(v)
+            g[v].add(u)
+            ec[u,v] += 1
+            ec[v,u] += 1
+        nodes = list(range(n))
+        nodes.sort(key = lambda x: cc[x])
+        ans = []
+        for q in queries:
+            cnt = 0
+            j = n-1
+            for i in range(n):
+                while j >= 0 and cc[nodes[i]]+cc[nodes[j]] > q:
+                    j -= 1
+                cnt += n-1-j
+                if j < i:
+                    cnt -= 1
+
+                for k in g[nodes[i]]:
+                    if cc[nodes[i]]+cc[k]-ec[nodes[i],k] > q:
+                        cnt += 1
+                    if cc[nodes[i]]+cc[k] > q:
+                        cnt -= 1
+            ans.append(cnt//2)
+        return ans 
+                    
+        
+        
+        
+
+
+class Solution:
+    def countPairs(self, n: int, edges: List[List[int]], queries: List[int]) -> List[int]:
+        cc = [0]*n 
+        ec = Counter()
+        g = defaultdict(set)
+        for u, v in edges:
+            u -= 1
+            v -= 1
+            cc[u] += 1
+            cc[v] += 1
+            g[u].add(v)
+            g[v].add(u)
+            ec[u,v] += 1
+            ec[v,u] += 1
+        nodes = list(range(n))
+        nodes.sort(key = lambda x: cc[x])
+        ans = []
+        for q in queries:
+            cnt = 0
+            j = n-1
+            left, right = set(), set()
+            for i in range(n):
+                while j > i and cc[nodes[i]]+cc[nodes[j]] > q:
+                    right.add(nodes[j])
+                    j -= 1
+                if j < i:
+                    j += 1
+                    right.remove(nodes[j])
+                    
+                cnt += n-1-j
+
+                for k in g[nodes[i]]:
+                    if k in left: continue
+                    if k in right: 
+                        cnt -= 1
+                    if cc[nodes[i]]+cc[k]-ec[nodes[i],k] > q:
+                        cnt += 1
+                left.add(nodes[i])
+            ans.append(cnt)
+        return ans 
+                    
+        
+        
+        
+        
+
+class Solution:
+    def countPairs(self, n: int, edges: List[List[int]], queries: List[int]) -> List[int]:
         degree = Counter()
         ecnt = Counter()
         for u, v in edges:

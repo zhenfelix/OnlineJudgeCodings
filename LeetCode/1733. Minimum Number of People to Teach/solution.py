@@ -1,3 +1,22 @@
+class Solution:
+    def minimumTeachings(self, n: int, languages: List[List[int]], friendships: List[List[int]]) -> int:
+        m = len(languages)
+        languages = [set([l-1 for l in ls]) for ls in languages]
+        friendships = [[u,v] for u, v in friendships if all(not (l in languages[u-1] and l in languages[v-1]) for l in range(n))]
+        ans = m
+        for l in range(n):
+            candidates = set()
+            for u, v in friendships:
+                u -= 1
+                v -= 1
+                if l not in languages[u] and u not in candidates:
+                    candidates.add(u)
+                if l not in languages[v] and v not in candidates:
+                    candidates.add(v)
+            # print(l,candidates)
+            ans = min(ans, len(candidates))
+        return ans 
+
 # class Solution:
 #     def minimumTeachings(self, n: int, languages: List[List[int]], friendships: List[List[int]]) -> int:
 #         m = len(languages)

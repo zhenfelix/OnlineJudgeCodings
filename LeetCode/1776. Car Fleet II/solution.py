@@ -1,4 +1,22 @@
 class Solution:
+    def getCollisionTimes(self, cars: List[List[int]]) -> List[float]:
+        n = len(cars)
+        inf = 1e9
+        ans = [inf]*n 
+        st = [n-1]
+        for i in range(n-1)[::-1]:
+            # print(st)
+            while st and (cars[st[-1]][-1] >= cars[i][-1] or cars[st[-1]][0]+cars[st[-1]][-1]*ans[st[-1]] >= cars[i][0]+cars[i][-1]*ans[st[-1]]):
+                j = st.pop()
+            
+            if st:
+                ans[i] = (cars[st[-1]][0]-cars[i][0])/(cars[i][-1]-cars[st[-1]][-1])
+            st.append(i)
+        return [a if a < inf else -1 for a in ans] 
+                
+
+
+class Solution:
     def getCollisionTimes(self, A):
         stack = []
         n = len(A)

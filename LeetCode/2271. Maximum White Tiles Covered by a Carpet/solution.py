@@ -1,3 +1,27 @@
+
+class Solution:
+    def maximumWhiteTiles(self, tiles: List[List[int]], carpetLen: int) -> int:
+        tiles.sort()
+        n = len(tiles)
+        j = 0
+        cnt = 0
+        ans = 0
+        for i in range(n):
+            # j = max(j,i)
+            reach = tiles[i][0]+carpetLen-1
+            while j < n and reach >= tiles[j][1]:
+                l, r = tiles[j]
+                cnt += (r-l+1)
+                j += 1
+            delta = 0
+            if j < n and tiles[j][0] <= reach:
+                delta = reach-tiles[j][0]+1
+            ans = max(ans, cnt+delta)
+            l, r = tiles[i]
+            cnt -= (r-l+1)
+            # cnt = max(cnt,0)
+        return ans 
+
 class Solution:
     def maximumWhiteTiles(self, tiles: List[List[int]], carpetLen: int) -> int:
         tiles.sort()

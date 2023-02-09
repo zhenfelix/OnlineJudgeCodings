@@ -1,3 +1,22 @@
+class Solution:
+    def maxProductPath(self, grid: List[List[int]]) -> int:
+        n, m = len(grid), len(grid[0])
+        dp = [[[0,0] for _ in range(m)] for _ in range(n)]
+        dp[0][0][0] = dp[0][0][1] = grid[0][0]
+        for i in range(1,n):
+            dp[i][0][0] = dp[i][0][1] = dp[i-1][0][0]*grid[i][0]
+        for j in range(1,m):
+            dp[0][j][0] = dp[0][j][1] = dp[0][j-1][0]*grid[0][j]
+        for i in range(1,n):
+            for j in range(1,m):
+                candidates = dp[i-1][j]+dp[i][j-1]
+                candidates = [a*grid[i][j] for a in candidates]
+                dp[i][j][0] = min(candidates)
+                dp[i][j][1] = max(candidates)
+        ans = dp[-1][-1][-1]
+        MOD = 10**9+7
+        return ans%MOD if ans >= 0 else -1
+
 # class Solution:
 #     def maxProductPath(self, grid: List[List[int]]) -> int:
 #         n, m = len(grid), len(grid[0])

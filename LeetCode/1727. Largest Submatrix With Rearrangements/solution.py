@@ -1,6 +1,21 @@
 class Solution:
     def largestSubmatrix(self, matrix: List[List[int]]) -> int:
         n, m = len(matrix), len(matrix[0])
+        ans = 0
+        for i in range(n):
+            arr = []
+            for j in range(m):
+                if i and matrix[i][j]:
+                    matrix[i][j] += matrix[i-1][j]
+                arr.append(matrix[i][j])
+            for z, v in enumerate(sorted(arr)):
+                ans = max(ans, v*(m-z))
+        return ans 
+
+
+class Solution:
+    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
+        n, m = len(matrix), len(matrix[0])
         dp = [[0]*m for _ in range(n+1)]
         res = 0
         for i in range(n):

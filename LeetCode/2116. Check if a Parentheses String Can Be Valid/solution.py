@@ -46,3 +46,48 @@ class Solution:
             else:
                 return False
         return True
+
+
+# class Solution:
+#     def canBeValid(self, s: str, locked: str) -> bool:
+#         n = len(s)
+#         @lru_cache(None)
+#         def dfs(idx, cnt):
+#             if idx == n:
+#                 return cnt == 0
+#             if cnt < 0:
+#                 return False
+#             if locked[idx] == '1':
+#                 if s[idx] == '(':
+#                     cnt += 1
+#                 else:
+#                     cnt -= 1
+#                 return dfs(idx+1, cnt)
+#             return dfs(idx+1, cnt+1) or dfs(idx+1, cnt-1)
+#         return dfs(0,0)
+
+class Solution:
+    def canBeValid(self, s: str, locked: str) -> bool:
+        n = len(s)
+        cnt = 0
+        for i in range(n):
+            if locked[i] == '0' or s[i] == '(':
+                cnt += 1
+            else:
+                cnt -= 1
+            if cnt < 0:
+                return False
+        if cnt%2:
+            return False
+        cnt = 0
+        for i in range(n)[::-1]:
+            if locked[i] == '0' or s[i] == ')':
+                cnt += 1
+            else:
+                cnt -= 1
+            if cnt < 0:
+                return False
+        if cnt%2:
+            return False
+        return True
+

@@ -61,3 +61,12 @@ class Solution:
         for c in S:
             end[ord(c) - ord('a')] = sum(end) + 1
         return sum(end) % (10**9 + 7)
+
+
+class Solution:
+    def distinctSubseqII(self, s: str) -> int:
+        MOD = 10**9+7
+        cc = Counter()
+        for ch in s:
+            cc[ch] = (sum(cc.values())+1)%MOD
+        return sum(cc.values())%MOD

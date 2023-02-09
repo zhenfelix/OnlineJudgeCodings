@@ -17,7 +17,8 @@ public:
             L = min(L, it->second);
             R = max(R, it->first);
             ans -= it->first - it->second + 1;
-            st.erase(it++);
+            // st.erase(it++);
+            it = st.erase(it);
         }
         ans += R - L + 1;
         st.insert(pii(R, L));

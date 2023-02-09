@@ -1,5 +1,29 @@
 class Solution:
     def visiblePoints(self, points: List[List[int]], angle: int, location: List[int]) -> int:
+        plus = ans = 0
+        arr = []
+        r, c = location
+        for x, y in points:
+            x -= r 
+            y -= c 
+            if x == y == 0:
+                plus += 1
+            else:
+                arr.append(atan2(y,x)/pi*180)
+        arr.sort()
+        tmp = [a+360 for a in arr]
+        arr += tmp
+        left = 0
+        n = len(arr)
+        # print(arr)
+        for right in range(n):
+            while arr[right]-arr[left] > angle:
+                left += 1 
+            ans = max(ans, right-left+1)
+        return ans+plus
+
+class Solution:
+    def visiblePoints(self, points: List[List[int]], angle: int, location: List[int]) -> int:
         x0, y0 = location
         ans = ovlp = 0
         theta = [] 

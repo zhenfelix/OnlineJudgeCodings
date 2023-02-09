@@ -1,3 +1,27 @@
+class Solution:
+    def maxBuilding(self, n: int, restrictions: List[List[int]]) -> int:
+        restrictions.append([1,0])
+        restrictions.append([n,inf])
+        restrictions.sort()
+        m = len(restrictions)
+        for i in range(m-1)[::-1]:
+            dist = restrictions[i+1][0]-restrictions[i][0]
+            restrictions[i][1] = min(restrictions[i][1], restrictions[i+1][1]+dist)
+        # print(restrictions)
+        ans = 0
+        for i in range(1,m):
+            dist = restrictions[i][0]-restrictions[i-1][0]
+            restrictions[i][1] = min(restrictions[i][1], restrictions[i-1][1]+dist)
+            mi, mx = restrictions[i][1], restrictions[i-1][1]
+            if mx < mi:
+                mi, mx = mx, mi 
+            ans = max(ans, mi+(mx-mi+dist)//2)
+            # print(mi+(mx-mi+dist+1)//2)
+        # print(restrictions)
+        return ans
+
+
+
 # class Solution:
 #     def maxBuilding(self, n: int, restrictions: List[List[int]]) -> int:
 #         res, cur = 0, 0

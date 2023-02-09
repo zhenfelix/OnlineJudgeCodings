@@ -1,5 +1,35 @@
 class Solution:
     def canDistribute(self, nums: List[int], quantity: List[int]) -> bool:
+        nums = list(Counter(nums).values())
+        nums.sort(reverse = True)
+        quantity.sort(reverse = True)
+        
+        n = len(nums)
+        m = len(quantity)
+        sums = [0]*(1<<m)
+        mp = {1<<i : quantity[i] for i in range(m)}
+        for s in range(1,1<<m):
+            delta = s&-s
+            sums[s] = sums[s-delta] + mp[delta]
+        dp = [0]*(1<<m)
+        dp[0] = 1
+        for i in range(n):
+            ndp = [0]*(1<<m)
+            ndp[0] = 1
+            for s in range(1,1<<m):
+                delta = s
+                while 1:
+                    if dp[delta] and sums[s-delta] <= nums[i]:
+                        ndp[s] = 1
+                        break
+                    if delta == 0:
+                        break
+                    delta = (delta-1)&s
+            dp = ndp
+        return dp[-1] == 1
+
+class Solution:
+    def canDistribute(self, nums: List[int], quantity: List[int]) -> bool:
         d = collections.Counter(nums)
         quantity.sort(reverse=True)
         def dfs(i):

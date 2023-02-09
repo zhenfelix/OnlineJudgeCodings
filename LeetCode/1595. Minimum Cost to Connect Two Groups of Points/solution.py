@@ -1,3 +1,30 @@
+class Solution:
+    def connectTwoGroups(self, cost: List[List[int]]) -> int:
+        n, m = len(cost), len(cost[0])
+        tot = (1<<m)-1
+        mi = [min(cost[i][j] for j in range(m)) for i in range(n)]
+        mj = [min(cost[i][j] for i in range(n)) for j in range(m)]
+        remains = [inf]*(tot+1)
+        remains[0] = 0
+        for s in range(1,tot+1):
+            for j in range(m):
+                if (s>>j)&1:
+                    remains[s] = min(remains[s], remains[s^(1<<j)]+mj[j])
+
+        
+        @lru_cache(None)
+        def dfs(i, s):
+            if i == n:
+                return remains[s]
+            if s == 0:
+                return dfs(i+1,0)+mi[i]
+            res = inf 
+            for j in range(m):
+                res = min(res, dfs(i+1, s&(tot^(1<<j)))+cost[i][j])
+            # print(i,s,res)
+            return res 
+        return dfs(0,tot)
+
 # from functools import lru_cache
 # class Solution:
 #     def connectTwoGroups(self, cost: List[List[int]]) -> int:

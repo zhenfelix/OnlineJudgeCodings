@@ -119,3 +119,64 @@ class Solution:
 #             dp.sort(reverse=True)
 #         print(dp,delta)
 #         return dp[k-1]+delta
+
+
+
+
+
+# class Solution:
+#     def kSum(self, nums: List[int], k: int) -> int:
+#         def minKpos(arr):
+#             a = [0]
+#             n = len(arr)
+#             for i in range(min(k,n)):
+#                 b = [x+arr[i] for x in a]
+#                 a = sorted(a+b)[:k]
+#             return a[-1]
+#         shift = 0
+#         arr = []
+#         for x in nums:
+#             if x > 0:
+#                 shift += x
+#             else:
+#                 x = -x  
+#             arr.append(x)
+#         arr.sort()
+#         return -(minKpos(arr)-shift)
+
+class Solution:
+    def kSum(self, nums: List[int], k: int) -> int:
+        def minKpos(arr):
+            a = [0]
+            n = len(arr)
+            for i in range(min(k,n)):
+                c = []
+                x, y, m = 0, 0, len(a)
+                for _ in range(k):
+                    if x < m and y < m:
+                        if a[x] < a[y]+arr[i]:
+                            c.append(a[x])
+                            x += 1
+                        else:
+                            c.append(a[y]+arr[i])
+                            y += 1
+                    elif x < m:
+                        c.append(a[x])
+                        x += 1
+                    elif y < m:
+                        c.append(a[y]+arr[i])
+                        y += 1
+                    else:
+                        break
+                a = c 
+            return a[-1]
+        shift = 0
+        arr = []
+        for x in nums:
+            if x > 0:
+                shift += x
+            else:
+                x = -x  
+            arr.append(x)
+        arr.sort()
+        return -(minKpos(arr)-shift)

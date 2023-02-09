@@ -1,3 +1,25 @@
+class Solution:
+    def busiestServers(self, k: int, arrival: List[int], load: List[int]) -> List[int]:
+        busy = []
+        available = list(range(k))
+        cnt = [0]*k
+        for i, t in enumerate(arrival):
+
+            while busy and busy[0][0] <= t:
+                _, j = heappop(busy)
+                if i > j:
+                    j += ((i-j-1)//k+1)*k
+                heappush(available,j)
+            if available:
+                j = heappop(available)
+                j %= k
+                cnt[j] += 1
+                heappush(busy, (t+load[i],j))
+                # print(i,t,j)
+        mx = max(cnt)
+        return [i for i in range(k) if cnt[i] == mx]
+
+
 from heapq import *
 from functools import total_ordering
 

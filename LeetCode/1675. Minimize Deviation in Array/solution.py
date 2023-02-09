@@ -1,4 +1,21 @@
 class Solution:
+    def minimumDeviation(self, nums: List[int]) -> int:
+        nums = [-x*2 if x&1 else -x for x in nums]
+        heapify(nums)
+        mi = -max(nums)
+        ans = inf 
+        while True:
+            # print(nums,mi)
+            x = -heappop(nums)
+            ans = min(ans, x-mi)
+            if x&1: break
+            x //= 2  
+            mi = min(mi, x)
+            heappush(nums, -x)
+        return ans 
+
+
+class Solution:
     # def minimumDeviation(self, nums: List[int]) -> int:
     #     remove = Counter()
     #     nums = [x*2 if x&1 else x for x in nums]

@@ -1,3 +1,28 @@
+class Solution:
+    def areConnected(self, n: int, threshold: int, queries: List[List[int]]) -> List[bool]:
+        parent = [i for i in range(n+1)]
+        def find(u):
+            if parent[u] != u:
+                parent[u] = find(parent[u])
+            return parent[u]
+        def connect(u, v):
+            ru, rv = find(u), find(v)
+            if ru != rv:
+                parent[ru] = rv
+            return
+
+        for i in range(1+threshold,n+1):
+            j = i*2 
+            while j <= n:
+                connect(i,j)
+                j += i 
+        ans = []
+        for a, b in queries:
+            ra, rb = find(a), find(b)
+            ans.append(ra == rb)
+        return ans 
+                
+
 # class Solution:
 #     def areConnected(self, n: int, threshold: int, queries: List[List[int]]) -> List[bool]:
 #         parent = [i for i in range(n+1)]

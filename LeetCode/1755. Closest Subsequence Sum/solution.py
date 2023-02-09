@@ -26,6 +26,35 @@
 #         # print(cur)
 #         return res 
 
+class Solution:
+    def minAbsDifference(self, nums: List[int], goal: int) -> int:
+        n = len(nums)
+        m = n//2
+        n -= m
+        right, left = nums[:m], nums[-n:]
+        def generate(arr):
+            res = [0]
+            for a in arr:
+                sz = len(res)
+                for i in range(sz):
+                    res.append(res[i]+a)
+            return sorted(res)
+        left = generate(left)
+        right = generate(right)
+        n, m = len(left), len(right)
+        j = m-1
+        ans = inf
+        for i in range(n):
+            a = left[i]
+            
+            while j >= 0 and a+right[j] > goal:
+                ans = min(ans, abs(a+right[j]-goal))
+                j -= 1
+            if j >= 0:
+                ans = min(ans, abs(a+right[j]-goal))
+            else:
+                ans = min(ans, abs(a-goal))
+        return ans 
 
 
 class Solution:

@@ -1,4 +1,21 @@
 class Solution:
+    def maxValue(self, n: int, index: int, maxSum: int) -> int:
+        def calc(x,sz):
+            y = x-sz+1
+            if y < 0:
+                sz, y = x+1, 0
+            return (x+y)*sz//2
+        maxSum -= n 
+        lo, hi = 0, maxSum
+        while lo <= hi:
+            m = (lo+hi)//2
+            if calc(m,index+1)+calc(m,n-index)-m <= maxSum:
+                lo = m + 1
+            else:
+                hi = m - 1
+        return hi+1
+
+class Solution:
     def maxValue(self, n, index, maxSum):
         def test(a):
             b = max(a - index, 0)

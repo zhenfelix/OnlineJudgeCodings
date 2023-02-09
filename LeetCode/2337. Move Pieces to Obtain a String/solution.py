@@ -1,5 +1,34 @@
 class Solution:
     def canChange(self, start: str, target: str) -> bool:
+        def convert(s):
+            ans = []
+            for ch in s:
+                if ch != '_':
+                    ans.append(ch)
+            return ''.join(ans)
+        if convert(start) != convert(target):
+            return False
+        n = len(start)
+        # print(n)
+        j = 0
+        for i, ch in enumerate(target):
+            if ch == '_':
+                continue
+            while start[j] != ch:
+                j += 1  
+            if ch == 'L':
+                if j < i:
+                    # print(i,j,'L',start[j])
+                    return False 
+            else:
+                if j > i:
+                    # print(i,j,'R',start[j])
+                    return False
+            j += 1
+        return True
+
+class Solution:
+    def canChange(self, start: str, target: str) -> bool:
         n = len(start)
         v1, v2 = [], []
         for i in range(n):
