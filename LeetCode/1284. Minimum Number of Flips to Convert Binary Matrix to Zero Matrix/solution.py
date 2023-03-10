@@ -1,3 +1,39 @@
+# https://zhuanlan.zhihu.com/p/53646257?utm_id=0
+# 点灯游戏Flip Game的O(n^3)算法
+
+class Solution:
+    def minFlips(self, mat: List[List[int]]) -> int:
+        n, m = len(mat), len(mat[0])
+        cc = [0]*(1<<m)
+        op = [0]*(1<<m)
+        mask = (1<<m)-1
+        for s in range(1,1<<m):
+            cc[s] = cc[s&(s-1)]+1
+            low_bit = s&(-s)
+            op[s] = op[s&(s-1)]^low_bit
+            op[s] ^= ((low_bit<<1)&mask)
+            op[s] ^= ((low_bit>>1)&mask)
+        states = []
+        for i in range(n):
+            cur = 0
+            for j in range(m):
+                cur = (cur<<1)|mat[i][j]
+            states.append(cur)
+
+        def check(board, change):
+            cnt = 0
+            for i in range(n-1):
+                cnt += cc[change]
+                board[i+1] ^= change
+                change = board[i]^op[change]
+                
+            if op[change] != board[-1]:
+                return inf 
+            return cnt+cc[change]
+
+        ans = min(check(states[:],s) for s in range(1<<m))
+        return ans if ans < inf else -1
+
 # class Solution:
 #     def minFlips(self, mat: List[List[int]]) -> int:
 #         n, m = len(mat), len(mat[0])
