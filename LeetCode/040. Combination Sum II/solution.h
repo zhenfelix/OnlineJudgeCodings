@@ -29,7 +29,37 @@
 
 class Solution {
 public:
-    void helper(vector<vector<int>> &ans, vector<int> &tmp ,int start, vector<int> nums, int target){
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<vector<int>> ans;
+        sort(candidates.begin(), candidates.end(), greater<>{});
+        int n = candidates.size();
+        function<void(int, vector<int>&, int)> dfs = [&](int i, vector<int>& path, int s){
+            
+            if (s > target) return;
+            if (i == n){
+                if (s == target){
+                ans.push_back(path);
+            }
+            return;
+            }
+            if (path.empty() || path.back() != candidates[i])
+                dfs(i+1,path,s);
+            path.push_back(candidates[i]);
+            s += candidates[i];
+            dfs(i+1,path,s);
+            path.pop_back();
+            return;
+        };
+        vector<int> path;
+        dfs(0,path,0);
+        return ans;
+
+    }
+};
+
+class Solution {
+public:
+    void helper(vector<vector<int>> &ans, vector<int> &tmp ,int start, vector<int> &nums, int target){
         if(target<0)return;
         if(0==target){
             ans.push_back(tmp);
