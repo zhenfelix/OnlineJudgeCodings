@@ -1,6 +1,26 @@
 class Solution {
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+        auto check = [&](function<bool(int,int)> cmp) -> int {
+            int lo = 0, hi = n-1;
+            while (lo <= hi) {
+                int m = (lo+hi)/2;
+                if (cmp(nums[m],target)) lo = m+1;
+                else hi = m-1;
+            }
+            return lo;
+        };
+        int l = check([](int a, int b) {return a < b;});
+        if (l >= n || nums[l] != target) return {-1,-1};
+        int r = check([](int a, int b) {return a <= b;});
+        return {l,r-1};
+    }
+};
+
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
         vector<int> res;
         int n = nums.size();
         int lo = 0, hi = n-1;
