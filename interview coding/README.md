@@ -1,0 +1,3 @@
+- next permutation
+- reverse a link list within each k blocks
+- big integer operation

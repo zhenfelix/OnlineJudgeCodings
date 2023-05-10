@@ -21,6 +21,25 @@
 
 class Solution:
     def consecutiveNumbersSum(self, n: int) -> int:
+        n *= 2 
+        f = 1
+        ans = 0
+        while f*f <= n:
+            if n%f == 0:
+                af = n//f 
+                af += 1-f
+                if af > 0 and af%2 == 0:
+                    ans += 1
+                # af = n//f 
+                # f += 1-af 
+                # if f > 0 and f%2 == 0:
+                #     ans += 1
+                # f = n//af 
+            f += 1
+        return ans 
+
+class Solution:
+    def consecutiveNumbersSum(self, n: int) -> int:
         def isKConsecutive(n: int, k: int) -> bool:
             if k % 2:
                 return n % k == 0
