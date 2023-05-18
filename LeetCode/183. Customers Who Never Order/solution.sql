@@ -1,3 +1,7 @@
+# Write your MySQL query statement below
+
+select name Customers from Customers a left join Orders b on a.id = b.customerId where customerId is null
+
 # # Write your MySQL query statement below
 # select Name as Customers
 # from

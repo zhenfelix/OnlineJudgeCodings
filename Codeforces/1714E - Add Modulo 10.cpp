@@ -1,3 +1,40 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int main() {
+    // freopen("contests/input","r",stdin);
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int t;
+    cin >> t;
+    while (t--) {
+        int n, a, state = 0;
+        cin >> n;
+        set<int> cc;
+        vector<int> mask(10,0);
+        mask[3] = mask[6] = mask[7] = mask[9] = 1;
+        for (int i = 0; i < n; i++) {
+            cin >> a;
+            if (a%10 == 0 || a%10 == 5) {
+                state |= 1;
+                if (a%10 == 5) a += 5;
+                cc.insert(a);
+            }
+            else {
+                state |= 2;
+                cc.insert(((a/10)%2)^mask[a%10]);
+            }
+        }
+        if (state == 3 || cc.size() > 1) cout << "No\n";
+        else cout << "Yes\n";
+
+    }
+    return 0;
+}
+
+
 #include <algorithm>
 #include <array>
 #include <bitset>

@@ -1,9 +1,10 @@
+## problems
 - next permutation
 - reverse a link list within each k blocks
 - big integer operation
 - heap,quick,merge sort
 
-
+## implementations
 - string, vector implementation
 - shared_ptr implementation
 - blocking queue

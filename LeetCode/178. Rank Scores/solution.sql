@@ -10,6 +10,13 @@
 # order by Score desc
 # ) tmp
 
+# Write your MySQL query statement below
+
+SELECT a.Score, COUNT(DISTINCT b.Score) AS `RANK`
+FROM Scores a, Scores b
+WHERE a.Score <= b.Score
+GROUP BY a.Id
+ORDER BY `RANK`;
 
 select Score, Rank
 from
@@ -42,11 +49,11 @@ order by Score desc
 # group by a.Id
 # order by Score desc
 
-# SELECT
-#   Score,
-#   (SELECT count(distinct Score) FROM Scores WHERE Score >= s.Score) Rank
-# FROM Scores s
-# ORDER BY Score desc
+ SELECT
+   Score,
+   (SELECT count(distinct Score) FROM Scores WHERE Score >= s.Score) Rank
+ FROM Scores s
+ ORDER BY Score desc
 
 # select score, 
 #        dense_rank() over(order by Score desc) as Rank
