@@ -40,6 +40,87 @@ public:
 
 
 
+const int MOD = 1e9 + 7, MX = 1e4 + 1, MX_K = 13; // 至多 13 个质因数
+
+vector<int> ks[MX]; // ks[x] 为 x 分解质因数后，每个质因数的个数列表
+
+int c[MX + MX_K][MX_K + 1]; // 组合数
+
+
+
+int init = []() {
+
+    for (int i = 2; i < MX; ++i) {
+
+        int x = i;
+
+        for (int p = 2; p * p <= x; ++p) {
+
+            if (x % p == 0) {
+
+                int k = 1;
+
+                for (x /= p; x % p == 0; x /= p) ++k;
+
+                ks[i].push_back(k);
+
+            }
+
+        }
+
+        if (x > 1) ks[i].push_back(1);
+
+    }
+
+
+
+    c[0][0] = 1;
+
+    for (int i = 1; i < MX + MX_K; ++i) {
+
+        c[i][0] = 1;
+
+        for (int j = 1; j <= min(i, MX_K); ++j)
+
+            c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % MOD;
+
+    }
+
+    return 0;
+
+}();
+
+
+
+class Solution {
+
+public:
+
+    int idealArrays(int n, int maxValue) {
+
+        long ans = 0L;
+
+        for (int x = 1; x <= maxValue; ++x) {
+
+            long mul = 1L;
+
+            for (int k: ks[x]) mul = mul * c[n + k - 1][k] % MOD;
+
+            ans += mul;
+
+        }
+
+        return ans % MOD;
+
+    }
+
+};
+
+作者：灵茶山艾府
+链接：https://leetcode.cn/problems/count-the-number-of-ideal-arrays/solutions/1659088/shu-lun-zu-he-shu-xue-zuo-fa-by-endlessc-iouh/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
 class Solution {
 public:
     int a[200001],b[200001],tmp[200001],h[200001];
