@@ -32,6 +32,21 @@ class Solution:
 #             res = max(res, j - i + 1)
 #         return res
 
+class Solution:
+    def longestSubarray(self, A, limit):
+        maxq, minq = [], []
+        res = i = 0
+        for j, a in enumerate(A):
+            heapq.heappush(maxq, [-a, j])
+            heapq.heappush(minq, [a, j])
+            while i <= j:
+                while maxq[0][1] < i: heappop(maxq)
+                while minq[0][1] < i: heappop(minq)
+                if -maxq[0][0] - minq[0][0] <= limit: break
+                i += 1
+            res = max(res, j - i + 1)
+        return res
+
     def longestSubarray(self, A, limit):
         maxd = collections.deque()
         mind = collections.deque()
