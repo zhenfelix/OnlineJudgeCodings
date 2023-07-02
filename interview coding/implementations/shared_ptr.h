@@ -36,7 +36,7 @@ public:
     T& operator*() const { return *ptr; }
     T* operator -> () const { return ptr; }
     int use_count() const {
-        return ptr == nullptr ? 0 : *cnt;
+        return ptr == nullptr ? 0 : (int)*cnt;
     };
     explicit operator bool() const {
         return ptr != nullptr;
