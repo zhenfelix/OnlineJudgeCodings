@@ -34,3 +34,23 @@ class Solution:
                 h[mo.popleft()] -= 1
             ans += len(mo)
         return ans
+
+class Solution:
+    def continuousSubarrays(self, nums: List[int]) -> int:
+        ans = left = 0
+        cnt = Counter()
+        for right, x in enumerate(nums):
+            cnt[x] += 1
+            while max(cnt) - min(cnt) > 2:
+                y = nums[left]
+                cnt[y] -= 1
+                if cnt[y] == 0: del cnt[y]
+                left += 1
+            ans += right - left + 1
+        return ans
+
+
+作者：灵茶山艾府
+链接：https://leetcode.cn/circle/discuss/501Jzp/view/uQITil/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
