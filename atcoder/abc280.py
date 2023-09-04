@@ -64,14 +64,14 @@ from math import *
 
 
 def main():
-    def quickmul(a, p):
-        res = 1
-        while p:
-            if p&1:
-                res = (res*a)%MOD
-            p >>= 1
-            a = (a*a)%MOD
-        return res 
+    # def quickmul(a, p):
+    #     res = 1
+    #     while p:
+    #         if p&1:
+    #             res = (res*a)%MOD
+    #         p >>= 1
+    #         a = (a*a)%MOD
+    #     return res 
 
     # def query(tree, x):
     #     s = 0
@@ -87,22 +87,36 @@ def main():
 
     def solve():
         # MOD = 998244353
-        n, p0 = list(map(int, input().split()))
+        # n, m, k = list(map(int, input().split()))
         # st = input()
-        # k = int(input())
-        # arr = list(map(int, input().split()))
+        n = int(input())
+        arr = list(map(int, input().split()))
+        # n = len(arr)
         # brr = list(map(int, input().split()))
-        
-        y = quickmul(100,(MOD-2))
-        s = 0
-        p = 1
-        for i in range(n):
-            s = (s+p)%MOD 
-            p = (1-p*p0*y)%MOD 
+        for i in range(1,n):
+            arr[i] += arr[i-1]
+        def check(flag):
+            cnt, delta = 0, 0
+            for a in arr:
+                if (a+delta)*flag <= 0:
+                    tmp = flag-(a+delta)
+                    cnt += abs(tmp)
+                    delta += tmp 
+                # if flag == -1:
+                #     if a + delta > -1:
+                #         tmp = -1 - (a+delta)
+                #         cnt += abs(tmp)
+                #         delta += tmp 
+                # else:
+                #     if a + delta < 1:
+                #         tmp = 1 - (a+delta)
+                #         cnt += abs(tmp)
+                #         delta += tmp 
+                flag = -flag
+            return cnt 
+        return min(check(1),check(-1))
+                    
 
-
-        return s
-        
 
     # sys.stdin = open('contests/input', 'r')
     # print(input().split(' '))
@@ -119,9 +133,9 @@ def main():
         # else:
         #     print("impossible")
         # if solve():
-        #     print("YES")   
+        #     print("Yes")   
         # else:
-        #     print("NO")
+        #     print("No")
         # print(solve())
         # n = int(input())
         # arr = list(map(int, input().split()))     
@@ -139,82 +153,3 @@ if __name__ == "__main__":
     threading.Thread(target=main).start()
 
 
-
-
-import sys 
-
-# sys.stdin = open("input","r") 
-
-from collections import *
-from heapq import * 
-from functools import *
-from types import GeneratorType
-
-def bootstrap(f, stack=[]):
-    def wrappedfunc(*args, **kwargs):
-        if stack:
-            return f(*args, **kwargs)
-        else:
-            to = f(*args, **kwargs)
-            while True:
-                if type(to) is GeneratorType:
-                    stack.append(to)
-                    to = next(to)
-                else:
-                    stack.pop()
-                    if not stack:
-                        break
-                    to = stack[-1].send(to)
-            return to
-
-    return wrappedfunc
-
-n, p = list(map(int,input().split()))
-MOD = 998244353
-memo = dict()
-@bootstrap
-# @lru_cache(None)
-def dfs(cur):
-    if cur <= 0:
-        yield 0 
-    if cur in memo:
-        yield memo[cur]
-    a = yield dfs(cur-2)
-    b = yield dfs(cur-1)
-    res = (a+1)*p+(b+1)*(100-p)
-    memo[cur] = res*pow(100,-1,MOD)%MOD 
-    yield memo[cur]
-print(dfs(n))
-
-
-
-m = 998244353
-def mm(a, b):
-    c = [[0] * len(b[0]) for _ in range(len(a))]
-    for i in range(len(c)):
-        for j in range(len(c[0])):
-            for k in range(len(a[0])):
-                c[i][j] += a[i][k] * b[k][j]
-                c[i][j] %= m
-    return c
-def solve():
-    n, p = list(map(int, input().strip().split()))
-    if n < 2:
-        return print(n)
-    iv100 = pow(100, m - 2, m)
-    q = (100 - p) * iv100 % m
-    p = p * iv100 % m
-    n -= 1
-    r = [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
-    a = [[q, 1, 0], [p, 0, 0], [1, 0, 1]]
-    while n:
-        if n & 1:
-            r = mm(r, a)
-        n >>= 1
-        a = mm(a, a)
-    print((r[0][0] + r[2][0]) % m)
-    return 0
-
-# for t in range(RI()[0] - 1):
-#     solve()
-solve()

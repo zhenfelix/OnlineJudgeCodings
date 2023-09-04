@@ -1,3 +1,31 @@
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
+        g = defaultdict(deque)
+        n = len(s)
+        for i, ch in enumerate(s):
+            g[ch].append(i)
+        g = sorted(g.items(), key = lambda x: x[0])
+        ans = []
+        m = len(g)
+        visited = set()
+        cur = -1
+        for _ in range(m):
+            mx = n 
+            for ch, arr in g:
+                if ch in visited: continue
+                while arr[0] < cur:
+                    arr.popleft()
+                mx = min(mx,arr[-1])
+            for ch, arr in g:
+                if ch in visited: continue
+                if arr[0] <= mx:
+                    ans.append(ch)
+                    visited.add(ch)
+                    cur = arr[0]
+                    break
+        return ''.join(ans)
+
+
 维护动态区间的最小值
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
