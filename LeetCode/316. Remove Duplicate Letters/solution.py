@@ -1,5 +1,27 @@
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
+        cc = Counter(s)
+        ans = []
+        for ch in s:
+            cc[ch] -= 1
+            if ch in ans: continue
+            while ans and ans[-1] > ch and cc[ans[-1]] > 0:
+                ans.pop()
+            ans.append(ch)
+        return ''.join(ans)
+
+    def smallestSubsequence(self, S):
+        last = {c: i for i, c in enumerate(S)}
+        stack = []
+        for i, c in enumerate(S):
+            if c in stack: continue
+            while stack and stack[-1] > c and i < last[stack[-1]]:
+                stack.pop()
+            stack.append(c)
+        return "".join(stack)
+
+class Solution:
+    def removeDuplicateLetters(self, s: str) -> str:
         g = defaultdict(deque)
         n = len(s)
         for i, ch in enumerate(s):

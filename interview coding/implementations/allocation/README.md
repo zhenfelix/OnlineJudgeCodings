@@ -1,0 +1,1 @@
+- [Memory Allocation Strategies - many errors in the code](https://www.gingerbill.org/series/memory-allocation-strategies/)

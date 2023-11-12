@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "memory": "cpp",
+        "cassert": "cpp",
+        "any": "cpp",
+        "*.tcc": "cpp",
+        "bitset": "cpp",
+        "coroutine": "cpp",
+        "random": "cpp",
+        "future": "cpp",
+        "istream": "cpp",
+        "memory_resource": "cpp",
+        "mutex": "cpp",
+        "optional": "cpp",
+        "ranges": "cpp"
+    }
+}
