@@ -11,7 +11,7 @@ class shared_ptr {
 private:
     T *ptr;
     std::atomic<int> *cnt;
-    void swap(shared_ptr other) noexcept {
+    void swap(shared_ptr &other) noexcept {
         std::swap(this->ptr,other.ptr);
         std::swap(this->cnt,other.cnt);
     }

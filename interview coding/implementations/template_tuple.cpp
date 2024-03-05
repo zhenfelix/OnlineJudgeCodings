@@ -53,6 +53,15 @@ bool operator == (const Tuple<Ty1...>& L, const Tuple<Ty2...>& R) {
 int main()
 {
     Tuple<int, string> t(21, "ygg");
+    cout << t.val << endl;
+    cout << t.getBase().val << endl;
+    cout << &t << endl;
+    cout << &(t.getBase()) << endl;
+    auto tmp = (Tuple<int,string>&) t;
+    cout << tmp.val << endl;
+    auto tmp2 = (Tuple<string>&) t;
+    cout << tmp2.val << endl;
+    // cout << t.getBase().getBase().val << endl;
     vector<Tuple<int, int, double>>vec;
     for (int i = 1; i <= 10; i++) {
         vec.push_back({ i, i, 1.0 / i });

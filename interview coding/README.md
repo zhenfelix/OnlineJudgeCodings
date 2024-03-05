@@ -15,7 +15,15 @@
 
 ## refs
 
+### singleton
+- [设计模式之单例模式](https://tnie.github.io/2016/10/17/singleton1/)
+- [C++ 线程安全的单例模式总结](https://zhuanlan.zhihu.com/p/83539039)
+- [C++11中静态局部变量初始化的线程安全性](https://blog.csdn.net/imred/article/details/89069750)
+
+
 ### stl vector
+- [VECTOR/DYNAMIC ARRAY - Making DATA STRUCTURES in C++](https://www.youtube.com/watch?v=ryRf4Jh_YC0&list=PLlrATfBNZ98dudnM48yfGUldqGD0S4FFb&index=104)
+- [15. Case Study: Creating Your Own Vector Class¶](https://www2.cs.sfu.ca/CourseCentral/125/tjd/vector_example.html)
 - [C++手动实现vector及代码细节详解](https://blog.csdn.net/weixin_50941083/article/details/122354948)
 - [What are "::operator new" and "::operator delete"?](https://stackoverflow.com/questions/10513425/what-are-operator-new-and-operator-delete)
 - [A minimal working example of a custom Vector class in C++](https://zshn25.github.io/c++-vector-mwe-tutorial/)
