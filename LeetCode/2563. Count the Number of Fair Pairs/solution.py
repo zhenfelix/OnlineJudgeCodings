@@ -14,3 +14,20 @@ class Solution:
                 if l < i <= r:
                     ans -= 1
         return ans//2
+
+
+class Solution:
+    def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
+        n = len(nums)
+        l = r = 0
+        nums.sort()
+        ans = tmp = 0
+        for i in range(n)[::-1]:
+            while l < n and nums[l]+nums[i] < lower:
+                l += 1
+            while r < n and nums[r]+nums[i] <= upper:
+                r += 1
+            print(i,l,r)
+            ans += r-l
+            tmp += (lower <= nums[i]*2 <= upper)
+        return (ans-tmp)//2 
